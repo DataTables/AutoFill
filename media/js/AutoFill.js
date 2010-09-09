@@ -78,6 +78,26 @@ AutoFill = function( oDT, oConfig )
 		},
 		
 		/**
+		 * @namespace Data cache for information that we need for scrolling the screen when we near
+		 *   the edges
+		 */
+		"screen": {
+			"interval": null,
+			"y": 0,
+			"height": 0,
+			"scrollTop": 0
+		},
+		
+		/**
+		 * @namespace Data cache for the position of the DataTables scrolling element (when scrolling
+		 *   is enabled)
+		 */
+		"scroller": {
+			"top": 0,
+			"bottom": 0
+		},
+		
+		/**
 		 * Array of column indexes that we are allowed to present with AutoFill
 		 *  @property aiColumns
 		 *  @type     Array
@@ -181,25 +201,31 @@ AutoFill.prototype = {
 		 * we want the events to effectively pass through the transparent bit of the box
 		 */
 		var border;
+		var appender = document.body;
+		if ( that.s.dt.oScroll.sY !== "" )
+		{
+			that.s.dt.nTable.parentNode.style.position = "relative";
+			appender = that.s.dt.nTable.parentNode;
+		}
 		
 		border = document.createElement('div');
 		border.className = "AutoFill_border";
-		document.body.appendChild( border );
+		appender.appendChild( border );
 		this.dom.borderTop = border;
 		
 		border = document.createElement('div');
 		border.className = "AutoFill_border";
-		document.body.appendChild( border );
+		appender.appendChild( border );
 		this.dom.borderRight = border;
 		
 		border = document.createElement('div');
 		border.className = "AutoFill_border";
-		document.body.appendChild( border );
+		appender.appendChild( border );
 		this.dom.borderBottom = border;
 		
 		border = document.createElement('div');
 		border.className = "AutoFill_border";
-		document.body.appendChild( border );
+		appender.appendChild( border );
 		this.dom.borderLeft = border;
 		
 		/*
@@ -255,6 +281,20 @@ AutoFill.prototype = {
 			width = offsetEnd.left + $(nEnd).outerWidth() - offsetStart.left + (2*border),
 			height = offsetEnd.top + $(nEnd).outerHeight() - offsetStart.top + (2*border),
 			oStyle;
+		
+		if ( this.s.dt.oScroll.sY !== "" )
+		{
+			/* The border elements are inside the DT scroller - so position relative to that */
+			var
+				offsetScroll = $(this.s.dt.nTable.parentNode).offset(),
+				scrollTop = $(this.s.dt.nTable.parentNode).scrollTop(),
+				scrollLeft = $(this.s.dt.nTable.parentNode).scrollLeft();
+			
+			x1 -= offsetScroll.left - scrollLeft;
+			x2 -= offsetScroll.left - scrollLeft;
+			y1 -= offsetScroll.top - scrollTop;
+			y2 -= offsetScroll.top - scrollTop;
+		}
 		
 		/* Top */
 		oStyle = this.dom.borderTop.style;
@@ -320,6 +360,55 @@ AutoFill.prototype = {
 		$(document).bind('mouseup.AutoFill', function (e) {
 			that._fnFillerFinish.call( that, e );
 		} );
+		
+		/* Scrolling information cache */
+		this.s.screen.y = e.pageY;
+		this.s.screen.height = $(window).height();
+		this.s.screen.scrollTop = $(document).scrollTop();
+		
+		if ( this.s.dt.oScroll.sY !== "" )
+		{
+			this.s.scroller.top = $(this.s.dt.nTable.parentNode).offset().top;
+			this.s.scroller.bottom = this.s.scroller.top + $(this.s.dt.nTable.parentNode).height();
+		}
+		
+		/* Scrolling handler - we set an interval (which is cancelled on mouse up) which will fire
+		 * regularly and see if we need to do any scrolling
+		 */
+		this.s.screen.interval = setInterval( function () {
+			var iScrollTop = $(document).scrollTop();
+			var iScrollDelta = iScrollTop - that.s.screen.scrollTop;
+			that.s.screen.y += iScrollDelta;
+			
+			if ( that.s.screen.height - that.s.screen.y + iScrollTop < 50 )
+			{
+				$('html, body').animate( {
+					"scrollTop": iScrollTop + 50
+				}, 240, 'linear' );
+			}
+			else if ( that.s.screen.y - iScrollTop < 50 )
+			{
+				$('html, body').animate( {
+					"scrollTop": iScrollTop - 50
+				}, 240, 'linear' );
+			}
+			
+			if ( that.s.dt.oScroll.sY !== "" )
+			{
+				if ( that.s.screen.y > that.s.scroller.bottom - 50 )
+				{
+					$(that.s.dt.nTable.parentNode).animate( {
+						"scrollTop": $(that.s.dt.nTable.parentNode).scrollTop() + 50
+					}, 240, 'linear' );
+				}
+				else if ( that.s.screen.y < that.s.scroller.top + 50 )
+				{
+					$(that.s.dt.nTable.parentNode).animate( {
+						"scrollTop": $(that.s.dt.nTable.parentNode).scrollTop() - 50
+					}, 240, 'linear' );
+				}
+			}
+		}, 250 );
 	},
 	
 	
@@ -359,6 +448,17 @@ AutoFill.prototype = {
 				this._fnFillerPosition( e.target );
 			}
 		}
+		
+		/* Update the screen information so we can perform scrolling */
+		this.s.screen.y = e.pageY;
+		this.s.screen.scrollTop = $(document).scrollTop();
+		
+		if ( this.s.dt.oScroll.sY !== "" )
+		{
+			this.s.scroller.scrollTop = $(this.s.dt.nTable.parentNode).scrollTop();
+			this.s.scroller.top = $(this.s.dt.nTable.parentNode).offset().top;
+			this.s.scroller.bottom = this.s.scroller.top + $(this.s.dt.nTable.parentNode).height();
+		}
 	},
 	
 	
@@ -381,6 +481,8 @@ AutoFill.prototype = {
 		this.dom.borderLeft.style.display = "none";
 		
 		this.s.drag.dragging = false;
+		
+		clearInterval( this.s.screen.interval );
 		
 		var coordsStart = this._fnTargetCoords( this.s.drag.startTd );
 		var coordsEnd = this._fnTargetCoords( this.s.drag.endTd );

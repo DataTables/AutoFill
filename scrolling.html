@@ -15,32 +15,26 @@
 		<script type="text/javascript" charset="utf-8" src="media/js/AutoFill.js"></script>
 		<script type="text/javascript" charset="utf-8">
 			$(document).ready( function () {
-				var oTable = $('#example').dataTable();
-				new AutoFill( oTable, {
-					"aoColumnDefs": [ {
-						"bEnable": false,
-						"aTargets": [ -1, -2, -3 ]
-					} ]
-				} );
+				var oTable = $('#example').dataTable({
+					"sScrollY": 200,
+					"bScrollCollapse": true,
+					"bPaginate": false
+				});
+				new AutoFill( oTable );
 			} );
 		</script>
 	</head>
 	<body id="dt_example">
 		<div id="container">
 			<div class="full_width big">
-				AutoFill example with column selection options
+				AutoFill example with scrolling
 			</div>
 			
 			<h1>Preamble</h1>
 			<p>
-				Columns can be enabled (default) and disabled from providing the end user the AutoFill option
-				by using either aoColumns or aoColumnDefs and the bEnable option. These two arrays work in
-				<a href="http://datatables.net/usage/columns">exactly the same way has for DataTables</a>.
+				When dragging an AutoFill handle, the table (if DataTables scrolling is enabled) or the window will be automatically scrolled, as you approach the edge of the scrolling component. The example below shows the effect with DataTables scrolling (and also window if needed).
 			</p>
-			<p>
-				This example shows how disabling columns counting from the right hand side of the table 
-				can be achieved. In this case, the last three columns.
-			</p>
+			
 			
 			
 			<h1>Live example</h1>
@@ -484,13 +478,12 @@
 			
 			<h1>Initialisation code</h1>
 			<pre>$(document).ready( function () {
-	var oTable = $('#example').dataTable();
-	new AutoFill( oTable, {
-		"aoColumnDefs": [ {
-			"bEnable": false,
-			"aTargets": [ -1, -2, -3 ]
-		} ]
-	} );
+	var oTable = $('#example').dataTable({
+		"sScrollY": 200,
+		"bScrollCollapse": true,
+		"bPaginate": false
+	});
+	new AutoFill( oTable );
 } );</pre>
 			
 			<div id="footer" style="text-align:center;">

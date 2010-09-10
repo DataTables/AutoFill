@@ -1,6 +1,6 @@
 /*
  * File:        AutoFill.js
- * Version:     1.1.0.dev
+ * Version:     1.1.0
  * CVS:         $Id$
  * Description: AutoFill for DataTables
  * Author:      Allan Jardine (www.sprymedia.co.uk)
@@ -97,13 +97,11 @@ AutoFill = function( oDT, oConfig )
 			"bottom": 0
 		},
 		
+		
 		/**
-		 * Array of column indexes that we are allowed to present with AutoFill
-		 *  @property aiColumns
-		 *  @type     Array
-		 *  @default  []
+		 * @namespace Information stored for each column. An array of objects
 		 */
-		"aiColumns": []
+		"columns": []
 	};
 	
 	
@@ -168,17 +166,20 @@ AutoFill.prototype = {
 		
 		this.dom.table = this.s.dt.nTable;
 		
-		/* If we are given a set of columns, use them - otherwise, use all */
-		if ( typeof oConfig != 'undefined' && typeof oConfig.aiColumns != 'undefined' )
+		/* Add and configure the columns */
+		for ( i=0, iLen=this.s.dt.aoColumns.length ; i<iLen ; i++ )
 		{
-			this.s.aiColumns = oConfig.aiColumns;
+			this._fnAddColumn( i );
 		}
-		else
+		
+		if ( typeof oConfig != 'undefined' && typeof oConfig.aoColumnDefs != 'undefined' )
 		{
-			for ( i=0, iLen=this.s.dt.aoColumns.length ; i<iLen ; i++ )
-			{
-				this.s.aiColumns.push( i );
-			}
+			this._fnColumnDefs( oConfig.aoColumnDefs );
+		}
+		
+		if ( typeof oConfig != 'undefined' && typeof oConfig.aoColumns != 'undefined' )
+		{
+			this._fnColumnsAll( oConfig.aoColumns );
 		}
 		
 		
@@ -241,6 +242,95 @@ AutoFill.prototype = {
 		$('tbody>tr>td', this.dom.table).live( 'mouseover mouseout', function (e) {
 			that._fnFillerDisplay.call( that, e );
 		} );
+	},
+	
+	
+	"_fnColumnDefs": function ( aoColumnDefs )
+	{
+		var
+			i, j, k, iLen, jLen, kLen,
+			aTargets;
+		
+		/* Loop over the column defs array - loop in reverse so first instace has priority */
+		for ( i=aoColumnDefs.length-1 ; i>=0 ; i-- )
+		{
+			/* Each column def can target multiple columns, as it is an array */
+			aTargets = aoColumnDefs[i].aTargets;
+			for ( j=0, jLen=aTargets.length ; j<jLen ; j++ )
+			{
+				if ( typeof aTargets[j] == 'number' && aTargets[j] >= 0 )
+				{
+					/* 0+ integer, left to right column counting. */
+					this._fnColumnOptions( aTargets[j], aoColumnDefs[i] );
+				}
+				else if ( typeof aTargets[j] == 'number' && aTargets[j] < 0 )
+				{
+					/* Negative integer, right to left column counting */
+					this._fnColumnOptions( this.s.dt.aoColumns.length+aTargets[j], aoColumnDefs[i] );
+				}
+				else if ( typeof aTargets[j] == 'string' )
+				{
+					/* Class name matching on TH element */
+					for ( k=0, kLen=this.s.dt.aoColumns.length ; k<kLen ; k++ )
+					{
+						if ( aTargets[j] == "_all" ||
+						     this.s.dt.aoColumns[k].nTh.className.indexOf( aTargets[j] ) != -1 )
+						{
+							this._fnColumnOptions( k, aoColumnDefs[i] );
+						}
+					}
+				}
+			}
+		}
+	},
+		
+		
+	"_fnColumnsAll": function ( aoColumns )
+	{
+		for ( var i=0, iLen=this.s.dt.aoColumns.length ; i<iLen ; i++ )
+		{
+			this._fnColumnOptions( i, aoColumns[i] );
+		}
+	},
+	
+	
+	"_fnAddColumn": function ( i )
+	{
+		this.s.columns[i] = {
+			"enable": true,
+			"read": this._fnReadCell,
+			"write": this._fnWriteCell,
+			"step": this._fnStep,
+			"complete": null
+		};
+	},
+	
+	"_fnColumnOptions": function ( i, opts )
+	{
+		if ( typeof opts.bEnable != 'undefined' )
+		{
+			this.s.columns[i].enable = opts.bEnable;
+		}
+		
+		if ( typeof opts.fnRead != 'undefined' )
+		{
+			this.s.columns[i].read = opts.fnRead;
+		}
+		
+		if ( typeof opts.fnWrite != 'undefined' )
+		{
+			this.s.columns[i].write = opts.fnWrite;
+		}
+		
+		if ( typeof opts.fnStep != 'undefined' )
+		{
+			this.s.columns[i].step = opts.fnStep;
+		}
+		
+		if ( typeof opts.fnCallback != 'undefined' )
+		{
+			this.s.columns[i].complete = opts.fnCallback;
+		}
 	},
 	
 	
@@ -507,9 +597,11 @@ AutoFill.prototype = {
 		}
 		
 		
-		var sStart = this._fnReadCell( this.s.drag.startTd );
-		var oPrepped = this._fnPrep( sStart );
+		var iColumn = coordsStart.x;
 		var bLast = false;
+		var aoEdited = [];
+		var sStart = this.s.columns[iColumn].read.call( this, this.s.drag.startTd );
+		var oPrepped = this._fnPrep( sStart );
 		
 		for ( i=0, iLen=aTds.length ; i<iLen ; i++ )
 		{
@@ -517,7 +609,22 @@ AutoFill.prototype = {
 			{
 				bLast = true;
 			}
-			this._fnWriteCell( aTds[i], this._fnStep( oPrepped, i, bIncrement ), bLast, bLast );
+			
+			var original = this.s.columns[iColumn].read.call( this, aTds[i] );
+			var step = this.s.columns[iColumn].step.call( this, aTds[i], oPrepped, i, bIncrement, 
+				'SPRYMEDIA_AUTOFILL_STEPPER' );
+			this.s.columns[iColumn].write.call( this, aTds[i], step, bLast );
+			
+			aoEdited.push( {
+				"td": aTds[i],
+				"newValue": step,
+				"oldValue": original
+			} );
+		}
+		
+		if ( this.s.columns[iColumn].complete !== null )
+		{
+			this.s.columns[iColumn].complete.call( this, aoEdited );
 		}
 	},
 	
@@ -556,19 +663,21 @@ AutoFill.prototype = {
 	/**
 	 * Render a string for it's position in the table after the drag (incrememt numbers)
 	 *  @method  _fnStep
+	 *  @param   {Node} nTd Cell being written to
 	 *  @param   {Object} oPrepped Prepared object for the stepper (from _fnPrep)
 	 *  @param   {Int} iDiff Step difference
 	 *  @param   {Boolean} bIncrement Increment (true) or decriment (false)
+	 *  @param   {String} sToken Token to replace
 	 *  @returns {String} Rendered information
 	 */
-	"_fnStep": function ( oPrepped, iDiff, bIncrement )
+	"_fnStep": function ( nTd, oPrepped, iDiff, bIncrement, sToken )
 	{
 		var iReplace = bIncrement ? (oPrepped.iStart+iDiff) : (oPrepped.iStart-iDiff);
 		if ( isNaN(iReplace) )
 		{
 			iReplace = "";
 		}
-		return oPrepped.sStr.replace( /SPRYMEDIA_AUTOFILL_STEPPER/, iReplace+oPrepped.sPostFix );
+		return oPrepped.sStr.replace( sToken, iReplace+oPrepped.sPostFix );
 	},
 	
 	
@@ -621,7 +730,7 @@ AutoFill.prototype = {
 		}
 		
 		var pos = this.s.dt.oInstance.fnGetPosition( nTd );
-		this.s.dt.oInstance.fnUpdate( sVal, pos[0], pos[2], bLast, bLast );
+		this.s.dt.oInstance.fnUpdate( sVal, pos[0], pos[2], bLast );
 	},
 	
 	
@@ -640,7 +749,8 @@ AutoFill.prototype = {
 		}
 		
 		/* Check that we are allowed to AutoFill this column or not */
-		if ( $.inArray( this._fnTargetCoords(e.target).x, this.s.aiColumns ) < 0 )
+		var iX = this._fnTargetCoords(e.target).x;
+		if ( !this.s.columns[iX].enable )
 		{
 			return;
 		}
@@ -695,10 +805,10 @@ AutoFill.prototype.CLASS = "AutoFill";
  * AutoFill version
  *  @constant  VERSION
  *  @type      String
- *  @default   1.1.0.dev
+ *  @default   1.1.0
  */
-AutoFill.VERSION = "1.1.0.dev";
-AutoFill.prototype.VERSION = "1.1.0.dev";
+AutoFill.VERSION = "1.1.0";
+AutoFill.prototype.VERSION = "1.1.0";
 
 
 })(jQuery);

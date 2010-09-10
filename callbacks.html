@@ -18,8 +18,15 @@
 				var oTable = $('#example').dataTable();
 				new AutoFill( oTable, {
 					"aoColumnDefs": [ {
-						"bEnable": false,
-						"aTargets": [ -1, -2, -3 ]
+						"fnCallback": function ( ao ) {
+							var n = document.getElementById('output');
+							for ( var i=0, iLen=ao.length ; i<iLen ; i++ ) {
+								n.innerHTML += "Update: old value: {"+
+									ao[i].oldValue+"} - new value: {"+ao[i].newValue+"}<br>";
+							}
+							n.scrollTop = n.scrollHeight;
+						},
+						"aTargets": [ "_all" ]
 					} ]
 				} );
 			} );
@@ -28,23 +35,58 @@
 	<body id="dt_example">
 		<div id="container">
 			<div class="full_width big">
-				AutoFill example with column selection options
+				AutoFill example
 			</div>
 			
 			<h1>Preamble</h1>
 			<p>
-				Columns can be enabled (default) and disabled from providing the end user the AutoFill option
-				by using either aoColumns or aoColumnDefs and the bEnable option. These two arrays work in
-				<a href="http://datatables.net/usage/columns">exactly the same way has for DataTables</a>.
+				AutoFill provides a number of customisable callback functions so you can tailor it's
+				actions to exactly what you need. This specific example shows fnCallback, which is fired when the mouse is released. Further documentation is below.
 			</p>
-			<p>
-				This example shows how disabling columns counting from the right hand side of the table 
-				can be achieved. In this case, the last three columns.
-			</p>
+			
+			<ul>
+				<li>
+					<b>fnRead</b> - Called when a cell is read for it's value. This allows you to override the default of reading the HTML value (or 'input' elements value if there is one present). For example reading the value from a select list.
+					<ul>
+						<li>Parameter 1: Node - TD element to be read from</li>
+						<li>Returns: String - read value</li>
+					</ul>
+				</li>
+				<li>
+					<b>fnWrite</b> - Called when a cell is to read to. This allows you to write in a specific format, or perhaps to an element within the cell.
+					<ul>
+						<li>Parameter 1: Node - TD element to be written to</li>
+						<li>Parameter 2: String - Value to write</li>
+						<li>Parameter 3: Boolean - Last cell to be written (useful for speeding up DataTables' fnUpdate)</li>
+						<li>Returns: void</li>
+					</ul>
+				</li>
+				<li>
+					<b>fnStep</b> - Called to calculate the new value to give to a cell
+					<ul>
+						<li>Parameter 1: Node - TD element to be written to</li>
+						<li>Parameter 2: String - Statement with a token to be replace with the calculated value</li>
+						<li>Parameter 3: Int - Step counter</li>
+						<li>Parameter 4: Boolean - increment (true), or decrement (false)</li>
+						<li>Parameter 5: String - Token to replace</li>
+						<li>Returns: String - string to write into the cell</li>
+					</ul>
+				</li>
+				<li>
+					<b>fnCallback</b> - Called when the AutoFill is complete, with information about the fill. This can be useful for updating a server database for example.
+					<ul>
+						<li>Parameter 1: Array - An array of objects with information about each cell that was written to. Object parameters are: "td", "newValue" and "oldValue".</li>
+						<li>Returns: void</li>
+					</ul>
+				</li>
+			</ul>
 			
 			
 			<h1>Live example</h1>
 			<form>
+				<div id="output" style="height: 100px; overflow: scroll;"> 
+					Information about each update will appear here.<br><br>
+				</div>
 			<div id="demo">
 <table cellpadding="0" cellspacing="0" border="0" class="display" id="example">
 	<thead>
@@ -487,8 +529,15 @@
 	var oTable = $('#example').dataTable();
 	new AutoFill( oTable, {
 		"aoColumnDefs": [ {
-			"bEnable": false,
-			"aTargets": [ -1, -2, -3 ]
+			"fnCallback": function ( ao ) {
+				var n = document.getElementById('output');
+				for ( var i=0, iLen=ao.length ; i&lt;iLen ; i++ ) {
+					n.innerHTML += "Update: old value: {"+
+						ao[i].oldValue+"} - new value: {"+ao[i].newValue+"}&lt;br&gt;";
+				}
+				n.scrollTop = n.scrollHeight;
+			},
+			"aTargets": [ "_all" ]
 		} ]
 	} );
 } );</pre>

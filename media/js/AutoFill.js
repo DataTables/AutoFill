@@ -1,6 +1,6 @@
 /*
  * File:        AutoFill.js
- * Version:     1.1.0
+ * Version:     1.1.1
  * CVS:         $Id$
  * Description: AutoFill for DataTables
  * Author:      Allan Jardine (www.sprymedia.co.uk)
@@ -805,10 +805,10 @@ AutoFill.prototype.CLASS = "AutoFill";
  * AutoFill version
  *  @constant  VERSION
  *  @type      String
- *  @default   1.1.0
+ *  @default   1.1.1
  */
-AutoFill.VERSION = "1.1.0";
-AutoFill.prototype.VERSION = "1.1.0";
+AutoFill.VERSION = "1.1.1";
+AutoFill.prototype.VERSION = "1.1.1";
 
 
 })(jQuery);

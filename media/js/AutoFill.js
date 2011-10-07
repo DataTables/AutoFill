@@ -1,6 +1,6 @@
 /*
  * File:        AutoFill.js
- * Version:     1.1.1
+ * Version:     1.1.2.dev
  * CVS:         $Id$
  * Description: AutoFill for DataTables
  * Author:      Allan Jardine (www.sprymedia.co.uk)
@@ -347,7 +347,7 @@ AutoFill.prototype = {
 	 */
 	"_fnTargetCoords": function ( nTd )
 	{
-		var nTr = nTd.parentNode;
+		var nTr = $(nTd).parents('tr')[0];
 		
 		return {
 			"x": $('td', nTr).index(nTd),
@@ -754,7 +754,8 @@ AutoFill.prototype = {
 		}
 		
 		/* Check that we are allowed to AutoFill this column or not */
-		var iX = this._fnTargetCoords(e.target).x;
+		var nTd = (e.target.nodeName.toLowerCase() == 'td') ? e.target : $(e.target).parents('td')[0];
+		var iX = this._fnTargetCoords(nTd).x;
 		if ( !this.s.columns[iX].enable )
 		{
 			return;
@@ -763,8 +764,8 @@ AutoFill.prototype = {
 		var filler = this.dom.filler;
 		if (e.type == 'mouseover')
 		{
-			this.dom.currentTarget = e.target;
-			this._fnFillerPosition( e.target );
+			this.dom.currentTarget = nTd;
+			this._fnFillerPosition( nTd );
 			
 			filler.style.display = "block";
 		}
@@ -812,8 +813,8 @@ AutoFill.prototype.CLASS = "AutoFill";
  *  @type      String
  *  @default   1.1.1
  */
-AutoFill.VERSION = "1.1.1";
-AutoFill.prototype.VERSION = "1.1.1";
+AutoFill.VERSION = "1.1.2.dev";
+AutoFill.prototype.VERSION = AutoFill.VERSION;
 
 
 })(jQuery);

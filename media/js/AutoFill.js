@@ -1,6 +1,6 @@
 /*
  * File:        AutoFill.js
- * Version:     1.1.2
+ * Version:     1.1.3.dev
  * CVS:         $Id$
  * Description: AutoFill for DataTables
  * Author:      Allan Jardine (www.sprymedia.co.uk)
@@ -244,7 +244,7 @@ AutoFill.prototype = {
 			return false;
 		} );
 		
-		$('tbody>tr>td', this.dom.table).live( 'mouseover mouseout', function (e) {
+		$('tbody', this.dom.table).on( 'mouseover mouseout', '>tr>td', function (e) {
 			that._fnFillerDisplay.call( that, e );
 		} );
 	},
@@ -811,9 +811,9 @@ AutoFill.prototype.CLASS = "AutoFill";
  * AutoFill version
  *  @constant  VERSION
  *  @type      String
- *  @default   1.1.2
+ *  @default   1.1.3.dev
  */
-AutoFill.VERSION = "1.1.2";
+AutoFill.VERSION = "1.1.3.dev";
 AutoFill.prototype.VERSION = AutoFill.VERSION;
 
 

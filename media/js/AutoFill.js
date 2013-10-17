@@ -306,7 +306,8 @@ AutoFill.prototype = {
 			"read": this._fnReadCell,
 			"write": this._fnWriteCell,
 			"step": this._fnStep,
-			"complete": null
+			"complete": null,
+			"allowIncrement": true
 		};
 	},
 
@@ -335,6 +336,11 @@ AutoFill.prototype = {
 		if ( typeof opts.fnCallback != 'undefined' )
 		{
 			this.s.columns[i].complete = opts.fnCallback;
+		}
+
+		if ( typeof opts.bAllowIncrement != 'undefined' )
+		{
+			this.s.columns[i].allowIncrement = opts.bAllowIncrement;
 		}
 	},
 
@@ -609,7 +615,7 @@ AutoFill.prototype = {
 		var bLast = false;
 		var aoEdited = [];
 		var sStart = this.s.columns[iColumn].read.call( this, this.s.drag.startTd );
-		var oPrepped = this._fnPrep( sStart );
+		var oPrepped = this._fnPrep( sStart, this.s.columns[iColumn].allowIncrement );
 
 		for ( i=0, iLen=aTds.length ; i<iLen ; i++ )
 		{
@@ -643,10 +649,10 @@ AutoFill.prototype = {
 	 *  @param   {String} sStr String to prep
 	 *  @returns {Object} with parameters, iStart, sStr and sPostFix
 	 */
-	"_fnPrep": function ( sStr )
+	"_fnPrep": function ( sStr, allowIncrement )
 	{
 		var aMatch = sStr.match(/[\d\.]+/g);
-		if ( !aMatch || aMatch.length === 0 )
+		if ( !allowIncrement || !aMatch || aMatch.length === 0 )
 		{
 			return {
 				"iStart": 0,

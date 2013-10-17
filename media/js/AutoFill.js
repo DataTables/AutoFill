@@ -348,10 +348,13 @@ AutoFill.prototype = {
 	"_fnTargetCoords": function ( nTd )
 	{
 		var nTr = $(nTd).parents('tr')[0];
+		var position = this.s.dt.oInstance.fnGetPosition( nTd );
 		
 		return {
-			"x": $('td', nTr).index(nTd),
-			"y": $('tr', nTr.parentNode).index(nTr)
+			"x":      $('td', nTr).index(nTd),
+			"y":      $('tr', nTr.parentNode).index(nTr),
+			"row":    position[0],
+			"column": position[2]
 		};
 	},
 	
@@ -747,6 +750,8 @@ AutoFill.prototype = {
 	 */
 	"_fnFillerDisplay": function (e)
 	{
+		var filler = this.dom.filler;
+
 		/* Don't display automatically when dragging */
 		if ( this.s.drag.dragging)
 		{
@@ -755,13 +760,13 @@ AutoFill.prototype = {
 		
 		/* Check that we are allowed to AutoFill this column or not */
 		var nTd = (e.target.nodeName.toLowerCase() == 'td') ? e.target : $(e.target).parents('td')[0];
-		var iX = this._fnTargetCoords(nTd).x;
+		var iX = this._fnTargetCoords(nTd).column;
 		if ( !this.s.columns[iX].enable )
 		{
+			filler.style.display = "none";
 			return;
 		}
 		
-		var filler = this.dom.filler;
 		if (e.type == 'mouseover')
 		{
 			this.dom.currentTarget = nTd;

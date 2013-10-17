@@ -15,8 +15,16 @@
 		<script type="text/javascript" charset="utf-8" src="media/js/AutoFill.js"></script>
 		<script type="text/javascript" charset="utf-8">
 			$(document).ready( function () {
-				var oTable = $('#example').dataTable();
-				new AutoFill( oTable );
+				var oTable = $('#example').dataTable( {
+					aoColumnDefs: [
+						{ bVisible: false, aTargets: [1] }
+					]
+				} );
+				new AutoFill( oTable, {
+					"aoColumnDefs": [ {
+						bEnable: false, aTargets: [3]
+					} ]
+				} );
 			} );
 		</script>
 	</head>

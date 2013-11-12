@@ -570,7 +570,7 @@ AutoFill.prototype = {
 			}			
 			
 			// update coords
-			if( !this.s.mode == "none")
+			if( !this.s.mode == "both")
 				coords = this._fnTargetCoords( e.target );
 			
 			var drag = this.s.drag;
@@ -628,33 +628,13 @@ AutoFill.prototype = {
 		var aTds = [];
 		var bIncrement;
 
-		// TODO
-		if ( coordsStart.y <= coordsEnd.y )
-		{
-			bIncrement = true;
-			for ( i=coordsStart.y ; i<=coordsEnd.y ; i++ )
-			{
-				for ( j=coordsStart.x ; j<=coordsEnd.x ; j++ )
-					aTds.push( $('tbody>tr:eq('+i+')>td:eq('+j+')', this.dom.table)[0] );
-			}
-		}
-		else
-		{
-			bIncrement = false;
-			for ( i=coordsStart.y ; i>=coordsEnd.y ; i-- )
-			{
-				// TODO
-				for ( j=coordsStart.x ; j<=coordsEnd.x ; j++ )
-					aTds.push( $('tbody>tr:eq('+i+')>td:eq('+j+')', this.dom.table)[0] );				
-			}
-		}
-/*
+		// TODO 
  		if ( coordsStart.y <= coordsEnd.y )
 		{
 			bIncrement = true;
 			for ( i=coordsStart.y ; i<=coordsEnd.y ; i++ )
 			{
-				if( coordsStart.y <= coordsEnd.x ) {
+				if( coordsStart.x <= coordsEnd.x ) {
 					for ( j=coordsStart.x ; j<=coordsEnd.x ; j++ ) {
 						aTds.push( $('tbody>tr:eq('+i+')>td:eq('+j+')', this.dom.table)[0] );
 					}
@@ -671,11 +651,20 @@ AutoFill.prototype = {
 			bIncrement = false;
 			for ( i=coordsStart.y ; i>=coordsEnd.y ; i-- )
 			{
-				for ( j=coordsStart.x ; j<=coordsEnd.x ; j++ )
-					aTds.push( $('tbody>tr:eq('+i+')>td:eq('+j+')', this.dom.table)[0] );				
+				if( coordsStart.x <= coordsEnd.x ) {
+					for ( j=coordsStart.x ; j<=coordsEnd.x ; j++ ) {
+						aTds.push( $('tbody>tr:eq('+i+')>td:eq('+j+')', this.dom.table)[0] );
+					}
+				}
+				else {
+					for ( j=coordsStart.x ; j>=coordsEnd.x ; j-- ) {
+						aTds.push( $('tbody>tr:eq('+i+')>td:eq('+j+')', this.dom.table)[0] );
+					}
+				}
 			}
+						
 		}
- * */
+		// */
 
 		var iColumn = coordsStart.x;
 		var bLast = false;

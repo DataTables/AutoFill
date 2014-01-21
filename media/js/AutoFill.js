@@ -20,9 +20,6 @@
  *
  */
 
-/* Global scope for AutoFill */
-var AutoFill;
-
 (function($) {
 
 /** 
@@ -32,25 +29,25 @@ var AutoFill;
  * @param {object} DataTables settings object
  * @param {object} Configuration object for AutoFill
  */
-AutoFill = function( oDT, oConfig )
+var AutoFill = function( oDT, oConfig )
 {
-	/* Santiy check that we are a new instance */
-	if ( !this.CLASS || this.CLASS != "AutoFill" )
+	/* Sanity check that we are a new instance */
+	if ( ! (this instanceof AutoFill) )
 	{
-		alert( "Warning: AutoFill must be initialised with the keyword 'new'" );
-		return;
+		throw( "Warning: AutoFill must be initialised with the keyword 'new'" );
 	}
 
-	if ( !$.fn.dataTableExt.fnVersionCheck('1.7.0') )
+	if ( ! $.fn.dataTableExt.fnVersionCheck('1.7.0') )
 	{
-		alert( "Warning: AutoFill requires DataTables 1.7 or greater - www.datatables.net/download");
-		return;
+		throw( "Warning: AutoFill requires DataTables 1.7 or greater");
 	}
 
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 	 * Public class variables
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	this.c = {};
 
 	/**
 	 * @namespace Settings object which contains customisable information for AutoFill instance
@@ -105,16 +102,7 @@ AutoFill = function( oDT, oConfig )
 		/**
 		 * @namespace Information stored for each column. An array of objects
 		 */
-		"columns": [],
-
-		/**
-		 * Mode for dragging (restrict to y-axis only, x-axis only, either one or none):
-		 *  * `y`      - y-axis only (default)
-		 *  * `x`      - x-axis only
-		 *  * `either` - either one, but not both axis at the same time
-		 *  * `both`   - multiple cells allowed
-		 */
-		"mode": "either"
+		"columns": []
 	};
 
 
@@ -162,198 +150,139 @@ AutoFill.prototype = {
 	/**
 	 * Initialisation
 	 *  @method _fnInit
-	 *  @param {object} oDT DataTables settings object
-	 *  @param {object} oConfig Configuration object for AutoFill
+	 *  @param {object} dt DataTables settings object
+	 *  @param {object} config Configuration object for AutoFill
 	 *  @returns void
 	 */
-	"_fnInit": function ( oDT, oConfig )
+	"_fnInit": function ( dt, config )
 	{
 		var
 			that = this,
 			i, iLen;
 
-		/*
-		 * Settings
-		 */
-		this.s.dt = oDT.fnSettings();
-
+		// Use DataTables API to get the settings allowing selectors, instances
+		// etc to be used, or for backwards compatibility get from the old
+		// fnSettings method
+		this.s.dt = $.fn.dataTable.Api ?
+			new $.fn.dataTable.Api( dt ).settings()[0] :
+			dt.fnSettings();
+		this.s.init = config || {};
 		this.dom.table = this.s.dt.nTable;
 
+		$.extend( true, this.c, AutoFill.defaults, config );
+
 		/* Add and configure the columns */
-		for ( i=0, iLen=this.s.dt.aoColumns.length ; i<iLen ; i++ )
-		{
-			this._fnAddColumn( i );
-		}
-
-		if ( typeof oConfig != 'undefined' && typeof oConfig.aoColumnDefs != 'undefined' )
-		{
-			this._fnColumnDefs( oConfig.aoColumnDefs );
-		}
-
-		if ( typeof oConfig != 'undefined' && typeof oConfig.aoColumns != 'undefined' )
-		{
-			this._fnColumnsAll( oConfig.aoColumns );
-		}
-
-
-		/*
-		 * DOM
-		 */
+		this._initColumns();
 
 		/* Auto Fill click and drag icon */
-		var filler = document.createElement('div');
-		filler.className = "AutoFill_filler";
-		document.body.appendChild( filler );
-		this.dom.filler = filler;
+		var filler = $('<div/>', {
+				'class': 'AutoFill_filler'
+			} )
+			.appendTo( 'body' );
+		this.dom.filler = filler[0];
 
-		filler.style.display = "block";
-		this.s.filler.height = $(filler).height();
-		this.s.filler.width = $(filler).width();
-		filler.style.display = "none";
+		// Get the height / width of the click element
+		this.s.filler.height = filler.height();
+		this.s.filler.width = filler.width();
+		filler[0].style.display = "none";
 
-		/* Border display - one div for each side. We can't just use a single one with a border, as
-		 * we want the events to effectively pass through the transparent bit of the box
+		/* Border display - one div for each side. We can't just use a single
+		 * one with a border, as we want the events to effectively pass through
+		 * the transparent bit of the box
 		 */
 		var border;
 		var appender = document.body;
-		if ( that.s.dt.oScroll.sY !== "" )
-		{
+		if ( that.s.dt.oScroll.sY !== "" ) {
 			that.s.dt.nTable.parentNode.style.position = "relative";
 			appender = that.s.dt.nTable.parentNode;
 		}
 
-		border = document.createElement('div');
-		border.className = "AutoFill_border";
-		appender.appendChild( border );
-		this.dom.borderTop = border;
+		border = $('<div/>', {
+			"class": "AutoFill_border"
+		} );
+		this.dom.borderTop    = border.clone().appendTo( appender )[0];
+		this.dom.borderRight  = border.clone().appendTo( appender )[0];
+		this.dom.borderBottom = border.clone().appendTo( appender )[0];
+		this.dom.borderLeft   = border.clone().appendTo( appender )[0];
 
-		border = document.createElement('div');
-		border.className = "AutoFill_border";
-		appender.appendChild( border );
-		this.dom.borderRight = border;
-
-		border = document.createElement('div');
-		border.className = "AutoFill_border";
-		appender.appendChild( border );
-		this.dom.borderBottom = border;
-
-		border = document.createElement('div');
-		border.className = "AutoFill_border";
-		appender.appendChild( border );
-		this.dom.borderLeft = border;
-
-		/*
-		 * Events
-		 */
-		$(filler).mousedown( function (e) {
+		/* Events */
+		filler.on( 'mousedown.DTAF', function (e) {
 			this.onselectstart = function() { return false; };
 			that._fnFillerDragStart.call( that, e );
 			return false;
 		} );
 
-		$('tbody', this.dom.table).on( 'mouseover mouseout', '>tr>td', function (e) {
-			that._fnFillerDisplay.call( that, e );
+		$('tbody', this.dom.table).on(
+			'mouseover.DTAF mouseout.DTAF',
+			'>tr>td, >tr>th',
+			function (e) {
+				that._fnFillerDisplay.call( that, e );
+			}
+		);
+
+		$(this.dom.table).on( 'destroy.dt.DTAF', function () {
+			filler.off( 'mousedown.DTAF' ).remove();
+			$('tbody', this.dom.table).off( 'mouseover.DTAF mouseout.DTAF' );
 		} );
 	},
 
 
-	"_fnColumnDefs": function ( aoColumnDefs )
+	_initColumns: function ( )
 	{
-		var
-			i, j, k, iLen, jLen, kLen,
-			aTargets;
+		var that = this;
+		var i, ien;
+		var dt = this.s.dt;
+		var config = this.s.init;
 
-		/* Loop over the column defs array - loop in reverse so first instace has priority */
-		for ( i=aoColumnDefs.length-1 ; i>=0 ; i-- )
-		{
-			/* Each column def can target multiple columns, as it is an array */
-			aTargets = aoColumnDefs[i].aTargets;
-			for ( j=0, jLen=aTargets.length ; j<jLen ; j++ )
-			{
-				if ( typeof aTargets[j] == 'number' && aTargets[j] >= 0 )
-				{
-					/* 0+ integer, left to right column counting. */
-					this._fnColumnOptions( aTargets[j], aoColumnDefs[i] );
-				}
-				else if ( typeof aTargets[j] == 'number' && aTargets[j] < 0 )
-				{
-					/* Negative integer, right to left column counting */
-					this._fnColumnOptions( this.s.dt.aoColumns.length+aTargets[j], aoColumnDefs[i] );
-				}
-				else if ( typeof aTargets[j] == 'string' )
-				{
-					/* Class name matching on TH element */
-					for ( k=0, kLen=this.s.dt.aoColumns.length ; k<kLen ; k++ )
-					{
-						if ( aTargets[j] == "_all" ||
-							 this.s.dt.aoColumns[k].nTh.className.indexOf( aTargets[j] ) != -1 )
-						{
-							this._fnColumnOptions( k, aoColumnDefs[i] );
-						}
-					}
-				}
+		for ( i=0, ien=dt.aoColumns.length ; i<ien ; i++ ) {
+			this.s.columns[i] = $.extend( true, {}, AutoFill.defaults.column );
+		}
+
+		dt.oApi._fnApplyColumnDefs(
+			dt,
+			config.aoColumnDefs,
+			config.aoColumns,
+			function (colIdx, def) {
+				that._fnColumnOptions( colIdx, def );
+			}
+		);
+
+		// For columns which don't have read, write, step functions defined,
+		// use the default ones
+		for ( i=0, ien=dt.aoColumns.length ; i<ien ; i++ ) {
+			var column = this.s.columns[i];
+
+			if ( ! column.read ) {
+				column.read = this._fnReadCell;
+			}
+			if ( ! column.write ) {
+				column.read = this._fnWriteCell;
+			}
+			if ( ! column.step ) {
+				column.read = this._fnStep;
 			}
 		}
 	},
 
 
-	"_fnColumnsAll": function ( aoColumns )
-	{
-		for ( var i=0, iLen=this.s.dt.aoColumns.length ; i<iLen ; i++ )
-		{
-			this._fnColumnOptions( i, aoColumns[i] );
-		}
-	},
-
-
-	"_fnAddColumn": function ( i )
-	{
-		this.s.columns[i] = {
-			"enable": true,
-			"read": this._fnReadCell,
-			"write": this._fnWriteCell,
-			"step": this._fnStep,
-			"complete": null,
-			"allowIncrement": true
-		};
-	},
-
 	"_fnColumnOptions": function ( i, opts )
 	{
-		if ( typeof opts.bEnable != 'undefined' )
-		{
-			this.s.columns[i].enable = opts.bEnable;
-		}
+		var column = this.s.columns[ i ];
+		var set = function ( outProp, inProp ) {
+			if ( opts[ inProp[0] ] !== undefined ) {
+				column[ outProp ] = opts[ inProp[0] ];
+			}
+			if ( opts[ inProp[1] ] !== undefined ) {
+				column[ outProp ] = opts[ inProp[1] ];
+			}
+		};
 
-		if ( typeof opts.fnRead != 'undefined' )
-		{
-			this.s.columns[i].read = opts.fnRead;
-		}
-
-		if ( typeof opts.fnWrite != 'undefined' )
-		{
-			this.s.columns[i].write = opts.fnWrite;
-		}
-
-		if ( typeof opts.fnStep != 'undefined' )
-		{
-			this.s.columns[i].step = opts.fnStep;
-		}
-
-		if ( typeof opts.fnCallback != 'undefined' )
-		{
-			this.s.columns[i].complete = opts.fnCallback;
-		}
-
-		if ( typeof opts.bAllowIncrement != 'undefined' )
-		{
-			this.s.columns[i].allowIncrement = opts.bAllowIncrement;
-		}
-
-		if ( typeof opts.mode != 'undefined' )
-		{
-			this.s.mode = opts.mode;
-		}
+		// Compatibility with the old Hungarian style of notation
+		set( 'enable',    ['bEnable',     'enable'] );
+		set( 'read',      ['fnRead',      'read'] );
+		set( 'write',     ['fnWrite',     'write'] );
+		set( 'step',      ['fnStep',      'step'] );
+		set( 'increment', ['bIncrement',  'increment'] );
 	},
 
 
@@ -609,8 +538,7 @@ AutoFill.prototype = {
 	{
 		var that = this, i, iLen, j;
 
-		$(document).unbind('mousemove.AutoFill');
-		$(document).unbind('mouseup.AutoFill');
+		$(document).unbind('mousemove.AutoFill mouseup.AutoFill');
 
 		this.dom.borderTop.style.display = "none";
 		this.dom.borderRight.style.display = "none";
@@ -621,180 +549,95 @@ AutoFill.prototype = {
 
 		clearInterval( this.s.screen.interval );
 
+		var cells = [];
+		var table = this.dom.table;
 		var coordsStart = this._fnTargetCoords( this.s.drag.startTd );
 		var coordsEnd = this._fnTargetCoords( this.s.drag.endTd );
-		var aTds = [];
-		var bIncrement;
+		var columnIndex = function ( visIdx ) {
+			return that.s.dt.oApi._fnVisibleToColumnIndex( that.s.dt, visIdx );
+		};
 
-		if ( coordsStart.y <= coordsEnd.y )
-		{
-			bIncrement = true;
-			for ( i=coordsStart.y ; i<=coordsEnd.y ; i++ )
-			{
-				if( coordsStart.x <= coordsEnd.x ) {
+		// xxx - urgh - there must be a way of reducing this...
+		if ( coordsStart.y <= coordsEnd.y ) {
+			for ( i=coordsStart.y ; i<=coordsEnd.y ; i++ ) {
+				if ( coordsStart.x <= coordsEnd.x ) {
 					for ( j=coordsStart.x ; j<=coordsEnd.x ; j++ ) {
-						aTds.push( $('tbody>tr:eq('+i+')>td:eq('+j+')', this.dom.table)[0] );
+						cells.push( {
+							node:   $('tbody>tr:eq('+i+')>td:eq('+j+')', table)[0],
+							x:      j - coordsStart.x,
+							y:      i - coordsStart.y,
+							colIdx: columnIndex( j )
+						} );
 					}
 				}
 				else {
 					for ( j=coordsStart.x ; j>=coordsEnd.x ; j-- ) {
-						aTds.push( $('tbody>tr:eq('+i+')>td:eq('+j+')', this.dom.table)[0] );
+						cells.push( {
+							node:   $('tbody>tr:eq('+i+')>td:eq('+j+')', table)[0],
+							x:      j - coordsStart.x,
+							y:      i - coordsStart.y,
+							colIdx: columnIndex( j )
+						} );
 					}
 				}
 			}
 		}
-		else
-		{
-			bIncrement = false;
-			for ( i=coordsStart.y ; i>=coordsEnd.y ; i-- )
-			{
-				if( coordsStart.x <= coordsEnd.x ) {
+		else {
+			for ( i=coordsStart.y ; i>=coordsEnd.y ; i-- ) {
+				if ( coordsStart.x <= coordsEnd.x ) {
 					for ( j=coordsStart.x ; j<=coordsEnd.x ; j++ ) {
-						aTds.push( $('tbody>tr:eq('+i+')>td:eq('+j+')', this.dom.table)[0] );
+						cells.push( {
+							node:   $('tbody>tr:eq('+i+')>td:eq('+j+')', table)[0],
+							x:      j - coordsStart.x,
+							y:      i - coordsStart.y,
+							colIdx: columnIndex( j )
+						} );
 					}
 				}
 				else {
 					for ( j=coordsStart.x ; j>=coordsEnd.x ; j-- ) {
-						aTds.push( $('tbody>tr:eq('+i+')>td:eq('+j+')', this.dom.table)[0] );
+						cells.push( {
+							node:   $('tbody>tr:eq('+i+')>td:eq('+j+')', table)[0],
+							x:      coordsStart.x - j,
+							y:      coordsStart.y - i,
+							colIdx: columnIndex( j )
+						} );
 					}
 				}
 			}
 		}
 
-		var iColumn = coordsStart.x;
-		var bLast = false;
-		var aoEdited = [];
-		var sStart = this.s.columns[iColumn].read.call( this, this.s.drag.startTd );
-		var oPrepped = this._fnPrep( sStart, this.s.columns[iColumn].allowIncrement );
+		var edited = [];
+		var previous = undefined;
 
-		for ( i=0, iLen=aTds.length ; i<iLen ; i++ )
-		{
-			if ( i==iLen-1 )
-			{
-				bLast = true;
-			}
+		for ( i=0, iLen=cells.length ; i<iLen ; i++ ) {
+			var cell      = cells[i];
+			var column    = this.s.columns[ cell.colIdx ];
+			var read      = column.read.call( column, cell.node );
+			var stepValue = column.step.call( column, cell.node, read, previous, i, cell.x, cell.y );
+			
+			column.write.call( column, cell.node, stepValue );
 
-			var original = this.s.columns[iColumn].read.call( this, aTds[i] );
-			var step = this.s.columns[iColumn].step.call( this, aTds[i], oPrepped, i, bIncrement,
-				'SPRYMEDIA_AUTOFILL_STEPPER' );
-			this.s.columns[iColumn].write.call( this, aTds[i], step, bLast );
-
-			aoEdited.push( {
-				"td": aTds[i],
-				"newValue": step,
-				"oldValue": original
+			previous = stepValue;
+			edited.push( {
+				cell:     cell,
+				colIdx:   cell.colIdx,
+				newValue: stepValue,
+				oldValue: read
 			} );
 		}
 
-		if ( this.s.columns[iColumn].complete !== null )
-		{
-			this.s.columns[iColumn].complete.call( this, aoEdited );
-		}
-	},
-
-
-	/**
-	 * Chunk a string such that it can be filled in by the stepper function
-	 *  @method  _fnPrep
-	 *  @param   {String} sStr String to prep
-	 *  @returns {Object} with parameters, iStart, sStr and sPostFix
-	 */
-	"_fnPrep": function ( sStr, allowIncrement )
-	{
-		var aMatch = sStr.match(/[\d\.]+/g);
-		if ( !allowIncrement || !aMatch || aMatch.length === 0 )
-		{
-			return {
-				"iStart": 0,
-				"sStr": sStr,
-				"sPostFix": ""
-			};
+		if ( this.c.complete !== null ) {
+			this.c.complete.call( this, edited );
 		}
 
-		var sLast = aMatch[ aMatch.length-1 ];
-		var num = parseInt(sLast, 10);
-		var regex = new RegExp( '^(.*)'+sLast+'(.*?)$' );
-		var decimal = sLast.match(/\./) ? "."+sLast.split('.')[1] : "";
-
-		return {
-			"iStart": num,
-			"sStr": sStr.replace(regex, "$1SPRYMEDIA_AUTOFILL_STEPPER$2"),
-			"sPostFix": decimal
-		};
-	},
-
-
-	/**
-	 * Render a string for it's position in the table after the drag (incrememt numbers)
-	 *  @method  _fnStep
-	 *  @param   {Node} nTd Cell being written to
-	 *  @param   {Object} oPrepped Prepared object for the stepper (from _fnPrep)
-	 *  @param   {Int} iDiff Step difference
-	 *  @param   {Boolean} bIncrement Increment (true) or decriment (false)
-	 *  @param   {String} sToken Token to replace
-	 *  @returns {String} Rendered information
-	 */
-	"_fnStep": function ( nTd, oPrepped, iDiff, bIncrement, sToken )
-	{
-		var iReplace = bIncrement ? (oPrepped.iStart+iDiff) : (oPrepped.iStart-iDiff);
-		if ( isNaN(iReplace) )
-		{
-			iReplace = "";
+		// In 1.10 we can do a static draw
+		if ( $.fn.dataTable.Api ) {
+			new $.fn.dataTable.Api( this.s.dt ).draw( false );
 		}
-		return oPrepped.sStr.replace( sToken, iReplace+oPrepped.sPostFix );
-	},
-
-
-	/**
-	 * Read informaiton from a cell, possibly using live DOM elements if suitable
-	 *  @method  _fnReadCell
-	 *  @param   {Node} nTd Cell to read
-	 *  @returns {String} Read value
-	 */
-	"_fnReadCell": function ( nTd )
-	{
-		var jq = $('input', nTd);
-		if ( jq.length > 0 )
-		{
-			return $(jq).val();
+		else {
+			this.s.dt.oInstance.fnDraw();
 		}
-
-		jq = $('select', nTd);
-		if ( jq.length > 0 )
-		{
-			return $(jq).val();
-		}
-
-		return nTd.innerHTML;
-	},
-
-
-	/**
-	 * Write informaiton to a cell, possibly using live DOM elements if suitable
-	 *  @method  _fnWriteCell
-	 *  @param   {Node} nTd Cell to write
-	 *  @param   {String} sVal Value to write
-	 *  @param   {Boolean} bLast Flag to show if this is that last update
-	 *  @returns void
-	 */
-	"_fnWriteCell": function ( nTd, sVal, bLast )
-	{
-		var jq = $('input', nTd);
-		if ( jq.length > 0 )
-		{
-			$(jq).val( sVal );
-			return;
-		}
-
-		jq = $('select', nTd);
-		if ( jq.length > 0 )
-		{
-			$(jq).val( sVal );
-			return;
-		}
-
-		var pos = this.s.dt.oInstance.fnGetPosition( nTd );
-		this.s.dt.oInstance.fnUpdate( sVal, pos[0], pos[2], bLast );
 	},
 
 
@@ -853,6 +696,10 @@ AutoFill.prototype = {
 };
 
 
+// Alias for access
+$.fn.dataTable.AutoFill = AutoFill;
+$.fn.DataTable.AutoFill = AutoFill;
+
 
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -860,22 +707,124 @@ AutoFill.prototype = {
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /**
- * Name of this class
- *  @constant CLASS
- *  @type     String
- *  @default  AutoFill
+ * AutoFill version
+ *  @constant  version
+ *  @type      String
+ *  @default   See code
  */
-AutoFill.prototype.CLASS = "AutoFill";
+AutoFill.version = "1.2.0.dev";
 
 
 /**
- * AutoFill version
- *  @constant  VERSION
- *  @type      String
- *  @default   1.1.3.dev
+ * AutoFill defaults
+ *  @namespace
  */
-AutoFill.VERSION = "1.1.3.dev";
-AutoFill.prototype.VERSION = AutoFill.VERSION;
+AutoFill.defaults = {
+	/**
+	 * Mode for dragging (restrict to y-axis only, x-axis only, either one or none):
+	 *
+	 *  * `y`      - y-axis only (default)
+	 *  * `x`      - x-axis only
+	 *  * `either` - either one, but not both axis at the same time
+	 *  * `both`   - multiple cells allowed
+	 *
+	 * @type {string}
+	 * @default `y`
+	 */
+	mode: 'y',
+
+	complete: null,
+
+	/**
+	 * Column definition defaults
+	 *  @namespace
+	 */
+	column: {
+		/**
+		 * If AutoFill should be enabled on this column
+		 *
+		 * @type {boolean}
+		 * @default true
+		 */
+		enable: true,
+
+		/**
+		 * Allow automatic increment / decrement on this column if a number
+		 * is found.
+		 *
+		 * @type {boolean}
+		 * @default true
+		 */
+		increment: true,
+
+		/**
+		 * Cell read function
+		 *
+		 * Default function will simply read the value from the HTML of the
+		 * cell.
+		 *
+		 * @type   {function}
+		 * @param  {node} cell `th` / `td` element to read the value from
+		 * @return {string}    Data that has been read
+		 */
+		read: function ( cell ) {
+			return $(cell).html();
+		},
+
+		/**
+		 * Cell write function
+		 *
+		 * Default function will simply write to the HTML and tell the DataTable
+		 * to update.
+		 *
+		 * @type   {function}
+		 * @param  {node} cell `th` / `td` element to write the value to
+		 * @return {string}    Data two write
+		 */
+		write: function ( cell, val ) {
+			var table = $(cell).parents('table');
+			if ( $.fn.dataTable.Api ) {
+				// 1.10
+				table.DataTable().cell( cell ).data( val );
+			}
+			else {
+				// 1.9
+				var dt = table.dataTable();
+				var pos = dt.fnGetPosition();
+				dt.fnUpdate( val, pos[0], pos[2], false );
+			}
+		},
+
+		/**
+		 * Step function. This provides the ability to customise how the values
+		 * are incremented.
+		 *
+		 * @param  {node} cell `th` / `td` element that is being operated upon
+		 * @param  {string} read Cell value from `read` function
+		 * @param  {string} last Value of the previous cell
+		 * @param  {integer} i Loop counter
+		 * @param  {integer} x Cell x-position in the current auto-fill. The
+		 *   starting cell is coordinate 0 regardless of its physical position
+		 *   in the DataTable.
+		 * @param  {integer} y Cell y-position in the current auto-fill. The
+		 *   starting cell is coordinate 0 regardless of its physical position
+		 *   in the DataTable.
+		 * @return {string} Value to write
+		 */
+		step: function ( cell, read, last, i, x, y ) {
+			// Increment a number if it is found
+			var re = /(\-?\d+)/;
+			var match = this.increment && last ? last.match(re) : null;
+			if ( match ) {
+				return last.replace( re, parseInt(match[1],10) + (x<0 || y<0 ? -1 : 1) );
+			}
+			return last === undefined ?
+				read :
+				last;
+		}
+	}
+};
 
 
 })(jQuery);
+

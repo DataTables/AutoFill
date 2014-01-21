@@ -106,7 +106,17 @@ AutoFill = function( oDT, oConfig )
 		/**
 		 * @namespace Information stored for each column. An array of objects
 		 */
-		"columns": []
+		"columns": [],
+		
+		
+		/** TODO
+		 * @namespace Mode for dragging (restrict to y-axis only, x-axis only, either one or none)
+		 *  y      = y-axis only (default)
+		 *  x      = x-axis only
+		 *  either = either one, but not both axis at the same time
+		 *  both   = multiple cells allowed
+		 */
+		"mode": "both"
 	};
 
 
@@ -386,6 +396,14 @@ AutoFill.prototype = {
 			height = offsetEnd.top + $(nEnd).outerHeight() - offsetStart.top + (2*border),
 			oStyle;
 
+		// TODO recalculate start and end (when dragging "backwards")  
+		if( offsetStart.left > offsetEnd.left) { 
+			x1 = offsetEnd.left - border;
+			x2 = offsetStart.left + $(nStart).outerWidth();
+			width = offsetStart.left + $(nStart).outerWidth() - offsetEnd.left + (2*border);
+		} 
+		
+		
 		if ( this.s.dt.oScroll.sY !== "" )
 		{
 			/* The border elements are inside the DT scroller - so position relative to that */
@@ -530,27 +548,44 @@ AutoFill.prototype = {
 		{
 			var coords = this._fnTargetCoords( e.target );
 
-			if ( coords.x != this.s.drag.startX )
+			// restrict to mode TODO 
+			if ( this.s.mode == "y" && coords.x != this.s.drag.startX )
 			{
 				e.target = $('tbody>tr:eq('+coords.y+')>td:eq('+this.s.drag.startX+')', this.dom.table)[0];
-				coords = this._fnTargetCoords( e.target );
 			}
-
-			if ( coords.x == this.s.drag.startX )
+			if ( this.s.mode == "x" && coords.y != this.s.drag.startY )
 			{
-				var drag = this.s.drag;
-				drag.endTd = e.target;
+				e.target = $('tbody>tr:eq('+this.s.drag.startY+')>td:eq('+coords.x+')', this.dom.table)[0];
+			}			
 
-				if ( coords.y >= this.s.drag.startY )
+			if ( this.s.mode == "either")
+			{
+				if(coords.x != this.s.drag.startX )
 				{
-					this._fnUpdateBorder( drag.startTd, drag.endTd );
+					e.target = $('tbody>tr:eq('+this.s.drag.startY+')>td:eq('+coords.x+')', this.dom.table)[0];		
 				}
-				else
-				{
-					this._fnUpdateBorder( drag.endTd, drag.startTd );
+				else if ( coords.y != this.s.drag.startY ) {
+					e.target = $('tbody>tr:eq('+coords.y+')>td:eq('+this.s.drag.startX+')', this.dom.table)[0];
 				}
-				this._fnFillerPosition( e.target );
-			}
+			}			
+			
+			// update coords
+			if( !this.s.mode == "both")
+				coords = this._fnTargetCoords( e.target );
+			
+			var drag = this.s.drag;
+            drag.endTd = e.target;
+
+            if ( coords.y >= this.s.drag.startY )
+            {
+                    this._fnUpdateBorder( drag.startTd, drag.endTd );
+            }
+            else
+            {
+                    this._fnUpdateBorder( drag.endTd, drag.startTd );
+            }
+            this._fnFillerPosition( e.target );
+			// */
 		}
 
 		/* Update the screen information so we can perform scrolling */
@@ -593,12 +628,22 @@ AutoFill.prototype = {
 		var aTds = [];
 		var bIncrement;
 
-		if ( coordsStart.y <= coordsEnd.y )
+		// TODO 
+ 		if ( coordsStart.y <= coordsEnd.y )
 		{
 			bIncrement = true;
 			for ( i=coordsStart.y ; i<=coordsEnd.y ; i++ )
 			{
-				aTds.push( $('tbody>tr:eq('+i+')>td:eq('+coordsStart.x+')', this.dom.table)[0] );
+				if( coordsStart.x <= coordsEnd.x ) {
+					for ( j=coordsStart.x ; j<=coordsEnd.x ; j++ ) {
+						aTds.push( $('tbody>tr:eq('+i+')>td:eq('+j+')', this.dom.table)[0] );
+					}
+				}
+				else {
+					for ( j=coordsStart.x ; j>=coordsEnd.x ; j-- ) {
+						aTds.push( $('tbody>tr:eq('+i+')>td:eq('+j+')', this.dom.table)[0] );
+					}
+				}
 			}
 		}
 		else
@@ -606,10 +651,20 @@ AutoFill.prototype = {
 			bIncrement = false;
 			for ( i=coordsStart.y ; i>=coordsEnd.y ; i-- )
 			{
-				aTds.push( $('tbody>tr:eq('+i+')>td:eq('+coordsStart.x+')', this.dom.table)[0] );
+				if( coordsStart.x <= coordsEnd.x ) {
+					for ( j=coordsStart.x ; j<=coordsEnd.x ; j++ ) {
+						aTds.push( $('tbody>tr:eq('+i+')>td:eq('+j+')', this.dom.table)[0] );
+					}
+				}
+				else {
+					for ( j=coordsStart.x ; j>=coordsEnd.x ; j-- ) {
+						aTds.push( $('tbody>tr:eq('+i+')>td:eq('+j+')', this.dom.table)[0] );
+					}
+				}
 			}
+						
 		}
-
+		// */
 
 		var iColumn = coordsStart.x;
 		var bLast = false;
@@ -797,8 +852,8 @@ AutoFill.prototype = {
 	{
 		var offset = $(nTd).offset();
 		var filler = this.dom.filler;
-		filler.style.top = (offset.top - (this.s.filler.height / 2)-1 + $(nTd).outerHeight())+"px";
-		filler.style.left = (offset.left - (this.s.filler.width / 2)-1 + $(nTd).outerWidth())+"px";
+		filler.style.top = (offset.top - (this.s.filler.height / 2)-10 + $(nTd).outerHeight())+"px";
+		filler.style.left = (offset.left - (this.s.filler.width / 2)-10 + $(nTd).outerWidth())+"px";
 	}
 };
 

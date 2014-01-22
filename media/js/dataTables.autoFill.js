@@ -1,44 +1,43 @@
-/*
- * File:        AutoFill.js
- * Version:     1.1.3.dev
- * CVS:         $Id$
- * Description: AutoFill for DataTables
- * Author:      Allan Jardine (www.sprymedia.co.uk)
- * Created:     Mon  6 Sep 2010 16:54:41 BST
- * Modified:    $Date$ by $Author$
- * Language:    Javascript
- * License:     GPL v2 or BSD 3 point
- * Project:     DataTables
- * Contact:     www.sprymedia.co.uk/contact
- * 
- * Copyright 2010-2011 Allan Jardine, all rights reserved.
+/**
+ * @summary     AutoFill
+ * @description Add Excel like click and drag auto-fill options to DataTables
+ * @version     1.10.0-dev
+ * @file        dataTables.autoFill.js
+ * @author      SpryMedia Ltd (www.sprymedia.co.uk)
+ * @contact     www.sprymedia.co.uk/contact
+ * @copyright   Copyright 2010-2014 SpryMedia Ltd.
  *
- * This source file is free software, under either the GPL v2 license or a
- * BSD style license, available at:
- *   http://datatables.net/license_gpl2
- *   http://datatables.net/license_bsd
+ * This source file is free software, available under the following license:
+ *   MIT license - http://datatables.net/license/mit
  *
+ * This source file is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the license files for details.
+ *
+ * For details please refer to: http://www.datatables.net
  */
 
-(function($) {
+(function( window, document, undefined ) {
+
+var factory = function( $, DataTable ) {
+"use strict";
 
 /** 
- * AutoFill provides Excel like auto fill features for a DataTable
+ * AutoFill provides Excel like auto-fill features for a DataTable
+ *
  * @class AutoFill
  * @constructor
- * @param {object} DataTables settings object
- * @param {object} Configuration object for AutoFill
+ * @param {object} oTD DataTables settings object
+ * @param {object} oConfig Configuration object for AutoFill
  */
 var AutoFill = function( oDT, oConfig )
 {
 	/* Sanity check that we are a new instance */
-	if ( ! (this instanceof AutoFill) )
-	{
+	if ( ! (this instanceof AutoFill) ) {
 		throw( "Warning: AutoFill must be initialised with the keyword 'new'" );
 	}
 
-	if ( ! $.fn.dataTableExt.fnVersionCheck('1.7.0') )
-	{
+	if ( ! $.fn.dataTableExt.fnVersionCheck('1.7.0') ) {
 		throw( "Warning: AutoFill requires DataTables 1.7 or greater");
 	}
 
@@ -163,8 +162,8 @@ AutoFill.prototype = {
 		// Use DataTables API to get the settings allowing selectors, instances
 		// etc to be used, or for backwards compatibility get from the old
 		// fnSettings method
-		this.s.dt = $.fn.dataTable.Api ?
-			new $.fn.dataTable.Api( dt ).settings()[0] :
+		this.s.dt = DataTable.Api ?
+			new DataTable.Api( dt ).settings()[0] :
 			dt.fnSettings();
 		this.s.init = config || {};
 		this.dom.table = this.s.dt.nTable;
@@ -608,14 +607,14 @@ AutoFill.prototype = {
 		}
 
 		var edited = [];
-		var previous = undefined;
+		var previous;
 
 		for ( i=0, iLen=cells.length ; i<iLen ; i++ ) {
 			var cell      = cells[i];
 			var column    = this.s.columns[ cell.colIdx ];
 			var read      = column.read.call( column, cell.node );
 			var stepValue = column.step.call( column, cell.node, read, previous, i, cell.x, cell.y );
-			
+
 			column.write.call( column, cell.node, stepValue );
 
 			previous = stepValue;
@@ -632,8 +631,8 @@ AutoFill.prototype = {
 		}
 
 		// In 1.10 we can do a static draw
-		if ( $.fn.dataTable.Api ) {
-			new $.fn.dataTable.Api( this.s.dt ).draw( false );
+		if ( DataTable.Api ) {
+			new DataTable.Api( this.s.dt ).draw( false );
 		}
 		else {
 			this.s.dt.oInstance.fnDraw();
@@ -697,8 +696,8 @@ AutoFill.prototype = {
 
 
 // Alias for access
-$.fn.dataTable.AutoFill = AutoFill;
-$.fn.DataTable.AutoFill = AutoFill;
+DataTable.AutoFill = AutoFill;
+DataTable.AutoFill = AutoFill;
 
 
 
@@ -783,7 +782,7 @@ AutoFill.defaults = {
 		 */
 		write: function ( cell, val ) {
 			var table = $(cell).parents('table');
-			if ( $.fn.dataTable.Api ) {
+			if ( DataTable.Api ) {
 				// 1.10
 				table.DataTable().cell( cell ).data( val );
 			}
@@ -825,6 +824,19 @@ AutoFill.defaults = {
 	}
 };
 
+return AutoFill;
+};
 
-})(jQuery);
+
+// Define as an AMD module if possible
+if ( typeof define === 'function' && define.amd ) {
+	define( 'datatables-autofill', ['jquery', 'datatables'], factory );
+}
+else if ( jQuery && !jQuery.fn.dataTable.AutoFill ) {
+	// Otherwise simply initialise as normal, stopping multiple evaluation
+	factory( jQuery, jQuery.fn.dataTable );
+}
+
+
+}(window, document));
 

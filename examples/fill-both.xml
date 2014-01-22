@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="html" order="4">
+
+<css lib="datatables autofill" />
+<js lib="jquery datatables autofill">
+<![CDATA[
+$(document).ready(function() {
+	var table = $('#example').DataTable();
+
+	new $.fn.dataTable.AutoFill( table, {
+		mode: 'both'
+	} );
+} );
+]]>
+</js>
+
+<title lib="AutoFill">Horizontal and vertical fill</title>
+
+<info><![CDATA[
+
+By default AutoFill will allow the fill to operate only on a single column at a time (i.e. vertically). However, it has the ability to provide the fill either horizontally, over both axis or limited to just one axis depending on the direction of the drag. This option is provided by the `mode` sanitisation option.
+
+In this case it is set to `both` (i.e. both horizontal and vertical axis) to provide the filler along a row, rather than a column.
+
+For the full range of options and syntax for `mode` please refer to the [AutoFill documentation](//datatables.net/extras/autofill/options).
+
+]]></info>
+
+</dt-example>

@@ -481,16 +481,16 @@ AutoFill.prototype = {
 		{
 			var coords = this._fnTargetCoords( e.target );
 
-			if ( this.s.mode == "y" && coords.x != this.s.drag.startX )
+			if ( this.c.mode == "y" && coords.x != this.s.drag.startX )
 			{
 				e.target = $('tbody>tr:eq('+coords.y+')>td:eq('+this.s.drag.startX+')', this.dom.table)[0];
 			}
-			if ( this.s.mode == "x" && coords.y != this.s.drag.startY )
+			if ( this.c.mode == "x" && coords.y != this.s.drag.startY )
 			{
 				e.target = $('tbody>tr:eq('+this.s.drag.startY+')>td:eq('+coords.x+')', this.dom.table)[0];
 			}
 
-			if ( this.s.mode == "either")
+			if ( this.c.mode == "either")
 			{
 				if(coords.x != this.s.drag.startX )
 				{
@@ -502,7 +502,7 @@ AutoFill.prototype = {
 			}
 
 			// update coords
-			if ( this.s.mode !== "both" ) {
+			if ( this.c.mode !== "both" ) {
 				coords = this._fnTargetCoords( e.target );
 			}
 

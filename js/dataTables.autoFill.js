@@ -1,7 +1,11 @@
+/*! AutoFill 1.2.0-dev
+ * ©2008-2013 SpryMedia Ltd - datatables.net/license
+ */
+
 /**
  * @summary     AutoFill
  * @description Add Excel like click and drag auto-fill options to DataTables
- * @version     1.10.0-dev
+ * @version     1.2.0-dev
  * @file        dataTables.autoFill.js
  * @author      SpryMedia Ltd (www.sprymedia.co.uk)
  * @contact     www.sprymedia.co.uk/contact
@@ -239,8 +243,8 @@ AutoFill.prototype = {
 
 		dt.oApi._fnApplyColumnDefs(
 			dt,
-			config.aoColumnDefs,
-			config.aoColumns,
+			config.aoColumnDefs || config.columnDefs,
+			config.aoColumns || config.columns,
 			function (colIdx, def) {
 				that._fnColumnOptions( colIdx, def );
 			}
@@ -604,6 +608,11 @@ AutoFill.prototype = {
 					}
 				}
 			}
+		}
+
+		// An auto-fill requires 2 or more cells
+		if ( cells.length <= 1 ) {
+			return;
 		}
 
 		var edited = [];

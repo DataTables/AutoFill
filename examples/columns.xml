@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="html" order="2">
+
+<css lib="datatables autofill" />
+<js lib="jquery datatables autofill">
+<![CDATA[
+$(document).ready(function() {
+	var table = $('#example').dataTable();
+
+	new $.fn.dataTable.AutoFill( table, {
+		"columnDefs": [
+			{ enable:    false, targets: [-1, -2] },
+			{ increment: false, targets: 3 }
+		]
+	} );
+} );
+]]>
+</js>
+
+<title lib="AutoFill">Column options</title>
+
+<info><![CDATA[
+
+Columns can be enabled (which they are by default) and disabled from providing the end user with AutoFill abilities by using either `columns` or `columnDefs` and the `enable` option. These two arrays work in exactly the same way [as in DataTables](http://datatables.net/ref/columns).
+
+This example shows how disabling columns counting from the right hand side of the table can be achieved. In this case, the last three columns.
+
+]]></info>
+
+</dt-example>

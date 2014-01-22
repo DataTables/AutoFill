@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="html" order="3">
+
+<css lib="datatables autofill" />
+<js lib="jquery datatables autofill">
+<![CDATA[
+$(document).ready(function() {
+	var table = $('#example').dataTable( {
+		scrollY: 200,
+		scrollCollapse: false,
+		paginate: false
+	} );
+
+	new $.fn.dataTable.AutoFill( table );
+} );
+]]>
+</js>
+
+<title lib="AutoFill">Scrolling DataTable</title>
+
+<info><![CDATA[
+
+When dragging an AutoFill handle, the table (if DataTables scrolling is enabled) or the window will be automatically scrolled, as you approach the edge of the scrolling component. The example below shows the effect with DataTables scrolling (and also window if needed).
+
+]]></info>
+
+</dt-example>

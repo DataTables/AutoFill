@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="html" order="0">
+
+<title lib="AutoFill">AutoFill examples</title>
+
+<js lib="jquery" />
+<info><![CDATA[
+
+AutoFill gives an Excel like option to a DataTable to click and drag over multiple cells, filling in information over the selected cells and incrementing numbers as needed.
+
+Thanks to [Phoniax AS](http://www.phoniax.no/) for their sponsorship of this plug-in for DataTables.
+
+]]></info>
+
+</dt-example>

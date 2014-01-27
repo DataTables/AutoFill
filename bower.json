@@ -1,0 +1,12 @@
+{
+	"name": "datatables-autofill",
+	"version": "1.2.0",
+	"main": [
+		"js/dataTables.autoFill.js",
+		"css/dataTables.autoFill.css"
+	],
+	"dependencies": {
+		"jquery": ">=1.7.0",
+		"datatables": ">=1.7.0"
+	}
+}

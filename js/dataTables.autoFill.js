@@ -1,5 +1,5 @@
 /*! AutoFill 1.2.0
- * ©2008-2013 SpryMedia Ltd - datatables.net/license
+ * ©2008-2014 SpryMedia Ltd - datatables.net/license
  */
 
 /**
@@ -798,7 +798,7 @@ AutoFill.defaults = {
 			else {
 				// 1.9
 				var dt = table.dataTable();
-				var pos = dt.fnGetPosition();
+				var pos = dt.fnGetPosition( cell );
 				dt.fnUpdate( val, pos[0], pos[2], false );
 			}
 		},

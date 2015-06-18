@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="html" order="1">
+
+<css lib="datatables autofill keytable" />
+<js lib="jquery datatables autofill keytable">
+<![CDATA[
+$(document).ready(function() {
+	var table = $('#example').DataTable( {
+		keys: true,
+		autoFill: true
+	} );
+} );
+]]>
+</js>
+
+<title lib="AutoFill">KeyTable integration</title>
+
+<info><![CDATA[
+
+
+
+]]></info>
+
+</dt-example>

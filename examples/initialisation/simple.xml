@@ -5,8 +5,9 @@
 <js lib="jquery datatables autofill">
 <![CDATA[
 $(document).ready(function() {
-	var table = $('#example').DataTable();
-	new $.fn.dataTable.AutoFill( table );
+	var table = $('#example').DataTable( {
+		autoFill: true
+	} );
 } );
 ]]>
 </js>
@@ -17,7 +18,7 @@ $(document).ready(function() {
 
 AutoFill gives an Excel like option to a DataTable to click and drag over multiple cells, filling in information over the selected cells and incrementing numbers as needed.
 
-AutoFill is initialised using the `$.fn.dataTable.AutoFill` function as shown in the example below. It requires one parameter, the DataTable instance that AutoFill is to operate on, and optionally a second configuration parameter, which is shown in the other AutoFill examples.
+AutoFill is initialised using the `af-init autoFill` option as shown in the example below. This can be set to be `true` to use the AutoFill configuration defaults, or used as an object to specify options.
 
 ]]></info>
 

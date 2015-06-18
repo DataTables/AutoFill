@@ -598,6 +598,8 @@ AutoFill.prototype = {
 		var dt = this.s.dt;
 		var scroll = this.s.scroll;
 		var runInterval = false;
+		var scrollSpeed = 5;
+		var buffer = 65;
 		var
 			windowY = e.pageY - document.body.scrollTop,
 			windowX = e.pageX - document.body.scrollLeft,
@@ -606,34 +608,34 @@ AutoFill.prototype = {
 
 		// Window calculations - based on the mouse position in the window,
 		// regardless of scrolling
-		if ( windowY < 65 ) {
-			windowVert = -5;
+		if ( windowY < buffer ) {
+			windowVert = scrollSpeed * -1;
 		}
-		else if ( windowY > scroll.windowHeight - 65 ) {
-			windowVert = 5;
+		else if ( windowY > scroll.windowHeight - buffer ) {
+			windowVert = scrollSpeed;
 		}
 
-		if ( windowX < 65 ) {
-			windowHoriz = -5;
+		if ( windowX < buffer ) {
+			windowHoriz = scrollSpeed * -1;
 		}
-		else if ( windowX > scroll.windowWidth - 65 ) {
-			windowHoriz = 5;
+		else if ( windowX > scroll.windowWidth - buffer ) {
+			windowHoriz = scrollSpeed;
 		}
 
 		// DataTables scrolling calculations - based on the table's position in
 		// the document and the mouse position on the page
-		if ( scroll.dtTop !== null && e.pageY < scroll.dtTop + 65 ) {
-			dtVert = -5;
+		if ( scroll.dtTop !== null && e.pageY < scroll.dtTop + buffer ) {
+			dtVert = scrollSpeed * -1;
 		}
-		else if ( scroll.dtTop !== null && e.pageY > scroll.dtTop + scroll.dtHeight - 65 ) {
-			dtVert = 5;
+		else if ( scroll.dtTop !== null && e.pageY > scroll.dtTop + scroll.dtHeight - buffer ) {
+			dtVert = scrollSpeed;
 		}
 
-		if ( scroll.dtLeft !== null && e.pageX < scroll.dtLeft + 65 ) {
-			dtHoriz = -5;
+		if ( scroll.dtLeft !== null && e.pageX < scroll.dtLeft + buffer ) {
+			dtHoriz = scrollSpeed * -1;
 		}
-		else if ( scroll.dtLeft !== null && e.pageX > scroll.dtLeft + scroll.dtWidth - 65 ) {
-			dtHoriz = 5;
+		else if ( scroll.dtLeft !== null && e.pageX > scroll.dtLeft + scroll.dtWidth - buffer ) {
+			dtHoriz = scrollSpeed;
 		}
 
 		// This is where it gets interesting. We want to continue scrolling

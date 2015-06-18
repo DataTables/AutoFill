@@ -57,7 +57,13 @@ var AutoFill = function( dt, opts )
 		dt: new DataTable.Api( dt ),
 
 		/** @type {String} Unique namespace for events attached to the document */
-		namespace: '.autoFill'+(_instance++)
+		namespace: '.autoFill'+(_instance++),
+
+		/** @type {Object} Cached dimension information for use in the mouse move event handler */
+		scroll: {},
+
+		/** @type {integer} Interval object used for smooth scrolling */
+		scrollInterval: null
 	};
 
 
@@ -431,6 +437,7 @@ AutoFill.prototype = {
 	_mousedown: function ( e )
 	{
 		var that = this;
+		var dt = this.s.dt;
 
 		this.dom.start = this.dom.attachedTo;
 		this.s.start = {
@@ -456,6 +463,19 @@ AutoFill.prototype = {
 		this._drawSelection( this.dom.start, e );
 
 		this.dom.handle.css( 'display', 'none' );
+
+		// Cache scrolling information so mouse move doesn't need to read.
+		// This assumes that the window and DT scroller will not change size
+		// during an AutoFill drag, which I think is a fair assumption
+		var scrollWrapper = $( 'div.dataTables_scrollBody', dt.table().container() );
+		this.s.scroll = {
+			windowHeight: $(window).height(),
+			windowWidth:  $(window).width(),
+			dtTop:        scrollWrapper.length ? scrollWrapper.offset().top : null,
+			dtLeft:       scrollWrapper.length ? scrollWrapper.offset().left : null,
+			dtHeight:     scrollWrapper.length ? scrollWrapper.outerHeight() : null,
+			dtWidth:      scrollWrapper.length ? scrollWrapper.outerWidth() : null
+		};
 	},
 
 
@@ -468,12 +488,15 @@ AutoFill.prototype = {
 	 */
 	_mousemove: function ( e )
 	{	
+		var that = this;
+		var dt = this.s.dt;
 		var name = e.target.nodeName.toLowerCase();
 		if ( name !== 'td' && name !== 'th' ) {
 			return;
 		}
 
 		this._drawSelection( e.target, e );
+		this._shiftScroll( e );
 	},
 
 
@@ -556,6 +579,110 @@ AutoFill.prototype = {
 		}
 
 		return out;
+	},
+
+
+	/**
+	 * Move the window and DataTables scrolling during a drag to scroll new
+	 * content into view. This is done by proximity to the edge of the scrolling
+	 * container of the mouse - for example near the top edge of the window
+	 * should scroll up. This is a little complicated as there are two elements
+	 * that can be scrolled - the window and the DataTables scrolling view port
+	 * (if scrollX and / or scrollY is enabled).
+	 *
+	 * @param  {object} e Mouse move event object
+	 * @private
+	 */
+	_shiftScroll: function ( e )
+	{
+		var dt = this.s.dt;
+		var scroll = this.s.scroll;
+		var runInterval = false;
+		var
+			windowY = e.pageY - document.body.scrollTop,
+			windowX = e.pageX - document.body.scrollLeft,
+			windowVert, windowHoriz,
+			dtVert, dtHoriz;
+
+		// Window calculations - based on the mouse position in the window,
+		// regardless of scrolling
+		if ( windowY < 65 ) {
+			windowVert = -5;
+		}
+		else if ( windowY > scroll.windowHeight - 65 ) {
+			windowVert = 5;
+		}
+
+		if ( windowX < 65 ) {
+			windowHoriz = -5;
+		}
+		else if ( windowX > scroll.windowWidth - 65 ) {
+			windowHoriz = 5;
+		}
+
+		// DataTables scrolling calculations - based on the table's position in
+		// the document and the mouse position on the page
+		if ( scroll.dtTop !== null && e.pageY < scroll.dtTop + 65 ) {
+			dtVert = -5;
+		}
+		else if ( scroll.dtTop !== null && e.pageY > scroll.dtTop + scroll.dtHeight - 65 ) {
+			dtVert = 5;
+		}
+
+		if ( scroll.dtLeft !== null && e.pageX < scroll.dtLeft + 65 ) {
+			dtHoriz = -5;
+		}
+		else if ( scroll.dtLeft !== null && e.pageX > scroll.dtLeft + scroll.dtWidth - 65 ) {
+			dtHoriz = 5;
+		}
+
+		// This is where it gets interesting. We want to continue scrolling
+		// without requiring a mouse move, so we need an interval to be
+		// triggered. The interval should continue until it is no longer needed,
+		// but it must also use the latest scroll commands (for example consider
+		// that the mouse might move from scrolling up to scrolling left, all
+		// with the same interval running. We use the `scroll` object to "pass"
+		// this information to the interval. Can't use local variables as they
+		// wouldn't be the ones that are used by an already existing interval!
+		if ( windowVert || windowHoriz || dtVert || dtHoriz ) {
+			scroll.windowVert = windowVert;
+			scroll.windowHoriz = windowHoriz;
+			scroll.dtVert = dtVert;
+			scroll.dtHoriz = dtHoriz;
+			runInterval = true;
+		}
+		else if ( this.s.scrollInterval ) {
+			// Don't need to scroll - remove any existing timer
+			clearInterval( this.s.scrollInterval );
+			this.s.scrollInterval = null;
+		}
+
+		// If we need to run the interval to scroll and there is no existing
+		// interval (if there is an existing one, it will continue to run)
+		if ( ! this.s.scrollInterval && runInterval ) {
+			this.s.scrollInterval = setInterval( function () {
+				// Don't need to worry about setting scroll <0 or beyond the
+				// scroll bound as the browser will just reject that.
+				if ( scroll.windowVert ) {
+					document.body.scrollTop += scroll.windowVert;
+				}
+				if ( scroll.windowHoriz ) {
+					document.body.scrollLeft += scroll.windowHoriz;
+				}
+
+				// DataTables scrolling
+				if ( scroll.dtVert || scroll.dtHoriz ) {
+					var scroller = $( 'div.dataTables_scrollBody', dt.table().container() )[0];
+
+					if ( scroll.dtVert ) {
+						scroller.scrollTop += scroll.dtVert;
+					}
+					if ( scroll.dtHoriz ) {
+						scroller.scrollLeft += scroll.dtHoriz;
+					}
+				}
+			}, 20 );
+		}
 	},
 
 

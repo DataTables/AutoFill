@@ -90,7 +90,10 @@ var AutoFill = function( dt, opts )
 		background: $('<div class="dt-autofill-background"/>'),
 
 		/** @type {jQuery} Fill type chooser */
-		list: $('<div class="dt-autofill-list">'+this.s.dt.i18n('autoFill.info', '')+'<ul/></div>')
+		list: $('<div class="dt-autofill-list">'+this.s.dt.i18n('autoFill.info', '')+'<ul/></div>'),
+
+		/** @type {jQuery} DataTables scrolling container */
+		dtScroll: null
 	};
 
 
@@ -114,6 +117,16 @@ AutoFill.prototype = {
 	{
 		var that = this;
 		var dt = this.s.dt;
+		var dtScroll = $('div.dataTables_scrollBody', this.s.dt.table().container());
+
+		if ( dtScroll.length ) {
+			this.dom.dtScroll = dtScroll;
+
+			// Need to scroll container to be the offset parent
+			if ( dtScroll.css('position') === 'static' ) {
+				dtScroll.css( 'position', 'relative' );
+			}
+		}
 
 		this._focusListener();
 
@@ -276,6 +289,12 @@ AutoFill.prototype = {
 		left   = left.position().left;
 		height = bottom.position().top + bottom.outerHeight() - top;
 		width  = right.position().left + right.outerWidth() - left;
+
+		var dtScroll = this.dom.dtScroll;
+		if ( dtScroll ) {
+			top += dtScroll.scrollTop();
+			left += dtScroll.scrollLeft();
+		}
 
 		var select = this.dom.select;
 		select.top.css( {
@@ -467,14 +486,14 @@ AutoFill.prototype = {
 		// Cache scrolling information so mouse move doesn't need to read.
 		// This assumes that the window and DT scroller will not change size
 		// during an AutoFill drag, which I think is a fair assumption
-		var scrollWrapper = $( 'div.dataTables_scrollBody', dt.table().container() );
+		var scrollWrapper = this.dom.dtScroll;
 		this.s.scroll = {
 			windowHeight: $(window).height(),
 			windowWidth:  $(window).width(),
-			dtTop:        scrollWrapper.length ? scrollWrapper.offset().top : null,
-			dtLeft:       scrollWrapper.length ? scrollWrapper.offset().left : null,
-			dtHeight:     scrollWrapper.length ? scrollWrapper.outerHeight() : null,
-			dtWidth:      scrollWrapper.length ? scrollWrapper.outerWidth() : null
+			dtTop:        scrollWrapper ? scrollWrapper.offset().top : null,
+			dtLeft:       scrollWrapper ? scrollWrapper.offset().left : null,
+			dtHeight:     scrollWrapper ? scrollWrapper.outerHeight() : null,
+			dtWidth:      scrollWrapper ? scrollWrapper.outerWidth() : null
 		};
 	},
 
@@ -595,6 +614,7 @@ AutoFill.prototype = {
 	 */
 	_shiftScroll: function ( e )
 	{
+		var that = this;
 		var dt = this.s.dt;
 		var scroll = this.s.scroll;
 		var runInterval = false;
@@ -674,7 +694,7 @@ AutoFill.prototype = {
 
 				// DataTables scrolling
 				if ( scroll.dtVert || scroll.dtHoriz ) {
-					var scroller = $( 'div.dataTables_scrollBody', dt.table().container() )[0];
+					var scroller = that.dom.dtScroll[0];
 
 					if ( scroll.dtVert ) {
 						scroller.scrollTop += scroll.dtVert;

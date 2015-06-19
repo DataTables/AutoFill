@@ -6,7 +6,7 @@
 <![CDATA[
 $(document).ready(function() {
 	var table = $('#example').dataTable( {
-		scrollY: 200,
+		scrollY: 400,
 		scrollX: true,
 		scrollCollapse: true,
 		paginate: false,

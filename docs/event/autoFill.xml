@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-event>
+	<name>autoFill</name>
+	<summary>An auto fill action has been completed</summary>
+	<since>2.0.0</since>
+
+	<type type="function">
+		<signature>function( e, datatable, cells )</signature>
+		<parameter type="object" name="e">
+			jQuery event object
+		</parameter>
+		<parameter type="DataTable.Api" name="datatable">
+			DataTables API instance for the table the AutoFill was completed on
+		</parameter>
+		<parameter type="array" name="cells">
+			A matrix of the cells that were auto filled. Please see the description above for details.
+		</parameter>
+		<scope>HTML table element</scope>
+	</type>
+
+	<description>
+		This event is triggered when an fill action is completed by the end user. This occurs after the table has been updated and redraw by the fill. This can be useful to have the ability to submit the changes to a server / database to store the changes permanently.
+
+		The information about the cells that have been filled is given as an array (the `cells` parameter below) - this is an array of arrays, with each of the top level arrays representing a row and the inner elements being the columns - e.g.:
+
+		```js
+		[
+			[ cell_0-0, cell_0-1, cell_0-2, ... ],
+			[ cell_1-0, cell_1-1, cell_1-2, ... ],
+			[ cell_2-0, cell_2-1, cell_2-2, ... ],
+			...
+		]
+		```
+
+		There is always guaranteed to be more than one cell - therefore it is safe to access `[0][0]` as the first cell. This first cell is the one where the fill was started. The first row and column are on the same axis as that cell, regardless of if the fill was up, down, left or right.
+
+		Each inner array item is an object that represents a cell and contains the following properties:
+
+		* `cell` - A DataTables Api instance for the cell in question - see `dt-api cell()`
+		* `index` - The cell's index - see `dt-api cell().index()` - note this is the _DataTables internal index_ not a visible index!
+		* `data` - The cell's data before the fill
+		* `set` - The cell's data after the fill
+	</description>
+
+	<example title="Show a message when an auto fill is complete"><![CDATA[
+
+var table = $('#example').DataTable();
+
+table.on( 'autoFill', function ( e, datatable, cells ) {
+	alert( (cells.length * cells[0].length)+' cells were updated' );
+} );
+
+]]></example>
+</dt-event>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-event>
+	<name>preAutoFill</name>
+	<summary>An auto fill action is about to be applied to the table</summary>
+	<since>2.0.0</since>
+
+	<type type="function">
+		<signature>function( e, datatable, cells )</signature>
+		<parameter type="object" name="e">
+			jQuery event object
+		</parameter>
+		<parameter type="DataTable.Api" name="datatable">
+			DataTables API instance for the table the AutoFill was completed on
+		</parameter>
+		<parameter type="array" name="cells">
+			A matrix of the cells that were auto filled. Please see the description in the `af-event autoFill` event for full details on the structure of this array.
+		</parameter>
+		<scope>HTML table element</scope>
+	</type>
+
+	<description>
+		This event is triggered when an fill action is about to write changes to a DataTable - it occurs after the fill drag has been completed and the new cell values computed, but before those values are written into the table.
+
+		This event provides the ability to modify the new values, should that ability be required, by modifying the `set` parameter in the object that represents each cell from the fill. Please see the description in the `af-event autoFill` event for details about this parameter and how it can be accessed.
+	</description>
+</dt-event>

@@ -558,7 +558,7 @@ AutoFill.prototype = {
 		for ( var rowIdx=0 ; rowIdx<rows.length ; rowIdx++ ) {
 			selected.push(
 				$.map( columns, function (column) {
-					var cell = dt.cell( ':eq('+rows[rowIdx]+')', ':eq('+column+')' );
+					var cell = dt.cell( ':eq('+rows[rowIdx]+')', column+':visible', {page:'current'} );
 
 					return {
 						cell:  cell,
@@ -751,7 +751,7 @@ AutoFill.prototype = {
 				}
 			}
 
-			dt.draw();
+			dt.draw(false);
 		}
 
 		this._emitEvent( 'autoFill', [ dt, cells ] );

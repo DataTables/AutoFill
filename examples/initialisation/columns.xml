@@ -1,29 +1,39 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<dt-example table-type="html" order="2">
+<dt-example table-type="html-index" order="6">
 
-<css lib="datatables autofill" />
-<js lib="jquery datatables autofill">
+<css lib="datatables autofill select" />
+<js lib="jquery datatables autofill select">
 <![CDATA[
 $(document).ready(function() {
-	var table = $('#example').dataTable();
-
-	new $.fn.dataTable.AutoFill( table, {
-		"columnDefs": [
-			{ enable:    false, targets: [-1, -2] },
-			{ increment: false, targets: 3 }
-		]
+	$('#example').DataTable( {
+		columnDefs: [ {
+			orderable: false,
+			className: 'select-checkbox',
+			targets:   0
+		} ],
+		select: {
+			style:    'os',
+			selector: 'td:first-child'
+		},
+		order: [[ 1, 'asc' ]],
+		autoFill: {
+			columns: ':not(:first-child)'
+		}
 	} );
 } );
 ]]>
 </js>
 
-<title lib="AutoFill">Column options</title>
+<title lib="AutoFill">Column selector</title>
 
 <info><![CDATA[
 
-Columns can be enabled (which they are by default) and disabled from providing the end user with AutoFill abilities by using either `columns` or `columnDefs` and the `enable` option. These two arrays work in exactly the same way [as in DataTables](http://datatables.net/ref/columns).
+AutoFill provides the ability to determine what columns it should be enabled upon through the `af-init autoFill.columns` option. This will accept any value allowed by the `dt-type column-selector` data type, such as an array of column indexes, class names, or as shown in this case a jQuery selector.
 
-This example shows how disabling columns counting from the right hand side of the table can be achieved. In this case, the last three columns.
+This ability to exclude columns from the AutoFill action can be particularly useful if the table contains non-data columns. This example uses the [Select extension for DataTables](https://datatables.net/extensions/select) to allow row selection through the `s-init select` option, with row selection restricted to the first column. Thus we do not wish to have AutoFill on that column and the selector `-string :not(:first-child)` for `af-init autoFill.columns` enacts that.
+
+Combining AutoFill with [Editor](https://editor.datatables.net) (and other extensions such as [RowReorder](https://datatables.net/extensions/rowreorder) and [KeyTable](https://datatables.net/extensions/keytable)) can make for a powerful data editing environment for end users.
+
 
 ]]></info>
 

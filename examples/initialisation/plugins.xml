@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="html" table-class="display nowrap" order="9">
+
+<css lib="datatables autofill" />
+<js lib="jquery datatables autofill">
+<![CDATA[
+
+$.fn.dataTable.AutoFill.actions.names = {
+	available: function ( dt, cells ) {
+		// Only available if a single column is being
+		// filled and it is the first column
+		return cells[0].length === 1 && cells[0][0].index.column === 0;
+	},
+
+	option: function ( dt, cells ) {
+		// Ask the user if they want to change the surname only
+		return 'Fill only surname - retain first name';
+	},
+
+	execute: function ( dt, cells, node ) {
+		// Modify the name and set the new values
+		var surname = cells[0][0].data.split(' ')[1];
+
+		for ( var i=0, ien=cells.length ; i<ien ; i++ ) {
+			var name = cells[i][0].data.split(' ');
+
+			cells[i][0].set = name[0]+' '+surname;
+		}
+	}
+}
+
+$(document).ready(function() {
+	$('#example').DataTable( {
+		autoFill: true
+	} );
+} );
+]]>
+</js>
+
+<title lib="AutoFill">Fill plug-ins</title>
+
+<info><![CDATA[
+
+AutoFill provides a [number of built in fill types](fills.html), but these built in options can be augmented with additional options using plug-ins.
+
+The fill options are provided by plug-ins which are attached to the `$.fn.dataTable.AutoFill.actions` object. Each property in this object must be an object that provides three functions:
+
+* `available` - Determine if the data that the user dragged the fill over is suitable for this fill type
+* `option` - Returns a question the user will be asked for if they want to use this fill type
+* `execute` - Modifies the data if this fill type is selected
+
+The example shows a plug-in that will operate only on the first column in the table and will change only the surname - retaining the forename from the original cell. While slightly contrived as an example, it demonstrates how plug-ins can perform potentially complex operations.
+
+For full details about creating fill plug-ins for AutoFill, please refer to the [online documentation](https://datatables.net/extensions/autofill).
+
+]]></info>
+
+</dt-example>

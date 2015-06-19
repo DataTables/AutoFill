@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="html" table-class="display nowrap" order="2">
+
+<css lib="datatables autofill" />
+<js lib="jquery datatables autofill">
+<![CDATA[
+$(document).ready(function() {
+	$('#example').DataTable( {
+		autoFill: true
+	} );
+} );
+]]>
+</js>
+
+<title lib="AutoFill">Fill types</title>
+
+<info><![CDATA[
+
+Spreadsheets will typically only copy a value from one cell to another (although this is made particularly powerful if a formula is used), but AutoFill provides different options for how the data can be filled - presenting the options available to the end user for them to select from.
+
+AutoFill has four built in fill types:
+
+* Increment: For numeric data AutoFill will give the user the option of incrementing the value as it is filled. The amount it is incremented by can be entered by the user, and also provides the option to use a negative value to perform a decrement. As an example, fill over the _Age_ column below.
+* Fill: The data from the original cell is used for all other cells
+* Fill vertical: The data from the first row in the selected cells is copied **vertically**. As an example, fill over multiple rows and columns below and select the _Fill cells vertically_ option.
+* Fill horizontal: The data from the first column in the selected cells is copied **horizontally**. As an example, fill over multiple rows and columns below and select the _Fill cells horizontally_ option.
+
+Additional fills can also be added [using plug-ins](plugins.html) if you require further options.
+
+]]></info>
+
+</dt-example>

@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <dt-example table-type="html" order="0">
 
-<title lib="AutoFill">Initialisation examples</title>
+<title lib="AutoFill">Examples</title>
 
 <js lib="jquery" />
 <info><![CDATA[
 
 Spreadsheets such as Excel and Google Docs have a very handy data duplication option of an auto fill tool. The AutoFill library for DataTables provides a similar interface for DataTables (even extending upon it to provide complex data interaction options). AutoFill also provides full support for [Editor](https://editor.datatables.net) allowing end users to update data very quickly.
-
-The examples in this section show how AutoFill can be used with DataTables.
 
 ]]></info>
 

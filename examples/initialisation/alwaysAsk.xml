@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="html" table-class="display nowrap" order="5">
+
+<css lib="datatables autofill" />
+<js lib="jquery datatables autofill">
+<![CDATA[
+$(document).ready(function() {
+	$('#example').DataTable( {
+		autoFill: {
+			alwaysAsk: true
+		}
+	} );
+} );
+]]>
+</js>
+
+<title lib="AutoFill">Always confirm action</title>
+
+<info><![CDATA[
+
+When an auto fill is completed by the end user, AutoFill will determine how many data fill plug-ins can be used for the data that has been dragged over. If there are multiple options it will display a list of those options to the end user allowing them to select the action to perform - a cancel button is also shown.
+
+By default, if there is only a single data fill plug-in that can operate on the data, it will be immediately acted upon, no confirmation required by the end user and no option to cancel the action.
+
+The `af-init autoFill.alwaysAsk` option can be used to force AutoFill to confirm the action to take, even if there is only one option. This provides the end user with the ability to cancel the action if they made a mistake during the drag. This example shows `af-init autoFill.alwaysAsk` set to `true` - to demonstrate, try auto filling a single row or column.
+
+]]></info>
+
+</dt-example>

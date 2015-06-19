@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="html" table-class="display nowrap" order="7">
+
+<css lib="datatables autofill" />
+<js lib="jquery datatables autofill">
+<![CDATA[
+$(document).ready(function() {
+	$('#example').DataTable( {
+		autoFill: {
+			focus: 'click'
+		}
+	} );
+} );
+]]>
+</js>
+
+<title lib="AutoFill">Click focus</title>
+
+<info><![CDATA[
+
+The _click-to-drag_ auto fill handle can be attached to the table using a number of different triggers. This is set by the `af-init autoFill.focus` option:
+
+* `-string click` - Display when a cell is clicked upon
+* `-string focus` - Display when a cell gains focus - for integration with [KeyTable](https://datatables.net/extensions/keytable)
+* `-string hover` - Display when a cell is hovered over
+
+The default behaviour is `-string hover`, unless KeyTable is also initialised on the same table, in which case `-string focus` is used.
+
+This example shows the `-string click` behaviour. Click a cell to show the auto fill handle. Note that a click outside of the table will cause the handle to be removed.
+
+]]></info>
+
+</dt-example>

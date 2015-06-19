@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="html" table-class="display nowrap" order="4">
+
+<css lib="datatables autofill" />
+<js lib="jquery datatables autofill">
+<![CDATA[
+$(document).ready(function() {
+	var table = $('#example').DataTable( {
+		autoFill: true
+	} );
+
+	table.on( 'autoFill', function () {
+		table.columns.adjust();
+	} );
+} );
+]]>
+</js>
+
+<title lib="AutoFill">Events</title>
+
+<info><![CDATA[
+
+AutoFill will emit events that can be listened for to take action when the user has completed an fill action. The events emitted by AutoFill are:
+
+* `af-event preAutoFill` - Emitted prior to the data update, but after the drag has been completed
+* `af-event autoFill` - Emitted immediately after the table has been updated with the new data.
+
+This example shows the `af-event autoFill` event being listened for to adjust the table's column sizes to suit the new data. Although this is a trivial example, this listener can be used to perform other updates such as writing the filled data to a database.
+
+]]></info>
+
+</dt-example>

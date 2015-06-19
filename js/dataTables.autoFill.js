@@ -884,14 +884,19 @@ AutoFill.version = '2.0.0-dev';
  * @namespace
  */
 AutoFill.defaults = {
+	/** @type {Boolean} Ask user what they want to do, even for a single option */
 	alwaysAsk: false,
 
+	/** @type {string|null} What will trigger a focus */
 	focus: null, // focus, click, hover
 
+	/** @type {column-selector} Columns to provide auto fill for */
 	columns: '', // all
 
+	/** @type {boolean|null} Update the cells after a drag */
 	update: null, // false is editor given, true otherwise
 
+	/** @type {DataTable.Editor} Editor instance for automatic submission */
 	editor: null
 };
 
@@ -902,6 +907,7 @@ AutoFill.defaults = {
  * @namespace
  */
 AutoFill.classes = {
+	/** @type {String} Class used by the selection button */
 	btn: 'btn'
 };
 

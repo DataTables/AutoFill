@@ -15,7 +15,7 @@
 	</default>
 
 	<description>
-		When completing a AutoFill action you will typically wish to update the data source to reflect the changes made by the end user. This can be done with AutoFills integration with [Editor](//editor.datatables.net).
+		When completing a AutoFill action you will typically wish to update the data source to reflect the changes made by the end user. This can be done with AutoFill's integration with [Editor](//editor.datatables.net).
 
 		This option can specify an Editor instance that should be used to submit the changes to the server. Upon drag completion the changes will be immediately submitted to the server and the table redrawn with the updated data retrieved from the server.
 	</description>

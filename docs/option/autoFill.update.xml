@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option group="AutoFill">
+	<name>autoFill.update</name>
+	<summary>Control automatic of data when a fill drag is completed</summary>
+	<since>2.0.0</since>
+
+	<type type="boolean">
+		<description>
+			* `true` - DataTables data is automatically updated as a result of the auto fill action and the table redrawn.
+			* `false` - No data update or draw is performed.
+		</description>
+	</type>
+
+	<default value="true">
+		Data is updated and table redrawn
+	</default>
+
+	<description>
+		At the end of a fill action you will typically wish to take some action to reflect the change from the data fill. By default AutoFill will write the filled values to the DataTable and then redraw the table to account for any changes in ordering.
+
+		This action is not always desirable, particularly if you are using server-side processing or which to have an external process update the data. In such circumstances this option can be used to disable the automatic data update and draw.
+	</description>
+
+	<example title="Disable data update."><![CDATA[
+
+$('#example').DataTable( {
+	autoFill: {
+		update: false
+	}
+} );
+
+]]></example>
+
+</dt-option>

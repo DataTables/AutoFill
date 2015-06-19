@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option group="core">
+	<name>language.autoFill.fillVertical</name>
+	<summary>Multi-fill selector message for the _vertical fill_ fill type</summary>
+	<since>2.0.0</since>
+
+	<default value="Fill cells vertically" />
+
+	<type type="string">
+		<description>
+			Message shown by the vertical fill type in the fill selector. This string can contain HTML for additional styling options.
+		</description>
+	</type>
+
+	<description>
+		The vertical fill type will copy the data from the first row in the selected cells to the other cells vertically. This option sets the message that will be shown when this fill type is available.
+	</description>
+
+	<example title="Set a fill type information message"><![CDATA[
+
+$('#example').DataTable( {
+	language: {
+		autoFill: {
+			fillVertical: 'Copy values vertically'
+		}
+	},
+	autoFill: true
+} );
+
+]]></example>
+</dt-option>

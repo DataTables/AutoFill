@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option group="core">
+	<name>language.autoFill.info</name>
+	<summary>Information message shown at the top of the fill type selector</summary>
+	<since>2.0.0</since>
+
+	<default value="" />
+
+	<type type="string">
+		<description>
+			String to be shown at the top of the data fill selection method. This string can contain HTML for additional styling options.
+		</description>
+	</type>
+
+	<description>
+		AutoFill's fill selector box (shown when there are multiple fill options available) has the ability to show an information message at the top of the box. This can be used to explain to the end user why the box is being shown and what action they should take.
+	</description>
+
+	<example title="Set a fill type information message"><![CDATA[
+
+$('#example').DataTable( {
+	language: {
+		autoFill: {
+			info: 'Select a data fill type:'
+		}
+	},
+	autoFill: true
+} );
+
+]]></example>
+
+	<related>af-init autoFill.alwaysShow</related>
+</dt-option>

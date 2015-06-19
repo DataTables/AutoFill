@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option group="AutoFill">
+	<name>autoFill.editor</name>
+	<summary>Attach an Editor instance for database updating</summary>
+	<since>2.0.0</since>
+
+	<type type="DataTable.Editor">
+		<description>
+			The Editor instance to use for editing of the table
+		</description>
+	</type>
+
+	<default value="null">
+		No Editor instance is automatically attached.
+	</default>
+
+	<description>
+		When completing a AutoFill action you will typically wish to update the data source to reflect the changes made by the end user. This can be done with AutoFills integration with [Editor](//editor.datatables.net).
+
+		This option can specify an Editor instance that should be used to submit the changes to the server. Upon drag completion the changes will be immediately submitted to the server and the table redrawn with the updated data retrieved from the server.
+	</description>
+
+	<example title="Attach an Editor instance (`editor`) to a table to provide Excel like auto fill options"><![CDATA[
+
+$('#myTable').DataTable( {
+	autoFill: {
+		editor: editor
+	}
+} );
+
+]]></example>
+</dt-option>

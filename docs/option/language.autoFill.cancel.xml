@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option group="core">
+	<name>language.autoFill.cancel</name>
+	<summary>Multi-fill selector cancel option message</summary>
+	<since>2.0.0</since>
+
+	<default value="Cancel" />
+
+	<type type="string">
+		<description>
+			The message to display for the cancel option in the multi-fill selector panel.
+		</description>
+	</type>
+
+	<description>
+		If the multi-fill selector is shown it will always contain a cancel option that the end user can select to have no update performed on the table. This option provides the ability to customise the cancel message shown in the selector.
+	</description>
+
+	<example title="Set a fill type information message"><![CDATA[
+
+$('#example').DataTable( {
+	language: {
+		autoFill: {
+			cancel: 'Close and perform no updates'
+		}
+	},
+	autoFill: true
+} );
+
+]]></example>
+</dt-option>

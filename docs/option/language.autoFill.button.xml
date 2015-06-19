@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option group="core">
+	<name>language.autoFill.button</name>
+	<summary>Multi-fill selector button text</summary>
+	<since>2.0.0</since>
+
+	<default value="&gt;" />
+
+	<type type="string">
+		<description>
+			The text to show in the select button for the fill options list. This string can contain HTML for additional styling options.
+		</description>
+	</type>
+
+	<description>
+		This option gives the ability to customise the text shown in the multi-fill selector buttons. The end user will click these buttons to select what fill type to use when multiple fills are available.
+	</description>
+
+	<example title="Set a fill type information message"><![CDATA[
+
+$('#example').DataTable( {
+	language: {
+		autoFill: {
+			button: 'Go!'
+		}
+	},
+	autoFill: true
+} );
+
+]]></example>
+
+	<related>af-init autoFill.alwaysShow</related>
+</dt-option>

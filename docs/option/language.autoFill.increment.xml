@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option group="core">
+	<name>language.autoFill.increment</name>
+	<summary>Multi-fill selector message for the _increment_ fill type</summary>
+	<since>2.0.0</since>
+
+	<default value="Increment / decrement each cell by: &gt;input type='number' value='1'&lt;" />
+
+	<type type="string">
+		<description>
+			Message shown by the increment fill type when it is available for the data fill. It should also include the HTML required for a number input to determine what the increment value should be.
+		</description>
+	</type>
+
+	<description>
+		This option provides the ability to customise the message that the increment fill type will show when it is available for a data fill.
+	</description>
+
+	<example title="Set a fill type information message"><![CDATA[
+
+$('#example').DataTable( {
+	language: {
+		autoFill: {
+			increment: 'Change each cell by: <input type="number" value="1">'
+		}
+	},
+	autoFill: true
+} );
+
+]]></example>
+</dt-option>

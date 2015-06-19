@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option group="core">
+	<name>language.autoFill.fill</name>
+	<summary>Multi-fill selector message for the _full fill_ fill type</summary>
+	<since>2.0.0</since>
+
+	<default value="Fill all cells with &gt;i&lt;{data}&gt;/i&lt;" />
+
+	<type type="string">
+		<description>
+			Message shown by the full fill type in the fill selector. This string can contain HTML for additional styling options.
+		</description>
+	</type>
+
+	<description>
+		The full fill type will copy the data from the cell where the fill originated to all other cells. This option sets the message that will be shown when this fill type is available (which is always!).
+	</description>
+
+	<example title="Set a fill type information message"><![CDATA[
+
+$('#example').DataTable( {
+	language: {
+		autoFill: {
+			fill: 'Fill all cells with the same value'
+		}
+	},
+	autoFill: true
+} );
+
+]]></example>
+</dt-option>

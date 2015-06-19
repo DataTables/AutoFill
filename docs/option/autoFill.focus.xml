@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option group="AutoFill">
+	<name>autoFill.focus</name>
+	<summary>Action that will cause the auto fill drag handle to appear in a cell</summary>
+	<since>2.0.0</since>
+
+	<type type="string">
+		<description>
+			Action that will cause the drag handle to appear in a cell. It can be one of:
+
+			* `-string click` - Display when a cell is clicked upon
+			* `-string focus` - Display when a cell gains focus - for integration with [KeyTable](https://datatables.net/extensions/keytable)
+			* `-string hover` - Display when a cell is hovered over
+			* `-type null` - Automatic detection - `focus` if KeyTable is enabled on a table and `hover` otherwise.
+		</description>
+	</type>
+
+	<default value="null">
+		If KeyTable is also initialised on the host table the `-string focus` option will be used. Otherwise `-string hover` is used.
+	</default>
+
+	<description>
+		The click-to-drag auto fill drag handle can be attached to the table cells using a number of different methods, depending on how you wish the end user to interact with your table. This option provides the ability to switch between the various options which are detailed below.
+	</description>
+
+	<example title="Automatically focus on the first cell in the table"><![CDATA[
+
+$('#myTable').DataTable( {
+	autoFill: {
+		focus: 'click'
+	}
+} );
+
+]]></example>
+</dt-option>

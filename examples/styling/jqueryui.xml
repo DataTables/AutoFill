@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="html" order="5" framework="jqueryui">
+
+<css lib="datatables autofill"/>
+<js lib="jquery datatables autofill">
+<![CDATA[
+
+$(document).ready(function() {
+	$('#example').DataTable( {
+		autoFill: true
+	} );
+} );
+
+]]>
+</js>
+
+<title lib="AutoFill">jQuery UI styling</title>
+
+<info><![CDATA[
+
+This example shows DataTables and AutoFill being used with [jQuery UI](http://jqueryui.com/) providing the base styling information.
+
+]]></info>
+
+</dt-example>
+

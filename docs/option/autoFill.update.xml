@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<dt-option group="AutoFill">
+<dt-option group="autofill">
 	<name>autoFill.update</name>
 	<summary>Control automatic of data when a fill drag is completed</summary>
 	<since>2.0.0</since>

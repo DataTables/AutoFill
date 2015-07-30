@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<dt-option group="AutoFill">
+<dt-option group="autofill">
 	<name>autoFill</name>
 	<summary>Enable and configure the AutoFill extension for DataTables</summary>
 	<since>2.0.0</since>

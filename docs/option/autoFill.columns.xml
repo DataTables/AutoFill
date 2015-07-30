@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<dt-option group="AutoFill">
+<dt-option group="autofill">
 	<name>autoFill.columns</name>
 	<summary>Select the columns that can be auto filled</summary>
 	<since>2.0.0</since>

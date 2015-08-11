@@ -159,7 +159,7 @@ AutoFill.prototype = {
 		var dt = this.s.dt;
 		var idx = dt.cell( node ).index();
 
-		if ( dt.columns( this.c.columns ).indexes().indexOf( idx.column ) === -1 ) {
+		if ( ! idx || dt.columns( this.c.columns ).indexes().indexOf( idx.column ) === -1 ) {
 			this._detach();
 			return;
 		}

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<dt-event group="autofill">
+<dt-event library="AutoFill">
 	<name>preAutoFill</name>
 	<summary>An auto fill action is about to be applied to the table</summary>
 	<since>2.0.0</since>

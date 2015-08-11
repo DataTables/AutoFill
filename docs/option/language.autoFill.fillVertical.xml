@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<dt-option group="autofill">
+<dt-option library="AutoFill">
 	<name>language.autoFill.fillVertical</name>
 	<summary>Multi-fill selector message for the _vertical fill_ fill type</summary>
 	<since>2.0.0</since>

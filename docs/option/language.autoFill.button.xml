@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<dt-option group="autofill">
+<dt-option library="AutoFill">
 	<name>language.autoFill.button</name>
 	<summary>Multi-fill selector button text</summary>
 	<since>2.0.0</since>

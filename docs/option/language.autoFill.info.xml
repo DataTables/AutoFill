@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<dt-option group="autofill">
+<dt-option library="AutoFill">
 	<name>language.autoFill.info</name>
 	<summary>Information message shown at the top of the fill type selector</summary>
 	<since>2.0.0</since>

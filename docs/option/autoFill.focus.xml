@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<dt-option group="autofill">
+<dt-option library="AutoFill">
 	<name>autoFill.focus</name>
 	<summary>Action that will cause the auto fill drag handle to appear in a cell</summary>
 	<since>2.0.0</since>

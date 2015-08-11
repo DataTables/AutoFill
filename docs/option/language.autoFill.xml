@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<dt-option group="autofill">
+<dt-option library="AutoFill">
 	<name>language.autoFill</name>
 	<summary>Container object for language strings used by AutoFill</summary>
 	<since>2.0.0</since>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<dt-option group="autofill">
+<dt-option library="AutoFill">
 	<name>autoFill.editor</name>
 	<summary>Attach an Editor instance for database updating</summary>
 	<since>2.0.0</since>

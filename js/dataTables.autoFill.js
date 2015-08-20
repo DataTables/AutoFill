@@ -103,7 +103,7 @@ var AutoFill = function( dt, opts )
 
 
 
-AutoFill.prototype = {
+$.extend( AutoFill.prototype, {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 	 * Constructor
 	 */
@@ -756,7 +756,7 @@ AutoFill.prototype = {
 
 		this._emitEvent( 'autoFill', [ dt, cells ] );
 	}
-};
+} );
 
 
 /**

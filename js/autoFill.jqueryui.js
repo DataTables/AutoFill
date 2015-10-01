@@ -1,8 +1,11 @@
+/*! jQuery UI integration for DataTables' AutoFill
+ * ©2015 SpryMedia Ltd - datatables.net/license
+ */
 
 (function( factory ){
 	if ( typeof define === 'function' && define.amd ) {
 		// AMD
-		define( ['jquery', 'datatables'], factory );
+		define( ['jquery', 'datatables', 'datatables-autofill'], factory );
 	}
 	else if ( typeof exports === 'object' ) {
 		// Node / CommonJS

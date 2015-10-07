@@ -360,6 +360,7 @@ $.extend( AutoFill.prototype, {
 		// Build the object structure for Editor's multi-row editing
 		var idValues = {};
 		var nodes = [];
+		var fields = editor.fields();
 
 		for ( var i=0, ien=cells.length ; i<ien ; i++ ) {
 			for ( var j=0, jen=cells[i].length ; j<jen ; j++ ) {
@@ -367,21 +368,35 @@ $.extend( AutoFill.prototype, {
 
 				// Determine the field name for the cell being edited
 				var col = dt.settings()[0].aoColumns[ cell.index.column ];
-				var dataSrc = col.editField !== undefined ?
-					col.editField :
-					col.mData;
+				var fieldName = col.editField;
 
-				if ( ! dataSrc ) {
-					throw 'Could not automatically determine field name. '+
+				if ( fieldName === undefined ) {
+					var dataSrc = col.mData;
+
+					// dataSrc is the `field.data` property, but we need to set
+					// using the field name, so we need to translate from the
+					// data to the name
+					for ( var k=0, ken=fields.length ; k<ken ; k++ ) {
+						var field = editor.field( fields[k] );
+
+						if ( field.dataSrc() === dataSrc ) {
+							fieldName = field.name();
+							break;
+						}
+					}
+				}
+
+				if ( ! fieldName ) {
+					throw 'Could not automatically determine field data. '+
 						'Please see https://datatables.net/tn/11';
 				}
 
-				if ( ! idValues[ dataSrc ] ) {
-					idValues[ dataSrc ] = {};
+				if ( ! idValues[ fieldName ] ) {
+					idValues[ fieldName ] = {};
 				}
 
 				var id = dt.row( cell.index.row ).id();
-				idValues[ dataSrc ][ id ] = cell.set;
+				idValues[ fieldName ][ id ] = cell.set;
 
 				// Keep a list of cells so we can activate the bubble editing
 				// with them

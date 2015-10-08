@@ -1,6 +1,6 @@
 # AutoFill
 
-AutoFill gives an Excel like option to a DataTable to click and drag over multiple cells, filling in information over the selected cells and incrementing numbers as needed.
+AutoFill adds an Excel data fill like option to a DataTable to click and drag over multiple cells, filling in information over the selected cells and incrementing numbers as needed.
 
 
 # Installation

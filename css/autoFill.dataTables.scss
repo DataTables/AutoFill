@@ -5,29 +5,16 @@ $autofill-handle-border: 1px solid #316ad1 !default;
 $autofill-handle-background: linear-gradient(to bottom, #abcffb 0%, #4989de 100%) !default;
 
 
-table.dataTable tbody td,
-table.dataTable tbody th {
-	position: relative;
-}
-
 div.dt-autofill-handle {
 	position: absolute;
-	bottom: 0;
-	right: 0;
 	height: 8px;
 	width: 8px;
-	z-index: 1;
+	z-index: 102;
 
 	box-sizing: border-box;
 	border: $autofill-handle-border;
 	background: $autofill-handle-background;
 }
-
-td.focus div.dt-autofill-handle {
-	bottom: -4px;
-	right: -5px;
-}
-
 
 div.dt-autofill-select {
 	position: absolute;

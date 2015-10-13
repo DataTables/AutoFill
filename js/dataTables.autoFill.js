@@ -80,7 +80,12 @@ var AutoFill = function( dt, opts )
 		scroll: {},
 
 		/** @type {integer} Interval object used for smooth scrolling */
-		scrollInterval: null
+		scrollInterval: null,
+
+		handle: {
+			height: 0,
+			width: 0
+		}
 	};
 
 
@@ -110,7 +115,10 @@ var AutoFill = function( dt, opts )
 		list: $('<div class="dt-autofill-list">'+this.s.dt.i18n('autoFill.info', '')+'<ul/></div>'),
 
 		/** @type {jQuery} DataTables scrolling container */
-		dtScroll: null
+		dtScroll: null,
+
+		/** @type {jQuery} Offset parent element */
+		offsetParent: null
 	};
 
 
@@ -175,14 +183,35 @@ $.extend( AutoFill.prototype, {
 	{
 		var dt = this.s.dt;
 		var idx = dt.cell( node ).index();
+		var handle = this.dom.handle;
+		var handleDim = this.s.handle;
 
 		if ( ! idx || dt.columns( this.c.columns ).indexes().indexOf( idx.column ) === -1 ) {
 			this._detach();
 			return;
 		}
 
+		if ( ! this.dom.offsetParent ) {
+			this.dom.offsetParent = $(node).offsetParent();
+		}
+
+		if ( ! handleDim.height || ! handleDim.width ) {
+			// Append to document so we can get its size. Not expecting it to
+			// change during the life time of the page
+			handle.appendTo( 'body' );
+			handleDim.height = handle.outerHeight();
+			handleDim.width = handle.outerWidth();
+		}
+
+		var offset = $(node).position();
+
 		this.dom.attachedTo = node;
-		this.dom.handle.appendTo( node );
+		handle
+			.css( {
+				top: offset.top + node.offsetHeight - handleDim.height,
+				left: offset.left + node.offsetWidth - handleDim.width
+			} )
+			.appendTo( this.dom.offsetParent );
 	},
 
 
@@ -473,6 +502,10 @@ $.extend( AutoFill.prototype, {
 					that._attach( this );
 				} )
 				.on( 'mouseleave'+namespace, function (e) {
+					if ( $(e.relatedTarget).hasClass('dt-autofill-handle') ) {
+						return;
+					}
+
 					that._detach();
 				} );
 		}

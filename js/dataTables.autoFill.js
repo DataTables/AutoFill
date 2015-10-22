@@ -308,7 +308,7 @@ $.extend( AutoFill.prototype, {
 		var startCell = $(this.dom.start);
 		var endCell = $(target);
 		var end = {
-			row: endCell.parent().index(),
+			row: dt.rows( { page: 'current' } ).nodes().indexOf( endCell.parent()[0] ),
 			column: endCell.index()
 		};
 
@@ -525,7 +525,7 @@ $.extend( AutoFill.prototype, {
 
 		this.dom.start = this.dom.attachedTo;
 		this.s.start = {
-			row: $(this.dom.start).parent().index(),
+			row: dt.rows( { page: 'current' } ).nodes().indexOf( $(this.dom.start).parent()[0] ),
 			column: $(this.dom.start).index()
 		};
 
@@ -633,7 +633,7 @@ $.extend( AutoFill.prototype, {
 				} )
 			);
 		}
-		
+
 		this._actionSelector( selected );
 	},
 

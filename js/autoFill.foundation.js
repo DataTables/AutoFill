@@ -5,23 +5,33 @@
 (function( factory ){
 	if ( typeof define === 'function' && define.amd ) {
 		// AMD
-		define( ['jquery', 'datatables.net-zf', 'datatables.net-autofill'], factory );
+		define( ['jquery', 'datatables.net-zf', 'datatables.net-autofill'], function ( $ ) {
+			return factory( $, window, document );
+		} );
 	}
 	else if ( typeof exports === 'object' ) {
-		// Node / CommonJS
-		module.exports = function ($) {
-			if ( ! $ ) { $ = require('jquery'); }
-			if ( ! $.fn.dataTable ) { require('datatables.net-zf')($); }
-			if ( ! $.fn.dataTable.AutoFill ) { require('datatables.net-autofill')($); }
+		// CommonJS
+		module.exports = function (root, $) {
+			if ( ! root ) {
+				root = window;
+			}
 
-			factory( $ );
+			if ( ! $ || ! $.fn.dataTable ) {
+				$ = require('datatables.net-zf')(root, $).$;
+			}
+
+			if ( ! $.fn.dataTable.AutoFill ) {
+				require('datatables.net-autofill')(root, $);
+			}
+
+			return factory( $, root, root.document );
 		};
 	}
 	else {
 		// Browser
-		factory( jQuery );
+		factory( jQuery, window, document );
 	}
-}(function( $ ) {
+}(function( $, window, document, undefined ) {
 'use strict';
 var DataTable = $.fn.dataTable;
 

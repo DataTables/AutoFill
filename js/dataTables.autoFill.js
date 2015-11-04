@@ -986,7 +986,7 @@ AutoFill.classes = {
 
 // Attach a listener to the document which listens for DataTables initialisation
 // events so we can automatically initialise
-$(document).on( 'init.dt.autofill', function (e, settings, json) {
+$(document).on( 'preInit.dt.autofill', function (e, settings, json) {
 	if ( e.namespace !== 'dt' ) {
 		return;
 	}

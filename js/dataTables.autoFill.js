@@ -1,11 +1,11 @@
-/*! AutoFill 2.1.0
+/*! AutoFill 2.1.1-dev
  * ©2008-2015 SpryMedia Ltd - datatables.net/license
  */
 
 /**
  * @summary     AutoFill
  * @description Add Excel like click and drag auto-fill options to DataTables
- * @version     2.1.0
+ * @version     2.1.1-dev
  * @file        dataTables.autoFill.js
  * @author      SpryMedia Ltd (www.sprymedia.co.uk)
  * @contact     www.sprymedia.co.uk/contact
@@ -620,9 +620,11 @@ $.extend( AutoFill.prototype, {
 		}
 
 		// Build a matrix representation of the selected rows
-		var rows     = this._range( start.row, end.row );
-		var columns  = this._range( start.column, end.column );
-		var selected = [];
+		var rows       = this._range( start.row, end.row );
+		var columns    = this._range( start.column, end.column );
+		var selected   = [];
+		var dtSettings = dt.settings()[0];
+		var dtColumns  = dtSettings.aoColumns;
 
 		// Can't use Array.prototype.map as IE8 doesn't support it
 		// Can't use $.map as jQuery flattens 2D arrays
@@ -631,11 +633,19 @@ $.extend( AutoFill.prototype, {
 			selected.push(
 				$.map( columns, function (column) {
 					var cell = dt.cell( ':eq('+rows[rowIdx]+')', column+':visible', {page:'current'} );
+					var data = cell.data();
+					var cellIndex = cell.index();
+					var editField = dtColumns[ cellIndex.column ].editField;
+
+					if ( editField !== undefined ) {
+						data = dtSettings.oApi._fnGetObjectDataFn( editField )( dt.row( cellIndex.row ).data() );
+					}
 
 					return {
 						cell:  cell,
-						data:  cell.data(),
-						index: cell.index()
+						data:  data,
+						label: cell.data(),
+						index: cellIndex
 					};
 				} )
 			);
@@ -842,7 +852,7 @@ $.extend( AutoFill.prototype, {
 AutoFill.actions = {
 	increment: {
 		available: function ( dt, cells ) {
-			return $.isNumeric( cells[0][0].data );
+			return $.isNumeric( cells[0][0].label );
 		},
 
 		option: function ( dt, cells ) {
@@ -947,7 +957,7 @@ AutoFill.actions = {
  * @static
  * @type      String
  */
-AutoFill.version = '2.1.0';
+AutoFill.version = '2.1.1-dev';
 
 
 /**

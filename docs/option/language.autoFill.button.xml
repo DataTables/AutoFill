@@ -29,5 +29,5 @@ $('#example').DataTable( {
 
 ]]></example>
 
-	<related>af-init autoFill.alwaysShow</related>
+	<related>af-init autoFill.alwaysAsk</related>
 </dt-option>

@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <dt-example table-type="html" table-class="display nowrap" order="8">
 
-<css lib="datatables autofill" />
-<js lib="jquery datatables autofill">
+<css lib="datatables autofill scroller" />
+<js lib="jquery datatables autofill scroller">
 <![CDATA[
 $(document).ready(function() {
 	var table = $('#example').dataTable( {
 		scrollY: 400,
 		scrollX: true,
 		scrollCollapse: true,
-		paginate: false,
+		paging: false,
 		autoFill: true
 	} );
 } );

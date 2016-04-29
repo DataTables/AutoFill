@@ -193,6 +193,7 @@ $.extend( AutoFill.prototype, {
 		var handle = this.dom.handle;
 		var handleDim = this.s.handle;
 		var dtScroll = $('div.dataTables_scrollBody', this.s.dt.table().container() );
+		var scrollOffsetX=0, scrollOffsetY=0;
 
 		if ( ! idx || dt.columns( this.c.columns ).indexes().indexOf( idx.column ) === -1 ) {
 			this._detach();
@@ -213,11 +214,18 @@ $.extend( AutoFill.prototype, {
 
 		var offset = $(node).position();
 
+		// If scrolling, and the table is not itself the offset parent, need to
+		// offset for the scrolling position
+		if ( dtScroll.length && this.dom.offsetParent[0] !== dt.table().node() ) {
+			scrollOffsetY = dtScroll.scrollTop();
+			scrollOffsetX = dtScroll.scrollLeft();
+		}
+
 		this.dom.attachedTo = node;
 		handle
 			.css( {
-				top: offset.top + node.offsetHeight - handleDim.height + (dtScroll.scrollTop() || 0),
-				left: offset.left + node.offsetWidth - handleDim.width + (dtScroll.scrollLeft() || 0)
+				top: offset.top + node.offsetHeight - handleDim.height + scrollOffsetY,
+				left: offset.left + node.offsetWidth - handleDim.width + scrollOffsetX
 			} )
 			.appendTo( this.dom.offsetParent );
 	},
@@ -345,7 +353,7 @@ $.extend( AutoFill.prototype, {
 		width  = right.position().left + right.outerWidth() - left;
 
 		var dtScroll = this.dom.dtScroll;
-		if ( dtScroll ) {
+		if ( dtScroll && this.dom.offsetParent[0] !== dt.table().node() ) {
 			top += dtScroll.scrollTop();
 			left += dtScroll.scrollLeft();
 		}

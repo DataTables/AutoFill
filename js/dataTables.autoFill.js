@@ -192,8 +192,6 @@ $.extend( AutoFill.prototype, {
 		var idx = dt.cell( node ).index();
 		var handle = this.dom.handle;
 		var handleDim = this.s.handle;
-		var dtScroll = $('div.dataTables_scrollBody', this.s.dt.table().container() );
-		var scrollOffsetX=0, scrollOffsetY=0;
 
 		if ( ! idx || dt.columns( this.c.columns ).indexes().indexOf( idx.column ) === -1 ) {
 			this._detach();
@@ -201,7 +199,8 @@ $.extend( AutoFill.prototype, {
 		}
 
 		if ( ! this.dom.offsetParent ) {
-			this.dom.offsetParent = $(node).offsetParent();
+			// We attach to the table's offset parent
+			this.dom.offsetParent = $( dt.table().node() ).offsetParent();
 		}
 
 		if ( ! handleDim.height || ! handleDim.width ) {
@@ -212,20 +211,14 @@ $.extend( AutoFill.prototype, {
 			handleDim.width = handle.outerWidth();
 		}
 
-		var offset = $(node).position();
-
-		// If scrolling, and the table is not itself the offset parent, need to
-		// offset for the scrolling position
-		if ( dtScroll.length && this.dom.offsetParent[0] !== dt.table().node() ) {
-			scrollOffsetY = dtScroll.scrollTop();
-			scrollOffsetX = dtScroll.scrollLeft();
-		}
+		// Might need to go through multiple offset parents
+		var offset = this._getPosition( node, this.dom.offsetParent );
 
 		this.dom.attachedTo = node;
 		handle
 			.css( {
-				top: offset.top + node.offsetHeight - handleDim.height + scrollOffsetY,
-				left: offset.left + node.offsetWidth - handleDim.width + scrollOffsetX
+				top: offset.top + node.offsetHeight - handleDim.height,
+				left: offset.left + node.offsetWidth - handleDim.width
 			} )
 			.appendTo( this.dom.offsetParent );
 	},
@@ -525,6 +518,46 @@ $.extend( AutoFill.prototype, {
 					that._detach();
 				} );
 		}
+	},
+
+
+	/**
+	 * Get the position of a node, relative to another, including any scrolling
+	 * offsets.
+	 * @param  {Node}   node         Node to get the position of
+	 * @param  {jQuery} targetParent Node to use as the parent
+	 * @return {object}              Offset calculation
+	 * @private
+	 */
+	_getPosition: function ( node, targetParent )
+	{
+		var
+			currNode = $(node),
+			currOffsetParent,
+			position,
+			top = 0,
+			left = 0;
+
+		do {
+			position = currNode.position();
+			currOffsetParent = currNode.offsetParent();
+
+			top += position.top + currOffsetParent.scrollTop();
+			left += position.left + currOffsetParent.scrollLeft();
+
+			// Emergency fall back. Shouldn't happen, but just in case!
+			if ( currNode.get(0).nodeName.toLowerCase() === 'body' ) {
+				break;
+			}
+
+			currNode = currOffsetParent; // for next loop
+		}
+		while ( currOffsetParent.get(0) !== targetParent.get(0) )
+
+		return {
+			top: top,
+			left: left
+		};
 	},
 
 

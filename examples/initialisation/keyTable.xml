@@ -19,7 +19,7 @@ $(document).ready(function() {
 
 If you are looking to emulate the UI of spreadsheet programs such as Excel with DataTables, the combination of [KeyTable](https://datatables.net/extensions/keytable) and AutoFill will take you a long way there!
 
-AutoFill will automatically detect when KeyTable is used on the same table and later its focus option (`af-init autoFill.focus`) so the focused cell will show the auto fill handle. Thus all that needs to be done is to initialise both AutoFill and KeyTable with `af-init autoFill` and `kt-init keys` respectively).
+AutoFill will automatically detect when KeyTable is used on the same table and alter its focus option (`af-init autoFill.focus`) so the focused cell will show the auto fill handle. Thus all that needs to be done is to initialise both AutoFill and KeyTable with `af-init autoFill` and `kt-init keys` respectively).
 
 ]]></info>
 

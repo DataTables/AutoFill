@@ -479,9 +479,11 @@ $.extend( AutoFill.prototype, {
 		var namespace = this.s.namespace;
 		var focus = this.c.focus !== null ?
 			this.c.focus :
-			dt.settings()[0].keytable ?
+			dt.init().keys || dt.settings()[0].keytable ?
 				'focus' :
 				'hover';
+
+		console.log( focus, dt.settings()[0].keytable );
 
 		// All event listeners attached here are removed in the `destroy`
 		// callback in the constructor

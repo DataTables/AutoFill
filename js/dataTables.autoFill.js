@@ -340,16 +340,10 @@ $.extend( AutoFill.prototype, {
 		left   = start.column < end.column ? startCell : endCell;
 		right  = start.column < end.column ? endCell   : startCell;
 
-		top    = top.position().top;
-		left   = left.position().left;
-		height = bottom.position().top + bottom.outerHeight() - top;
-		width  = right.position().left + right.outerWidth() - left;
-
-		var dtScroll = this.dom.dtScroll;
-		if ( dtScroll && this.dom.offsetParent[0] !== dt.table().node() ) {
-			top += dtScroll.scrollTop();
-			left += dtScroll.scrollLeft();
-		}
+		top    = this._getPosition( top ).top;
+		left   = this._getPosition( left ).left;
+		height = this._getPosition( bottom ).top + bottom.outerHeight() - top;
+		width  = this._getPosition( right ).left + right.outerWidth() - left;
 
 		var select = this.dom.select;
 		select.top.css( {
@@ -483,8 +477,6 @@ $.extend( AutoFill.prototype, {
 				'focus' :
 				'hover';
 
-		console.log( focus, dt.settings()[0].keytable );
-
 		// All event listeners attached here are removed in the `destroy`
 		// callback in the constructor
 		if ( focus === 'focus' ) {
@@ -540,6 +532,10 @@ $.extend( AutoFill.prototype, {
 			top = 0,
 			left = 0;
 
+		if ( ! targetParent ) {
+			targetParent = $( this.s.dt.table().node() ).offsetParent();
+		}
+
 		do {
 			position = currNode.position();
 			currOffsetParent = currNode.offsetParent();
@@ -589,7 +585,7 @@ $.extend( AutoFill.prototype, {
 			} );
 
 		var select = this.dom.select;
-		var offsetParent = $(this.s.dt.table().body()).offsetParent();
+		var offsetParent = $( dt.table().node() ).offsetParent();
 		select.top.appendTo( offsetParent );
 		select.left.appendTo( offsetParent );
 		select.right.appendTo( offsetParent );

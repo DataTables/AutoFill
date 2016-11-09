@@ -320,6 +320,7 @@ $.extend( AutoFill.prototype, {
 			row: dt.rows( { page: 'current' } ).nodes().indexOf( endCell.parent()[0] ),
 			column: endCell.index()
 		};
+		var colIndx = dt.column.index( 'toData', end.column );
 
 		// Be sure that is a DataTables controlled cell
 		if ( ! dt.cell( endCell ).any() ) {
@@ -327,7 +328,7 @@ $.extend( AutoFill.prototype, {
 		}
 
 		// if target is not in the columns available - do nothing
-		if ( dt.columns( this.c.columns ).indexes().indexOf( end.column ) === -1 ) {
+		if ( dt.columns( this.c.columns ).indexes().indexOf( colIndx ) === -1 ) {
 			return;
 		}
 

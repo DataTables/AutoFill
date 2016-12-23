@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-api library="AutoFill">
+	<name>autoFill().enable()</name>
+	<summary>Enable or disable AutoFill's interactions</summary>
+	<since>2.2.0</since>
+
+	<type type="function">
+	<name>autoFill().enable()</name>
+		<signature>autoFill().enable( [ flag ] )</signature>
+		<description>
+			Enable end user and API modification of the focused cells in the DataTable. Differing levels of enablement are available via the optional parameter.
+		</description>
+		<parameter name="flag" type="string|boolean" default="true">
+			This option can be given as the following values:
+
+			* `true` - Enable AutoFill
+			* `false` - Disable AutoFill
+		</parameter>
+		<returns type="DataTables.Api">DataTables API instance</returns>
+	</type>
+
+	<description>
+		This method can be used to enable and disable the AutoFill end user interaction with a DataTable. In its simplest form it can be used to enable AutoFill, but it can also be used to disable it using the optional parameter. This is useful to be able to toggle the enablement state using a ternary operator or some external variable.
+
+		Please note that in order to be able to enable AutoFill, the `-init autoFill` option _must_ be specified in the DataTable initialisation. This method cannot be used to enable AutoFill if `-init autoFill` has not be used.
+	</description>
+
+	<example title="Toggle the enabled state of AutoFill on a button click"><![CDATA[
+
+var table = $('#example').DataTable( {
+	autoFill: true
+} );
+
+$('#toggleAutoFill').on( 'click', function () {
+	table.autoFill().enable(
+		! table.autoFill().enabled()
+	);
+} );
+
+]]></example>
+
+	<related>-init autoFill.enable</related>
+	<related>-api autoFill().enabled()</related>
+	<related>-api autoFill().enable()</related>
+	<related>-api autoFill().disable()</related>
+</dt-api>

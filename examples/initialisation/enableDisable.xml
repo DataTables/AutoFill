@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="html" table-class="display nowrap" order="10">
+
+<css lib="datatables autofill buttons" />
+<js lib="jquery datatables autofill buttons">
+<![CDATA[
+$(document).ready(function() {
+	$('#example').DataTable( {
+		autoFill: {
+			enable: false
+		},
+		dom: 'Bfrtip',
+		buttons: [
+			{
+				text: "Enable AutoFill",
+				action: function (e, dt) {
+					if ( dt.autoFill().enabled() ) {
+						this.autoFill().disable();
+						this.text( 'Enable AutoFill' );
+					}
+					else {
+						this.autoFill().enable();
+						this.text( 'Disable AutoFill' );
+					}
+				}
+			}
+		]
+	} );
+} );
+]]>
+</js>
+
+<title lib="AutoFill">Enable / disable API</title>
+
+<info><![CDATA[
+
+AutoFill has the option of being enabled and disabled, either allowing or disallowing user interaction with the autofill interactions as the state of your application requires. The default state can be set using the `-init autoFill.enable` option (which is enabled by default when the `-init autoFill` parameter is specified), and can later be modified using `-api autoFill().enable()` and `-api autoFill().disable()`.
+
+This example shows AutoFill disabled when the page is loaded and a [custom Button](//datatables.net/extensions/buttons) that will let you toggle the enabled state of AutoFill. Clicking the button the first time will enable AutoFill, and also change the text of the button, allowing the state to be continually toggled.
+
+]]></info>
+
+</dt-example>

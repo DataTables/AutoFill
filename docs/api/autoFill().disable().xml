@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-api library="AutoFill">
+	<name>autoFill().disable()</name>
+	<summary>Disable AutoFill's interactions</summary>
+	<since>2.2.0</since>
+
+	<type type="function">
+	<name>autoFill().disable()</name>
+		<signature>autoFill().disable()</signature>
+		<description>
+			Disable AutoFill. Please note that this disallows future interactions with the table (until re-enabled).
+		</description>
+		<returns type="DataTables.Api">DataTables API instance</returns>
+	</type>
+
+	<description>
+		This method can be used to disable AutoFill's end user interaction options with a DataTable during run time. This can be useful if your UI does not allow for AutoFill to be used under certain circumstances.
+	</description>
+
+	<example title="Toggle the enabled state of AutoFill on a button click"><![CDATA[
+
+var table = $('#example').DataTable( {
+	autoFill: true
+} );
+
+$('#toggleAutoFill').on( 'click', function () {
+	if ( table.autoFill().enabled() ) {
+		table.autoFill().disable();
+	}
+	else {
+		table.autoFill().enable();
+	}
+} );
+
+]]></example>
+
+	<related>-init autoFill.enable</related>
+	<related>-api autoFill().enabled()</related>
+	<related>-api autoFill().enable()</related>
+	<related>-api autoFill().disable()</related>
+</dt-api>

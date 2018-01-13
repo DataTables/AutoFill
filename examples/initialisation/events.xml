@@ -20,7 +20,7 @@ $(document).ready(function() {
 
 <info><![CDATA[
 
-AutoFill will emit events that can be listened for to take action when the user has completed an fill action. The events emitted by AutoFill are:
+AutoFill will emit events that can be listened for to take action when the user has completed a fill action. The events emitted by AutoFill are:
 
 * `af-event preAutoFill` - Emitted prior to the data update, but after the drag has been completed
 * `af-event autoFill` - Emitted immediately after the table has been updated with the new data.

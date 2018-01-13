@@ -28,7 +28,7 @@ $(document).ready(function() {
 
 <info><![CDATA[
 
-AutoFill provides the ability to determine what columns it should be enabled upon through the `af-init autoFill.columns` option. This will accept any value allowed by the `dt-type column-selector` data type, such as an array of column indexes, class names, or as shown in this case a jQuery selector.
+AutoFill provides the ability to determine which columns should be enabled through the `af-init autoFill.columns` option. This will accept any value allowed by the `dt-type column-selector` data type, such as an array of column indexes, class names, or as shown in this case a jQuery selector.
 
 This ability to exclude columns from the AutoFill action can be particularly useful if the table contains non-data columns. This example uses the [Select extension for DataTables](https://datatables.net/extensions/select) to allow row selection through the `s-init select` option, with row selection restricted to the first column. Thus we do not wish to have AutoFill on that column and the selector `-string :not(:first-child)` for `af-init autoFill.columns` enacts that.
 

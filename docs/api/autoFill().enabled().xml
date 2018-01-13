@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <dt-api library="AutoFill">
 	<name>autoFill().enabled()</name>
-	<summary>Determine is AutoFill is enabled or disabled</summary>
+	<summary>Determine if AutoFill is enabled or disabled</summary>
 	<since>2.2.0</since>
 
 	<type type="function">

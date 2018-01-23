@@ -46,7 +46,7 @@ AutoFill provides a [number of built in fill types](fills.html), but these built
 The fill options are provided by plug-ins which are attached to the `$.fn.dataTable.AutoFill.actions` object. Each property in this object must be an object that provides three functions:
 
 * `available` - Determine if the data that the user dragged the fill over is suitable for this fill type
-* `option` - Returns a question the user will be asked for if they want to use this fill type
+* `option` - Returns a question the user will be asked if they want to use this fill type
 * `execute` - Modifies the data if this fill type is selected
 
 The example shows a plug-in that will operate only on the first column in the table and will change only the surname - retaining the forename from the original cell. While slightly contrived as an example, it demonstrates how plug-ins can perform potentially complex operations.

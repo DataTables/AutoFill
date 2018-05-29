@@ -587,12 +587,14 @@ $.extend( AutoFill.prototype, {
 			left = 0;
 
 		if ( ! targetParent ) {
-			targetParent = $( this.s.dt.table().node() ).offsetParent();
+			targetParent = $( $( this.s.dt.table().node() )[0].offsetParent );
 		}
 
 		do {
 			position = currNode.position();
-			currOffsetParent = currNode.offsetParent();
+
+			// jQuery doesn't give a `table` as the offset parent oddly, so use DOM directly
+			currOffsetParent = $( currNode[0].offsetParent );
 
 			top += position.top + currOffsetParent.scrollTop();
 			left += position.left + currOffsetParent.scrollLeft();

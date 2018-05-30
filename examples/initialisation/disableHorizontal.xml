@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="html" table-class="display nowrap" order="11">
+
+<css lib="datatables autofill" />
+<js lib="jquery datatables autofill">
+<![CDATA[
+$(document).ready(function() {
+	$('#example').DataTable( {
+		autoFill: {
+			horizontal: false
+		}
+	} );
+} );
+]]>
+</js>
+
+<title lib="AutoFill">Disable horizontal fill</title>
+
+<info><![CDATA[
+
+This example demonstrates AutoFill's ability to fill vertically (i.e. by columns) only through the `-init autoFill.horizontal` option. There is also an `-init autoFill.vertical` option that can be used to allow only horizontal filling.
+
+]]></info>
+
+</dt-example>

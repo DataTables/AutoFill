@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option library="AutoFill">
+	<name>autoFill.horizontal</name>
+	<summary>Enable / disable user ability to horizontally drag and fill</summary>
+	<since>2.3.0</since>
+
+	<type type="boolean">
+		<description>
+			* `true` - Horizontal drag and fill is enabled
+			* `false` - Horizontal drag and fill is disabled
+		</description>
+	</type>
+
+	<default value="true">
+		Horizontal filling is enabled
+	</default>
+
+	<description>
+		This option can be used to disable the end user's ability to drag and fill across columns. The drag and fill action will be restricted to the column that they started the drag on if this feature is disabled.
+	</description>
+
+	<example title="Disable horizontal filling"><![CDATA[
+
+$('#example').DataTable( {
+	autoFill: {
+		horizontal: false
+	}
+} );
+
+]]></example>
+
+	<related>-init autoFill.vertical</related>
+</dt-option>

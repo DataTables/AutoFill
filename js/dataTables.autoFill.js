@@ -701,6 +701,7 @@ $.extend( AutoFill.prototype, {
 	{
 		$(document.body).off( '.autoFill' );
 
+		var that = this;
 		var dt = this.s.dt;
 		var select = this.dom.select;
 		select.top.remove();
@@ -718,6 +719,34 @@ $.extend( AutoFill.prototype, {
 		if ( start.row === end.row && start.column === end.column ) {
 			return;
 		}
+
+		var startDt = dt.cell( ':eq('+start.row+')', start.column+':visible', {page:'current'} );
+
+		console.log( 'mouse up' );
+		// If Editor is active inside this cell (inline editing) we need to wait for Editor to
+		// submit and then we can loop back and trigger the fill.
+		if ( $('div.DTE', startDt.node()).length ) {
+			var editor = dt.editor();
+
+			console.log( 'dte' );
+
+			editor
+				.on( 'submitSuccess.kt', function () {
+					console.log( 'submitSuccess' );
+					editor.off( '.kt');
+					that._mouseup( e );
+				} )
+				.on( 'submitComplete.kt preSubmitCancelled.kt', function () {
+					console.log( 'submitComplete preSubmitCancelled' );
+					editor.off( '.kt');
+				} );
+			
+			editor.submit();
+
+			return;
+		}
+
+		console.log( 'doing fill' );
 
 		// Build a matrix representation of the selected rows
 		var rows       = this._range( start.row, end.row );

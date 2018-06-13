@@ -603,6 +603,9 @@ $.extend( AutoFill.prototype, {
 			top += position.top + currOffsetParent.scrollTop();
 			left += position.left + currOffsetParent.scrollLeft();
 
+			top += parseInt( currOffsetParent.css('margin-top') ) * 1;
+			top += parseInt( currOffsetParent.css('border-top-width') ) * 1;
+
 			// Emergency fall back. Shouldn't happen, but just in case!
 			if ( currNode.get(0).nodeName.toLowerCase() === 'body' ) {
 				break;

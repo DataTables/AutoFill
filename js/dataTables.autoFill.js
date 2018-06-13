@@ -1,11 +1,11 @@
-/*! AutoFill 2.3.0-dev
- * ©2008-2017 SpryMedia Ltd - datatables.net/license
+/*! AutoFill 2.3.0
+ * ©2008-2018 SpryMedia Ltd - datatables.net/license
  */
 
 /**
  * @summary     AutoFill
  * @description Add Excel like click and drag auto-fill options to DataTables
- * @version     2.3.0-dev
+ * @version     2.3.0
  * @file        dataTables.autoFill.js
  * @author      SpryMedia Ltd (www.sprymedia.co.uk)
  * @contact     www.sprymedia.co.uk/contact
@@ -1086,7 +1086,7 @@ AutoFill.actions = {
  * @static
  * @type      String
  */
-AutoFill.version = '2.3.0-dev';
+AutoFill.version = '2.3.0';
 
 
 /**

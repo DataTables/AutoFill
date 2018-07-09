@@ -732,14 +732,18 @@ $.extend( AutoFill.prototype, {
 			var editor = dt.editor();
 
 			editor
-				.on( 'submitSuccess.kt', function () {
-					editor.off( '.kt');
-					that._mouseup( e );
+				.on( 'submitSuccess.dtaf', function () {
+					editor.off( '.dtaf');
+
+					setTimeout( function () {
+						that._mouseup( e );
+					}, 100 );
 				} )
-				.on( 'submitComplete.kt preSubmitCancelled.kt', function () {
-					editor.off( '.kt');
+				.on( 'submitComplete.dtaf preSubmitCancelled.dtaf', function () {
+					editor.off( '.dtaf');
 				} );
-			
+
+			// Make the current input submit
 			editor.submit();
 
 			return;

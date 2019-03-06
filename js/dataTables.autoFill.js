@@ -732,14 +732,14 @@ $.extend( AutoFill.prototype, {
 			var editor = dt.editor();
 
 			editor
-				.on( 'submitSuccess.dtaf', function () {
+				.on( 'submitSuccess.dtaf close.dtaf', function () {
 					editor.off( '.dtaf');
 
 					setTimeout( function () {
 						that._mouseup( e );
 					}, 100 );
 				} )
-				.on( 'submitComplete.dtaf preSubmitCancelled.dtaf', function () {
+				.on( 'submitComplete.dtaf preSubmitCancelled.dtaf close.dtaf', function () {
 					editor.off( '.dtaf');
 				} );
 

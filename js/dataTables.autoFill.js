@@ -585,9 +585,8 @@ $.extend( AutoFill.prototype, {
 	_getPosition: function ( node, targetParent )
 	{
 		var
-			currNode = $(node),
+			currNode = node,
 			currOffsetParent,
-			position,
 			top = 0,
 			left = 0;
 
@@ -596,23 +595,26 @@ $.extend( AutoFill.prototype, {
 		}
 
 		do {
-			position = currNode.position();
+			// Don't use jQuery().position() the behaviour changes between 1.x and 3.x for
+			// tables
+			var positionTop = currNode.offsetTop;
+			var positionLeft = currNode.offsetLeft;
 
 			// jQuery doesn't give a `table` as the offset parent oddly, so use DOM directly
-			currOffsetParent = $( currNode[0].offsetParent );
+			currOffsetParent = $( currNode.offsetParent );
 
-			top += position.top + currOffsetParent.scrollTop();
-			left += position.left + currOffsetParent.scrollLeft();
+			top += positionTop + currOffsetParent.scrollTop();
+			left += positionLeft + currOffsetParent.scrollLeft();
 
 			top += parseInt( currOffsetParent.css('margin-top') ) * 1;
 			top += parseInt( currOffsetParent.css('border-top-width') ) * 1;
 
 			// Emergency fall back. Shouldn't happen, but just in case!
-			if ( currNode.get(0).nodeName.toLowerCase() === 'body' ) {
+			if ( currNode.nodeName.toLowerCase() === 'body' ) {
 				break;
 			}
 
-			currNode = currOffsetParent; // for next loop
+			currNode = currOffsetParent.get(0); // for next loop
 		}
 		while ( currOffsetParent.get(0) !== targetParent.get(0) )
 

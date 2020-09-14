@@ -4,7 +4,7 @@
 	<summary>Multi-fill selector message for the _full fill_ fill type</summary>
 	<since>2.0.0</since>
 
-	<default value="Fill all cells with &gt;i&lt;{data}&gt;/i&lt;" />
+	<default value="Fill all cells with &lt;i&gt;%d&lt;/i&gt;" />
 
 	<type type="string">
 		<description>

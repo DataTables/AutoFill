@@ -11,11 +11,7 @@ describe('autoFill - api - autoFill().enable()', function() {
 		dt.html('basic_id');
 		it('Ensure its a function', function() {
 			table = $('#example').DataTable({
-    language: {
-        autoFill: {
-            fill: "Fill all cells with <i>%s</i> colin"
-        }
-    },				autoFill: true
+				autoFill: true
 			});
 
 			expect(typeof table.autoFill().enable).toBe('function');

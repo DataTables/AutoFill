@@ -6,7 +6,6 @@ describe('autoFill - api - autoFill().disable()', function() {
 
 	let table;
 
-	// Basic tests - more complex tests in autoFill().enabled()
 	describe('Check the defaults', function() {
 		dt.html('basic_id');
 		it('Ensure its a function', function() {

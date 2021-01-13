@@ -1,0 +1,17 @@
+
+$autofill-define-button: false;
+$autofill-outline: #0d6efd;
+$autofill-handle-border: 1px solid #0d6efd;
+$autofill-handle-background: #0d6efd;
+
+@import 'autoFill.dataTables.scss';
+
+div.dt-autofill-list {
+	div.dt-autofill-question {
+		input[type=number] {
+			padding: 6px;
+			width: 60px;
+			margin: -2px 0;
+		}
+	}
+}

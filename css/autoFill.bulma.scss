@@ -1,0 +1,13 @@
+
+$autofill-define-button: false;
+$autofill-outline: #00D1B2;
+$autofill-handle-border: 1px solid #00D1B2;
+$autofill-handle-background: #00D1B2;
+
+@import 'autoFill.dataTables.scss';
+
+div.dt-autofill-list {
+	button {
+		margin: 0;
+	}
+}

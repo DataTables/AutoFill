@@ -32,6 +32,9 @@ rsync -r js $OUT_DIR
 js_compress $OUT_DIR/js/dataTables.autoFill.js
 js_frameworks autoFill $OUT_DIR/js
 
+# Copy Types
+cp types.d.ts $OUT_DIR/types/
+
 # Copy and build examples
 rsync -r examples $OUT_DIR
 examples_process $OUT_DIR/examples

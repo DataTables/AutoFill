@@ -36,7 +36,7 @@
 var DataTable = $.fn.dataTable;
 
 
-DataTable.AutoFill.classes.btn = 'button tiny';
+DataTable.AutoFill.classes.btn = 'button is-small';
 
 
 return DataTable;

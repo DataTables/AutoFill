@@ -550,10 +550,10 @@ $.extend( AutoFill.prototype, {
 		}
 		else {
 			$(dt.table().body())
-				.on( 'mouseenter'+namespace, 'td, th', function (e) {
+				.on( 'mouseenter'+namespace+' touchstart'+namespace, 'td, th', function (e) {
 					that._attach( this );
 				} )
-				.on( 'mouseleave'+namespace, function (e) {
+				.on( 'mouseleave'+namespace+'touchend'+namespace, function (e) {
 					if ( $(e.relatedTarget).hasClass('dt-autofill-handle') ) {
 						return;
 					}
@@ -642,6 +642,12 @@ $.extend( AutoFill.prototype, {
 		$(document.body)
 			.on( 'mousemove.autoFill touchmove.autoFill', function (e) {
 				that._mousemove( e );
+				// If it is a touch event then when the touch ends we need to remove the handle
+				if(e.type === 'touchmove') {
+					$(document.body).one('touchend.autoFill', function() {
+						that._detach();
+					})
+				}
 			} )
 			.on( 'mouseup.autoFill touchend.autoFill', function (e) {
 				that._mouseup( e );

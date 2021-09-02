@@ -163,7 +163,7 @@ $.extend( AutoFill.prototype, {
 
 		this._focusListener();
 
-		this.dom.handle.on( 'mousedown', function (e) {
+		this.dom.handle.on( 'mousedown touchstart', function (e) {
 			that._mousedown( e );
 			return false;
 		} );
@@ -640,10 +640,10 @@ $.extend( AutoFill.prototype, {
 		};
 
 		$(document.body)
-			.on( 'mousemove.autoFill', function (e) {
+			.on( 'mousemove.autoFill touchmove.autoFill', function (e) {
 				that._mousemove( e );
 			} )
-			.on( 'mouseup.autoFill', function (e) {
+			.on( 'mouseup.autoFill touchend.autoFill', function (e) {
 				that._mouseup( e );
 			} );
 
@@ -684,12 +684,13 @@ $.extend( AutoFill.prototype, {
 	{	
 		var that = this;
 		var dt = this.s.dt;
-		var name = e.target.nodeName.toLowerCase();
+		var target = !e.type.includes('touch') ? e.target : document.elementFromPoint(e.touches[0].clientX, e.touches[0].clientY);
+		var name = target.nodeName.toLowerCase();
 		if ( name !== 'td' && name !== 'th' ) {
 			return;
 		}
 
-		this._drawSelection( e.target, e );
+		this._drawSelection( target, e );
 		this._shiftScroll( e );
 	},
 
@@ -841,9 +842,13 @@ $.extend( AutoFill.prototype, {
 		var runInterval = false;
 		var scrollSpeed = 5;
 		var buffer = 65;
+
+		// Different values if using a touchscreen
+		var pageX = !e.type.includes('touch') ? e.pageX - window.scrollX :e.touches[0].clientX;
+		var pageY = !e.type.includes('touch') ? e.pageY - window.scrollY :e.touches[0].clientY;
 		var
-			windowY = e.pageY - document.body.scrollTop,
-			windowX = e.pageX - document.body.scrollLeft,
+			windowY = pageY,
+			windowX = pageX,
 			windowVert, windowHoriz,
 			dtVert, dtHoriz;
 
@@ -865,17 +870,17 @@ $.extend( AutoFill.prototype, {
 
 		// DataTables scrolling calculations - based on the table's position in
 		// the document and the mouse position on the page
-		if ( scroll.dtTop !== null && e.pageY < scroll.dtTop + buffer ) {
+		if ( scroll.dtTop !== null && pageY < scroll.dtTop + buffer ) {
 			dtVert = scrollSpeed * -1;
 		}
-		else if ( scroll.dtTop !== null && e.pageY > scroll.dtTop + scroll.dtHeight - buffer ) {
+		else if ( scroll.dtTop !== null && pageY > scroll.dtTop + scroll.dtHeight - buffer ) {
 			dtVert = scrollSpeed;
 		}
 
-		if ( scroll.dtLeft !== null && e.pageX < scroll.dtLeft + buffer ) {
+		if ( scroll.dtLeft !== null && pageX < scroll.dtLeft + buffer ) {
 			dtHoriz = scrollSpeed * -1;
 		}
-		else if ( scroll.dtLeft !== null && e.pageX > scroll.dtLeft + scroll.dtWidth - buffer ) {
+		else if ( scroll.dtLeft !== null && pageX > scroll.dtLeft + scroll.dtWidth - buffer ) {
 			dtHoriz = scrollSpeed;
 		}
 
@@ -906,12 +911,7 @@ $.extend( AutoFill.prototype, {
 			this.s.scrollInterval = setInterval( function () {
 				// Don't need to worry about setting scroll <0 or beyond the
 				// scroll bound as the browser will just reject that.
-				if ( scroll.windowVert ) {
-					document.body.scrollTop += scroll.windowVert;
-				}
-				if ( scroll.windowHoriz ) {
-					document.body.scrollLeft += scroll.windowHoriz;
-				}
+				window.scrollTo(window.scrollX + (scroll.windowHoriz ? scroll.windowHoriz : 0), window.scrollY + (scroll.windowVert ? scroll.windowVert : 0))
 
 				// DataTables scrolling
 				if ( scroll.dtVert || scroll.dtHoriz ) {

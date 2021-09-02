@@ -130,3 +130,9 @@ div.dt-autofill-background {
 	z-index: 10;
 }
 
+@media screen and (max-width: 767px) {
+	div.dt-autofill-handle {
+		height: 16px;
+		width: 16px;
+	}
+}

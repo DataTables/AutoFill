@@ -325,6 +325,10 @@ $.extend( AutoFill.prototype, {
 			} );
 
 			this.dom.background.appendTo( 'body' );
+			this.dom.background.one('click', () => {
+				this.dom.background.remove();
+				this.dom.list.remove();
+			})
 			this.dom.list.appendTo( 'body' );
 
 			this.dom.list.css( 'margin-top', this.dom.list.outerHeight()/2 * -1 );

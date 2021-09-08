@@ -168,6 +168,13 @@ $.extend( AutoFill.prototype, {
 			return false;
 		} );
 
+		$(window).on('resize', function() {
+			var handle = $('div.dt-autofill-handle');
+			if(handle.length > 0) {
+				that._attach(that.dom.attachedTo)
+			}
+		})
+
 		return this;
 	},
 
@@ -261,7 +268,9 @@ $.extend( AutoFill.prototype, {
 		handle
 			.css( {
 				top: offset.top + node.offsetHeight - handleDim.height,
-				left: offset.left + node.offsetWidth - handleDim.width
+				left: offset.left + node.offsetWidth - handleDim.width,
+				height: handleDim.height,
+				width: handleDim.width,
 			} )
 			.appendTo( this.dom.offsetParent );
 	},

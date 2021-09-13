@@ -170,10 +170,32 @@ $.extend( AutoFill.prototype, {
 
 		$(window).on('resize', function() {
 			var handle = $('div.dt-autofill-handle');
-			if(handle.length > 0) {
+			if(handle.length > 0 && that.dom.attachedTo !== undefined) {
 				that._attach(that.dom.attachedTo)
 			}
 		})
+
+		let orientationReset = function() {
+			that.s.handle = {
+				height: false,
+				width: false
+			};
+			$(that.dom.handle).css({
+				'height': '',
+				'width': ''
+			})
+			if(that.dom.attachedTo !== undefined) {
+				that._attach(that.dom.attachedTo)
+			}
+		}
+
+		$(window)
+			.on('orientationchange', function() {
+				setTimeout(function() {
+					orientationReset();
+					setTimeout(orientationReset, 150);
+				}, 50);
+			});
 
 		return this;
 	},
@@ -263,14 +285,12 @@ $.extend( AutoFill.prototype, {
 
 		// Might need to go through multiple offset parents
 		var offset = this._getPosition( node, this.dom.offsetParent );
-
+		
 		this.dom.attachedTo = node;
 		handle
 			.css( {
 				top: offset.top + node.offsetHeight - handleDim.height,
-				left: offset.left + node.offsetWidth - handleDim.width,
-				height: handleDim.height,
-				width: handleDim.width,
+				left: offset.left + node.offsetWidth - handleDim.width
 			} )
 			.appendTo( this.dom.offsetParent );
 	},
@@ -573,6 +593,8 @@ $.extend( AutoFill.prototype, {
 
 					that._detach();
 				} );
+
+			
 		}
 	},
 

@@ -339,19 +339,16 @@ $.extend( AutoFill.prototype, {
 							actions[ name ].option( dt, cells )+
 						'<div>'
 					)
-					.append( $('<div class="dt-autofill-button">' )
-						.append( $('<button class="'+AutoFill.classes.btn+'">'+dt.i18n('autoFill.button', '&gt;')+'</button>')
-							.on( 'click', function () {
-								var result = actions[ name ].execute(
-									dt, cells, $(this).closest('li')
-								);
-								that._update( result, cells );
+					.append( $('<div class="dt-autofill-button">' ).append( $('<button class="'+AutoFill.classes.btn+'">'+dt.i18n('autoFill.button', '&gt;')+'</button>')))
+					.on( 'click', function () {
+						var result = actions[ name ].execute(
+							dt, cells, $(this).closest('li')
+						);
+						that._update( result, cells );
 
-								that.dom.background.remove();
-								that.dom.list.remove();
-							} )
-						)
-					)
+						that.dom.background.remove();
+						that.dom.list.remove();
+					} )
 				);
 			} );
 

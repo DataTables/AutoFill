@@ -57,16 +57,17 @@ div.dt-autofill-list {
 	// margin-top is set by JS
 	background-color: white;
 	border-radius: 6px;
-	box-shadow: 0 0 5px #555;
-	border: 2px solid #444;
+	box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+	border: 1px solid black;
 	z-index: 11;
 	box-sizing: border-box;
 	padding: 1.5em 2em;
+	padding-top: 2em;
 
 	div.dtaf-popover-close {
 		position: absolute;
-		top: 10px;
-		right: 10px;
+		top: 6px;
+		right: 6px;
 		width: 22px;
 		height: 22px;
 		border: 1px solid #eaeaea;
@@ -80,12 +81,14 @@ div.dt-autofill-list {
 	ul {
 		display: table;
 		margin: 0;
+
 		padding: 0;
 		list-style: none;
 		width: 100%;
 
 		li {
 			display: table-row;
+			cursor: pointer;
 
 			&:last-child div.dt-autofill-question,
 			&:last-child div.dt-autofill-button {
@@ -94,6 +97,9 @@ div.dt-autofill-list {
 
 			&:hover {
 				background-color: #f6f6f6;
+				button.btn {
+					background-color: #548bbb;
+				}
 			}
 		}
 	}
@@ -101,6 +107,7 @@ div.dt-autofill-list {
 	div.dt-autofill-question {
 		display: table-cell;
 		padding: 0.5em 0;
+		padding-left: 5px;
 		border-bottom: 1px solid #ccc;
 
 		input[type=number] {
@@ -113,7 +120,9 @@ div.dt-autofill-list {
 	div.dt-autofill-button {
 		display: table-cell;
 		padding: 0.5em 0;
+		padding-right: 5px;
 		border-bottom: 1px solid #ccc;
+		text-align: right;
 
 		@if $autofill-define-button {
 			button {
@@ -128,6 +137,8 @@ div.dt-autofill-list {
 				vertical-align: middle;
 			}
 		}
+
+		
 	}
 }
 

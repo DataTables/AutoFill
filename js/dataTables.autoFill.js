@@ -360,7 +360,8 @@ $.extend( AutoFill.prototype, {
 			this.dom.list.appendTo( 'body' );
 
 			if (this.c.closeButton) {
-				this.dom.list.prepend(this.dom.closeButton).addClass(this.classes.closeable)
+				this.dom.list.prepend(this.dom.closeButton).addClass(AutoFill.classes.closeable)
+				this.dom.closeButton.on('click', () => this.dom.background.click())
 			}
 
 			this.dom.list.css( 'margin-top', this.dom.list.outerHeight()/2 * -1 );

@@ -18,7 +18,7 @@ $(document).ready(function() {
 
 <info><![CDATA[
 
-This example shows DataTables and the AutoFill extension being used with [Fomantic-UI](https://fomantic-ui.com) (a maintained fork of Semantic-UI) providing the styling. The DataTables / Fomantic-UI integration provides seamless integration for DataTables to be used in a Fomantic-UI page.
+This example shows DataTables and the AutoFill extension being used with [Fomantic-UI](https://fomantic-ui.com) (a maintained fork of [Semantic-UI](https://semantic-ui.com/)) providing the styling. The DataTables / Fomantic-UI integration provides seamless integration for DataTables to be used in a Fomantic-UI page.
 
 ]]></info>
 

@@ -2,7 +2,7 @@
 <dt-example table-type="html" order="5" framework="semanticui">
 
 <css lib="datatables autofill"/>
-<js lib="jquery datatables autofill">
+<js lib="jquery semanticui datatables autofill">
 <![CDATA[
 
 $(document).ready(function() {
@@ -14,11 +14,11 @@ $(document).ready(function() {
 ]]>
 </js>
 
-<title lib="AutoFill">Semantic UI styling</title>
+<title lib="AutoFill">Fomantic-UI (formally Semantic-UI) styling</title>
 
 <info><![CDATA[
 
-This example shows DataTables and the AutoFill extension being used with [Semantic UI](http://semantic-ui.com) providing the styling. The DataTables / Semantic UI integration provides seamless integration for DataTables to be used in a Semantic UI page.
+This example shows DataTables and the AutoFill extension being used with [Fomantic-UI](https://fomantic-ui.com) (a maintained fork of Semantic-UI) providing the styling. The DataTables / Fomantic-UI integration provides seamless integration for DataTables to be used in a Fomantic-UI page.
 
 ]]></info>
 

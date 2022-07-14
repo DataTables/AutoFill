@@ -29,7 +29,8 @@ css_frameworks autoFill $OUT_DIR/css
 
 # Copy JS
 rsync -r js $OUT_DIR
-js_compress $OUT_DIR/js/dataTables.autoFill.js
+js_wrapper $OUT_DIR/js/dataTables.autoFill jquery datatables.net
+js_compress $OUT_DIR/js/dataTables.autoFill
 js_frameworks autoFill $OUT_DIR/js
 
 # Copy Types

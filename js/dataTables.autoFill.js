@@ -1106,7 +1106,7 @@ AutoFill.actions = {
 
 	fillVertical: {
 		available: function ( dt, cells ) {
-			return cells.length > 1;
+			return cells.length > 1 && cells[0].length > 1;
 		},
 
 		option: function ( dt, cells ) {

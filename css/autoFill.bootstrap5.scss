@@ -15,3 +15,8 @@ div.dt-autofill-list {
 		}
 	}
 }
+
+// Need the parent of the DataTable to be the offset parent
+div.row.dt-row > div.col-sm-12 {
+	position: relative;
+}

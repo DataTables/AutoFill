@@ -11,12 +11,23 @@ import DataTables, {Api} from 'datatables.net';
 
 export default DataTables;
 
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * DataTables' types integration
+ */
 declare module 'datatables.net' {
 	interface Config {
 		/**
 		 * autoFill extension options
 		 */
 		autoFill?: boolean | ConfigAutoFill;
+	}
+
+	interface ConfigLanguage {
+		/**
+		 * AutoFill language options
+		 */
+		autoFill?: ConfigAutoFillLanguage;
 	}
 
 	interface Api<T> {
@@ -28,6 +39,11 @@ declare module 'datatables.net' {
 		autoFill: ApiAutoFill<T>;
 	}
 }
+
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * Options
+ */
 
 interface ConfigAutoFill {
 	/**
@@ -42,10 +58,78 @@ interface ConfigAutoFill {
 
 	/**
 	 *
+	 * Attach an Editor instance for database updating
+	 */
+	editor?: any;
+
+	/**
+	 *
 	 * Initial enablement state of AutoFill
 	 */
 	enable?: boolean;
+
+	/**
+	 * Action that will cause the auto fill drag handle to appear in a cell
+	 */
+	focus?: 'click' | 'focus' | 'hover' | null;
+
+	/**
+	 * Enable / disable user ability to horizontally drag and fill
+	 */
+	horizontal?: boolean;
+
+	/**
+	 * Control automatic update of data when a fill drag is completed
+	 */
+	 update?: boolean;
+
+	/**
+	 * Enable / disable user ability to vertically drag and fill
+	 */
+	vertical?: boolean;
 }
+
+interface ConfigAutoFillLanguage {
+	/**
+	 * Multi-fill selector button text
+	 */
+	button?: string;
+
+	/**
+	 * Multi-fill selector cancel option message
+	 */
+	cancel?: string;
+
+	/**
+	 * Multi-fill selector message for the _full fill_ fill type
+	 */
+	fill?: string;
+
+	/**
+	 * Multi-fill selector message for the _horizontal fill_ fill type
+	 */
+	fillHorizontal?: string;
+
+	/**
+	 * Multi-fill selector message for the _vertical fill_ fill type
+	 */
+	fillVertical?: string;
+
+	/**
+	 * Multi-fill selector message for the _increment_ fill type
+	 */
+	increment?: string;
+
+	/**
+	 * Information message shown at the top of the fill type selector
+	 */
+	info?: string;
+}
+
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * API
+ */
 
 interface ApiAutoFill<T> {
 	(): ApiAutoFillMethods<T>;

@@ -32,11 +32,33 @@ declare module 'datatables.net' {
 
 	interface Api<T> {
 		/**
-		 * Initialise AutoFill on the DataTable
+		 * AutoFill methods container
 		 * 
 		 * @returns Api for chaining with the additional autoFill methods
 		 */
 		autoFill: ApiAutoFill<T>;
+	}
+
+	interface ApiStatic {
+		/**
+		 * AutoFill class
+		 */
+		AutoFill: {
+			/**
+			 * Create a new AutoFill instance for the target DataTable
+			 */
+			new (dt: Api<any>, settings: boolean | ConfigAutoFill);
+
+			/**
+			 * AutoFill version
+			 */
+			version: string;
+
+			/**
+			 * Default configuration values
+			 */
+			defaults: ConfigAutoFill;
+		}
 	}
 }
 

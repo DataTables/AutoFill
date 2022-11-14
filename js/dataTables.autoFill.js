@@ -1225,4 +1225,4 @@ $(document).on( 'preInit.dt.autofill', function (e, settings, json) {
 
 // Alias for access
 DataTable.AutoFill = AutoFill;
-DataTable.AutoFill = AutoFill;
+$.fn.DataTable.AutoFill = AutoFill;

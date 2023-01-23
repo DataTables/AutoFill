@@ -697,11 +697,12 @@ $.extend( AutoFill.prototype, {
 	 * @private
 	 */
 	_mousemove: function ( e )
-	{	
-		var that = this;
-		var dt = this.s.dt;
-		var target = !e.type.includes('touch') ? e.target : document.elementFromPoint(e.touches[0].clientX, e.touches[0].clientY);
+	{
+		var target = e.touches && e.touches.length
+			? document.elementFromPoint(e.touches[0].clientX, e.touches[0].clientY)
+			: e.target;
 		var name = target.nodeName.toLowerCase();
+
 		if ( name !== 'td' && name !== 'th' ) {
 			return;
 		}

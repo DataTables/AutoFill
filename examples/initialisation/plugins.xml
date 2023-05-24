@@ -4,38 +4,67 @@
 <css lib="datatables autofill" />
 <js lib="jquery datatables autofill">
 <![CDATA[
-
-$.fn.dataTable.AutoFill.actions.names = {
-	available: function ( dt, cells ) {
+DataTable.AutoFill.actions.names = {
+	available: function (dt, cells) {
 		// Only available if a single column is being
 		// filled and it is the first column
 		return cells[0].length === 1 && cells[0][0].index.column === 0;
 	},
 
-	option: function ( dt, cells ) {
+	option: function (dt, cells) {
 		// Ask the user if they want to change the surname only
 		return 'Fill only surname - retain first name';
 	},
 
-	execute: function ( dt, cells, node ) {
+	execute: function (dt, cells, node) {
 		// Modify the name and set the new values
 		var surname = cells[0][0].data.split(' ')[1];
 
-		for ( var i=0, ien=cells.length ; i<ien ; i++ ) {
+		for (var i = 0, ien = cells.length; i < ien; i++) {
 			var name = cells[i][0].data.split(' ');
 
-			cells[i][0].set = name[0]+' '+surname;
+			cells[i][0].set = name[0] + ' ' + surname;
 		}
-	}
-}
+	},
+};
 
-$(document).ready(function() {
-	$('#example').DataTable( {
-		autoFill: true
-	} );
-} );
+$('#example').DataTable({
+	autoFill: true,
+});
 ]]>
 </js>
+
+<js-vanilla>
+<![CDATA[
+DataTable.AutoFill.actions.names = {
+	available: function (dt, cells) {
+		// Only available if a single column is being
+		// filled and it is the first column
+		return cells[0].length === 1 && cells[0][0].index.column === 0;
+	},
+
+	option: function (dt, cells) {
+		// Ask the user if they want to change the surname only
+		return 'Fill only surname - retain first name';
+	},
+
+	execute: function (dt, cells, node) {
+		// Modify the name and set the new values
+		var surname = cells[0][0].data.split(' ')[1];
+
+		for (var i = 0, ien = cells.length; i < ien; i++) {
+			var name = cells[i][0].data.split(' ');
+
+			cells[i][0].set = name[0] + ' ' + surname;
+		}
+	},
+};
+
+new DataTable('#example', {
+	autoFill: true,
+});
+]]>
+</js-vanilla>
 
 <title lib="AutoFill">Fill plug-ins</title>
 
@@ -43,7 +72,7 @@ $(document).ready(function() {
 
 AutoFill provides a [number of built in fill types](fills.html), but these built in options can be augmented with additional options using plug-ins.
 
-The fill options are provided by plug-ins which are attached to the `$.fn.dataTable.AutoFill.actions` object. Each property in this object must be an object that provides three functions:
+The fill options are provided by plug-ins which are attached to the `DataTable.AutoFill.actions` object. Each property in this object must be an object that provides three functions:
 
 * `available` - Determine if the data that the user dragged the fill over is suitable for this fill type
 * `option` - Returns a question the user will be asked if they want to use this fill type

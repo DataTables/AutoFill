@@ -4,15 +4,22 @@
 <css lib="datatables autofill" />
 <js lib="jquery datatables autofill">
 <![CDATA[
-$(document).ready(function() {
-	$('#example').DataTable( {
-		autoFill: {
-			alwaysAsk: true
-		}
-	} );
-} );
+$('#example').DataTable({
+	autoFill: {
+		alwaysAsk: true,
+	},
+});
 ]]>
 </js>
+<js-vanilla>
+<![CDATA[
+new DataTable('#example', {
+	autoFill: {
+		alwaysAsk: true,
+	},
+});
+]]>
+</js-vanilla>
 
 <title lib="AutoFill">Always confirm action</title>
 

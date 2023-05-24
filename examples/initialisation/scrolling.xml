@@ -4,17 +4,27 @@
 <css lib="datatables autofill" />
 <js lib="jquery datatables autofill">
 <![CDATA[
-$(document).ready(function() {
-	var table = $('#example').dataTable( {
-		scrollY: 400,
-		scrollX: true,
-		scrollCollapse: true,
-		paging: false,
-		autoFill: true
-	} );
-} );
+$('#example').dataTable({
+	scrollY: 400,
+	scrollX: true,
+	scrollCollapse: true,
+	paging: false,
+	autoFill: true,
+});
 ]]>
 </js>
+
+<js-vanilla>
+<![CDATA[
+new DataTable('#example', {
+	scrollY: 400,
+	scrollX: true,
+	scrollCollapse: true,
+	paging: false,
+	autoFill: true,
+});
+]]>
+</js-vanilla>
 
 <title lib="AutoFill">Scrolling DataTable</title>
 

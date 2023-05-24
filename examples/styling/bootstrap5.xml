@@ -4,15 +4,19 @@
 <css lib="datatables autofill"/>
 <js lib="jquery datatables autofill">
 <![CDATA[
-
-$(document).ready(function() {
-	$('#example').DataTable( {
-		autoFill: true
-	} );
+$('#example').DataTable( {
+	autoFill: true
 } );
-
 ]]>
 </js>
+
+<js-vanilla>
+<![CDATA[
+new DataTable('#example', {
+	autoFill: true
+} );
+]]>
+</js-vanilla>
 
 <title lib="AutoFill">Bootstrap 5 styling</title>
 

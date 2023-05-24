@@ -4,17 +4,27 @@
 <css lib="datatables autofill" />
 <js lib="jquery datatables autofill">
 <![CDATA[
-$(document).ready(function() {
-	var table = $('#example').DataTable( {
-		autoFill: true
-	} );
+var table = $('#example').DataTable({
+	autoFill: true,
+});
 
-	table.on( 'autoFill', function () {
-		table.columns.adjust();
-	} );
-} );
+table.on('autoFill', function () {
+	table.columns.adjust();
+});
 ]]>
 </js>
+
+<js-vanilla>
+<![CDATA[
+var table = new DataTable('#example', {
+	autoFill: true,
+});
+
+table.on('autoFill', function () {
+	table.columns.adjust();
+});
+]]>
+</js-vanilla>
 
 <title lib="AutoFill">Events</title>
 

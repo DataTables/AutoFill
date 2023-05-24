@@ -4,25 +4,47 @@
 <css lib="datatables autofill select" />
 <js lib="jquery datatables autofill select">
 <![CDATA[
-$(document).ready(function() {
-	$('#example').DataTable( {
-		columnDefs: [ {
+$('#example').DataTable({
+	autoFill: {
+		columns: ':not(:first-child)',
+	},
+	columnDefs: [
+		{
 			orderable: false,
 			className: 'select-checkbox',
-			targets:   0
-		} ],
-		select: {
-			style:    'os',
-			selector: 'td:first-child'
+			targets: 0,
 		},
-		order: [[ 1, 'asc' ]],
-		autoFill: {
-			columns: ':not(:first-child)'
-		}
-	} );
-} );
+	],
+	order: [[1, 'asc']],
+	select: {
+		style: 'os',
+		selector: 'td:first-child',
+	},
+});
 ]]>
 </js>
+
+<js-vanilla>
+<![CDATA[
+new DataTable('#example', {
+	autoFill: {
+		columns: ':not(:first-child)',
+	},
+	columnDefs: [
+		{
+			orderable: false,
+			className: 'select-checkbox',
+			targets: 0,
+		},
+	],
+	order: [[1, 'asc']],
+	select: {
+		style: 'os',
+		selector: 'td:first-child',
+	},
+});
+]]>
+</js-vanilla>
 
 <title lib="AutoFill">Column selector</title>
 

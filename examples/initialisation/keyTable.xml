@@ -4,14 +4,21 @@
 <css lib="datatables autofill keytable" />
 <js lib="jquery datatables autofill keytable">
 <![CDATA[
-$(document).ready(function() {
-	$('#example').DataTable( {
-		keys: true,
-		autoFill: true
-	} );
-} );
+$('#example').DataTable({
+	keys: true,
+	autoFill: true,
+});
 ]]>
 </js>
+
+<js-vanilla>
+<![CDATA[
+new DataTable('#example', {
+	keys: true,
+	autoFill: true,
+});
+]]>
+</js-vanilla>
 
 <title lib="AutoFill">KeyTable integration</title>
 

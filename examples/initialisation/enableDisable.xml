@@ -4,31 +4,55 @@
 <css lib="datatables autofill buttons" />
 <js lib="jquery datatables autofill buttons">
 <![CDATA[
-$(document).ready(function() {
-	$('#example').DataTable( {
-		autoFill: {
-			enable: false
-		},
-		dom: 'Bfrtip',
-		buttons: [
-			{
-				text: "Enable AutoFill",
-				action: function (e, dt) {
-					if ( dt.autoFill().enabled() ) {
-						this.autoFill().disable();
-						this.text( 'Enable AutoFill' );
-					}
-					else {
-						this.autoFill().enable();
-						this.text( 'Disable AutoFill' );
-					}
+$('#example').DataTable({
+	autoFill: {
+		enable: false,
+	},
+	dom: 'Bfrtip',
+	buttons: [
+		{
+			text: 'Enable AutoFill',
+			action: function (e, dt) {
+				if (dt.autoFill().enabled()) {
+					this.autoFill().disable();
+					this.text('Enable AutoFill');
 				}
-			}
-		]
-	} );
-} );
+				else {
+					this.autoFill().enable();
+					this.text('Disable AutoFill');
+				}
+			},
+		},
+	],
+});
 ]]>
 </js>
+
+<js-vanilla>
+<![CDATA[
+new DataTable('#example', {
+	autoFill: {
+		enable: false,
+	},
+	dom: 'Bfrtip',
+	buttons: [
+		{
+			text: 'Enable AutoFill',
+			action: function (e, dt) {
+				if (dt.autoFill().enabled()) {
+					this.autoFill().disable();
+					this.text('Enable AutoFill');
+				}
+				else {
+					this.autoFill().enable();
+					this.text('Disable AutoFill');
+				}
+			},
+		},
+	],
+});
+]]>
+</js-vanilla>
 
 <title lib="AutoFill">Enable / disable API</title>
 

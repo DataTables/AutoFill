@@ -56,12 +56,11 @@ div.dt-autofill-list {
 	margin-left: -250px;
 	// margin-top is set by JS
 	background-color: white;
-	border-radius: 6px;
+	border-radius: 0.75em;
 	box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
-	border: 1px solid black;
-	z-index: 11;
+	z-index: 104;
 	box-sizing: border-box;
-	padding: 1.5em 2em;
+	padding: 2em;
 	padding-top: 2em;
 
 	div.dtaf-popover-close {
@@ -70,75 +69,46 @@ div.dt-autofill-list {
 		right: 6px;
 		width: 22px;
 		height: 22px;
-		border: 1px solid #eaeaea;
-		background-color: #f9f9f9;
 		text-align: center;
 		border-radius: 3px;
 		cursor: pointer;
 		z-index: 12;
 	}
 
-	ul {
-		display: table;
-		margin: 0;
-
-		padding: 0;
-		list-style: none;
-		width: 100%;
-
-		li {
-			display: table-row;
+	> div.dt-autofill-list-items {
+		> button {
+			display: block;
+			width: 100%;
+			margin: 1em 0;
+			padding: 1em;
+			border-radius: 0.5em;
+			border: 1px solid rgba(0, 0, 0, 0.175);
+			background-color: #f6f6f6;
+			text-align: left;
 			cursor: pointer;
 
-			&:last-child div.dt-autofill-question,
-			&:last-child div.dt-autofill-button {
-				border-bottom: none;
-			}
-
 			&:hover {
-				background-color: #f6f6f6;
-				button.btn {
-					background-color: #548bbb;
-				}
+				background-color: #ebebeb;
+			}
+
+			&:first-child {
+				margin-top: 0;
+			}
+
+			&:last-child {
+				margin-bottom: 0;
+			}
+	
+			input[type=number] {
+				padding: 6px;
+				width: 30px;
+				margin: -2px 0;
+			}
+
+			span {
+				float: right;
 			}
 		}
-	}
-
-	div.dt-autofill-question {
-		display: table-cell;
-		padding: 0.5em 0;
-		padding-left: 5px;
-		border-bottom: 1px solid #ccc;
-
-		input[type=number] {
-			padding: 6px;
-			width: 30px;
-			margin: -2px 0;
-		}
-	}
-
-	div.dt-autofill-button {
-		display: table-cell;
-		padding: 0.5em 0;
-		padding-right: 5px;
-		border-bottom: 1px solid #ccc;
-		text-align: right;
-
-		@if $autofill-define-button {
-			button {
-				color: white;
-				margin: 0;
-				padding: 6px 12px;
-				text-align: center;
-				border: 1px solid #2e6da4;
-				background-color: #337ab7;
-				border-radius: 4px;
-				cursor: pointer;
-				vertical-align: middle;
-			}
-		}
-
-		
 	}
 }
 
@@ -156,7 +126,41 @@ div.dt-autofill-background {
 	background: rgba(0, 0, 0, 0.7); // fallback
 	background: radial-gradient(ellipse farthest-corner at center, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 100%);
 
-	z-index: 10;
+	z-index: 103;
+}
+
+html.dark {
+	div.dt-autofill-handle {
+		background: rgb(110, 168, 254);
+	}
+
+	div.dt-autofill-select {
+		position: absolute;
+		z-index: 1001;
+
+		background-color: rgb(110, 168, 254);
+		background-image: repeating-linear-gradient(45deg,
+			transparent,
+			transparent 5px,
+			rgba(0,0,0,.5) 5px,
+			rgba(0,0,0,.5) 10px
+		);
+	}
+
+	div.dt-autofill-list {
+		background-color: rgb(33, 37, 41);
+		border: 1px solid rgba(255, 255, 255, 0.15);
+
+		button {
+			color: inherit;
+			border: 1px solid rgba(255, 255, 255, 0.175);
+			background-color: rgb(47, 52, 56);
+
+			&:hover {
+				background-color: rgb(64, 69, 73);
+			}
+		}
+	}
 }
 
 @media screen and (max-width: 767px) {

@@ -2,15 +2,22 @@
 <dt-example table-type="html" table-class="display nowrap" order="1">
 
 <css lib="datatables autofill" />
+
 <js lib="jquery datatables autofill">
 <![CDATA[
-$(document).ready(function() {
-	$('#example').DataTable( {
-		autoFill: true
-	} );
+$('#example').DataTable( {
+	autoFill: true
 } );
 ]]>
 </js>
+
+<js-vanilla>
+<![CDATA[
+new DataTable('#example', {
+	autoFill: true
+} );
+]]>
+</js-vanilla>
 
 <title lib="AutoFill">Basic initialisation</title>
 

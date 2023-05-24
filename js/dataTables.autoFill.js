@@ -96,7 +96,10 @@ var AutoFill = function( dt, opts )
 		background: $('<div class="dt-autofill-background"/>'),
 
 		/** @type {jQuery} Fill type chooser */
-		list: $('<div class="dt-autofill-list">'+this.s.dt.i18n('autoFill.info', '')+'<div class="dt-autofill-list-items" /></div>'),
+		list: $('<div class="dt-autofill-list">'+this.s.dt.i18n('autoFill.info', '')+'</div>')
+			.attr('aria-modal', true)
+			.attr('role', 'dialog')
+			.append('<div class="dt-autofill-list-items"></div>'),
 
 		/** @type {jQuery} DataTables scrolling container */
 		dtScroll: null,

@@ -11,6 +11,7 @@ $('#example').DataTable({
 });
 ]]>
 </js>
+
 <js-vanilla>
 <![CDATA[
 new DataTable('#example', {

@@ -61,7 +61,6 @@ div.dt-autofill-list {
 	z-index: 104;
 	box-sizing: border-box;
 	padding: 2em;
-	padding-top: 2em;
 
 	div.dtaf-popover-close {
 		position: absolute;
@@ -148,7 +147,7 @@ html.dark {
 	}
 
 	div.dt-autofill-list {
-		background-color: rgb(33, 37, 41);
+		background-color: var(--dt-html-background);
 		border: 1px solid rgba(255, 255, 255, 0.15);
 
 		button {

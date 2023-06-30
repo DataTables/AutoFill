@@ -53,4 +53,3 @@ examples_process $OUT_DIR/examples
 # Readme and license
 cp Readme.md $OUT_DIR
 cp License.txt $OUT_DIR
-

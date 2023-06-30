@@ -10,7 +10,7 @@
 import DataTables, {Api} from 'datatables.net';
 
 export default DataTables;
-
+export * from 'datatables.net';
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * DataTables' types integration

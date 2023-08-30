@@ -39,7 +39,7 @@ declare module 'datatables.net' {
 		autoFill: ApiAutoFill<T>;
 	}
 
-	interface ApiStatic {
+	interface DataTablesStatic {
 		/**
 		 * AutoFill class
 		 */

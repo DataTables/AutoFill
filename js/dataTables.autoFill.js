@@ -308,9 +308,13 @@ $.extend( AutoFill.prototype, {
 				list.append( $('<button/>')
 					.html(actions[ name ].option( dt, cells ))
 					.append( $('<span class="dt-autofill-button"/>').html(dt.i18n('autoFill.button', '&gt;')))
-					.on( 'click', function () {
+					.on( 'click', function (e) {
+						if (e.target.nodeName.toLowerCase() !== 'button') {
+							return;
+						}
+
 						var result = actions[ name ].execute(
-							dt, cells, $(this).closest('li')
+							dt, cells, $(this).closest('button')
 						);
 						that._update( result, cells );
 

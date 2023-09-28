@@ -8,22 +8,25 @@ $('#example').DataTable({
 	autoFill: {
 		enable: false,
 	},
-	dom: 'Bfrtip',
-	buttons: [
-		{
-			text: 'Enable AutoFill',
-			action: function (e, dt) {
-				if (dt.autoFill().enabled()) {
-					this.autoFill().disable();
-					this.text('Enable AutoFill');
+	layout: {
+		topStart: {
+			buttons: [
+				{
+					text: 'Enable AutoFill',
+					action: function (e, dt) {
+						if (dt.autoFill().enabled()) {
+							this.autoFill().disable();
+							this.text('Enable AutoFill');
+						}
+						else {
+							this.autoFill().enable();
+							this.text('Disable AutoFill');
+						}
+					}
 				}
-				else {
-					this.autoFill().enable();
-					this.text('Disable AutoFill');
-				}
-			},
-		},
-	],
+			]
+		}
+	}
 });
 ]]>
 </js>
@@ -34,22 +37,25 @@ new DataTable('#example', {
 	autoFill: {
 		enable: false,
 	},
-	dom: 'Bfrtip',
-	buttons: [
-		{
-			text: 'Enable AutoFill',
-			action: function (e, dt) {
-				if (dt.autoFill().enabled()) {
-					this.autoFill().disable();
-					this.text('Enable AutoFill');
+	layout: {
+		topStart: {
+			buttons: [
+				{
+					text: 'Enable AutoFill',
+					action: function (e, dt) {
+						if (dt.autoFill().enabled()) {
+							this.autoFill().disable();
+							this.text('Enable AutoFill');
+						}
+						else {
+							this.autoFill().enable();
+							this.text('Disable AutoFill');
+						}
+					}
 				}
-				else {
-					this.autoFill().enable();
-					this.text('Disable AutoFill');
-				}
-			},
-		},
-	],
+			]
+		}
+	}
 });
 ]]>
 </js-vanilla>

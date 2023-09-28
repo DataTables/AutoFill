@@ -1,11 +1,11 @@
-/*! AutoFill 2.6.0
+/*! AutoFill 2.6.1-dev
  * ©2008-2023 SpryMedia Ltd - datatables.net/license
  */
 
 /**
  * @summary     AutoFill
  * @description Add Excel like click and drag auto-fill options to DataTables
- * @version     2.6.0
+ * @version     2.6.1-dev
  * @author      SpryMedia Ltd (www.sprymedia.co.uk)
  * @copyright   SpryMedia Ltd.
  *
@@ -31,8 +31,8 @@ var _instance = 0;
  */
 var AutoFill = function( dt, opts )
 {
-	if ( ! DataTable.versionCheck || ! DataTable.versionCheck( '1.10.8' ) ) {
-		throw( "Warning: AutoFill requires DataTables 1.10.8 or greater");
+	if ( ! DataTable.versionCheck || ! DataTable.versionCheck( '1.11' ) ) {
+		throw( "Warning: AutoFill requires DataTables 1.11 or greater");
 	}
 
 	// User and defaults configuration object
@@ -790,7 +790,7 @@ $.extend( AutoFill.prototype, {
 					var editField = dtColumns[ cellIndex.column ].editField;
 
 					if ( editField !== undefined ) {
-						data = dtSettings.oApi._fnGetObjectDataFn( editField )( dt.row( cellIndex.row ).data() );
+						data = DataTable.util.get( editField )( dt.row( cellIndex.row ).data() );
 					}
 
 					if ( enabledColumns.indexOf(cellIndex.column) === -1 ) {
@@ -1122,7 +1122,7 @@ AutoFill.actions = {
  * @static
  * @type      String
  */
-AutoFill.version = '2.6.0';
+AutoFill.version = '2.6.1-dev';
 
 
 /**

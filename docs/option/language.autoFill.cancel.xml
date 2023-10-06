@@ -17,15 +17,13 @@
 	</description>
 
 	<example title="Set a fill type information message"><![CDATA[
-
-$('#example').DataTable( {
+new DataTable('#myTable', {
 	language: {
 		autoFill: {
 			cancel: 'Close and perform no updates'
 		}
 	},
 	autoFill: true
-} );
-
+});
 ]]></example>
 </dt-option>

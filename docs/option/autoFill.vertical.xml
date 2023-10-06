@@ -20,13 +20,11 @@
 	</description>
 
 	<example title="Disable vertical filling"><![CDATA[
-
-$('#example').DataTable( {
+new DataTable('#myTable', {
 	autoFill: {
 		vertical: false
 	}
-} );
-
+});
 ]]></example>
 
 	<related>-init autoFill.horizontal</related>

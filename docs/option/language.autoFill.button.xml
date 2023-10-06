@@ -17,16 +17,14 @@
 	</description>
 
 	<example title="Set a fill type information message"><![CDATA[
-
-$('#example').DataTable( {
+new DataTable('#myTable', {
 	language: {
 		autoFill: {
 			button: 'Go!'
 		}
 	},
 	autoFill: true
-} );
-
+});
 ]]></example>
 
 	<related>af-init autoFill.alwaysAsk</related>

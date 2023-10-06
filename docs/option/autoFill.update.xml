@@ -22,13 +22,11 @@
 	</description>
 
 	<example title="Disable data update."><![CDATA[
-
-$('#example').DataTable( {
+new DataTable('#myTable', {
 	autoFill: {
 		update: false
 	}
-} );
-
+});
 ]]></example>
 
 </dt-option>

@@ -21,12 +21,10 @@
 	</description>
 
 	<example title="Attach an Editor instance (`editor`) to a table to provide Excel like auto fill options"><![CDATA[
-
-$('#myTable').DataTable( {
+new DataTable('#myTable', {
 	autoFill: {
 		editor: editor
 	}
-} );
-
+});
 ]]></example>
 </dt-option>

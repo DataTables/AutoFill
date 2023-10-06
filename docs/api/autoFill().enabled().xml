@@ -18,20 +18,20 @@
 	</description>
 
 	<example title="Toggle the enabled state of AutoFill on a button click"><![CDATA[
-
-var table = $('#example').DataTable( {
+var table = new DataTable('#myTable', {
 	autoFill: true
-} );
+});
 
-$('#toggleAutoFill').on( 'click', function () {
-	if ( table.autoFill().enabled() ) {
-		table.autoFill().disable();
-	}
-	else {
-		table.autoFill().enable();
-	}
-} );
-
+document
+	.querySelector('#toggleAutoFill')
+	.addEventListener('click', function () {
+		if (table.autoFill().enabled()) {
+			table.autoFill().disable();
+		}
+		else {
+			table.autoFill().enable();
+		}
+	});
 ]]></example>
 
 	<related>-init autoFill.enable</related>

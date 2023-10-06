@@ -17,15 +17,13 @@
 	</description>
 
 	<example title="Set a fill type information message"><![CDATA[
-
-$('#example').DataTable( {
+new DataTable('#myTable', {
 	language: {
 		autoFill: {
 			fill: 'Fill all cells with the same value'
 		}
 	},
 	autoFill: true
-} );
-
+});
 ]]></example>
 </dt-option>

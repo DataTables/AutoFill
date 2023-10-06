@@ -20,13 +20,11 @@
 	</description>
 
 	<example title="Disable AutoFill on initialisation"><![CDATA[
-
-$('#example').DataTable( {
+new DataTable('#myTable', {
 	autoFill: {
 		enable: false
 	}
-} );
-
+});
 ]]></example>
 
 	<related>-init autoFill.enable</related>

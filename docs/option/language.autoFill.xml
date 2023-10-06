@@ -25,15 +25,13 @@
 	</description>
 
 	<example title="Set a fill type information message"><![CDATA[
-
-$('#example').DataTable( {
+new DataTable('#myTable', {
 	language: {
 		autoFill: {
 			info: 'Select a data fill type:'
 		}
 	},
 	autoFill: true
-} );
-
+});
 ]]></example>
 </dt-option>

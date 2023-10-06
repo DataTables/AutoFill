@@ -24,12 +24,10 @@
 	</description>
 
 	<example title="Automatically focus on the first cell in the table"><![CDATA[
-
-$('#myTable').DataTable( {
+new DataTable('#myTable', {
 	autoFill: {
 		focus: 'click'
 	}
-} );
-
+});
 ]]></example>
 </dt-option>

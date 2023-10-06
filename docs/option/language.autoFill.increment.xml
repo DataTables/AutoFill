@@ -17,15 +17,13 @@
 	</description>
 
 	<example title="Set a fill type information message"><![CDATA[
-
-$('#example').DataTable( {
+new DataTable('#myTable', {
 	language: {
 		autoFill: {
 			increment: 'Change each cell by: <input type="number" value="1">'
 		}
 	},
 	autoFill: true
-} );
-
+});
 ]]></example>
 </dt-option>

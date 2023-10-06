@@ -24,12 +24,10 @@
 	</description>
 
 	<example title="Always ask the end user if the fill should proceed."><![CDATA[
-
-$('#myTable').DataTable( {
+new DataTable('#myTable', {
 	autoFill: {
 		alwaysAsk: true
 	}
-} );
-
+});
 ]]></example>
 </dt-option>

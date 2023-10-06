@@ -21,22 +21,18 @@
 	</description>
 
 	<example title="Don't allow fill on the last column in the table"><![CDATA[
-
-$('#myTable').DataTable( {
+new DataTable('#myTable', {
 	autoFill: {
 		columns: ':not(:last-child)'
 	}
-} );
-
+});
 ]]></example>
 
 	<example title="Allow fill only on column indexes 1, 2, 3, 4"><![CDATA[
-
-$('#myTable').DataTable( {
+new DataTable('#myTable', {
 	autoFill: {
-		columns: [ 1, 2, 3, 4 ]
+		columns: [1, 2, 3, 4]
 	}
-} );
-
+});
 ]]></example>
 </dt-option>

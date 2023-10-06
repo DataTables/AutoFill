@@ -43,12 +43,10 @@
 	</description>
 
 	<example title="Show a message when an auto fill is complete"><![CDATA[
+var table = new DataTable('#myTable');
 
-var table = $('#example').DataTable();
-
-table.on( 'autoFill', function ( e, datatable, cells ) {
-	alert( (cells.length * cells[0].length)+' cells were updated' );
-} );
-
+table.on('autoFill', function (e, datatable, cells) {
+	alert(cells.length * cells[0].length + ' cells were updated');
+});
 ]]></example>
 </dt-event>

@@ -29,21 +29,17 @@
 	</description>
 
 	<example title="Enable AutoFill for a table"><![CDATA[
-
-$('#example').DataTable( {
+new DataTable('#myTable', {
 	autoFill: true
-} );
-
+});
 ]]></example>
 
 	<example title="Enable AutoFill with configuration options"><![CDATA[
-
-$('#example').DataTable( {
+new DataTable('#myTable', {
 	autoFill: {
 		columns: ':not(:first-child)'
 	}
-} );
-
+});
 ]]></example>
 
 </dt-option>

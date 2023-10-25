@@ -25,11 +25,11 @@ DataTable.AutoFill.actions.names = {
 
 			cells[i][0].set = name[0] + ' ' + surname;
 		}
-	},
+	}
 };
 
 $('#example').DataTable({
-	autoFill: true,
+	autoFill: true
 });
 ]]>
 </js>
@@ -57,11 +57,11 @@ DataTable.AutoFill.actions.names = {
 
 			cells[i][0].set = name[0] + ' ' + surname;
 		}
-	},
+	}
 };
 
 new DataTable('#example', {
-	autoFill: true,
+	autoFill: true
 });
 ]]>
 </js-vanilla>

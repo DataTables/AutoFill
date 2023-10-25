@@ -6,8 +6,8 @@
 <![CDATA[
 $('#example').DataTable({
 	autoFill: {
-		horizontal: false,
-	},
+		horizontal: false
+	}
 });
 ]]>
 </js>
@@ -16,8 +16,8 @@ $('#example').DataTable({
 <![CDATA[
 new DataTable('#example', {
 	autoFill: {
-		horizontal: false,
-	},
+		horizontal: false
+	}
 });
 ]]>
 </js-vanilla>

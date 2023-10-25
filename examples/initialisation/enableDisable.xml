@@ -6,7 +6,7 @@
 <![CDATA[
 $('#example').DataTable({
 	autoFill: {
-		enable: false,
+		enable: false
 	},
 	layout: {
 		topStart: {
@@ -35,7 +35,7 @@ $('#example').DataTable({
 <![CDATA[
 new DataTable('#example', {
 	autoFill: {
-		enable: false,
+		enable: false
 	},
 	layout: {
 		topStart: {

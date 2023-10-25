@@ -6,8 +6,8 @@
 <![CDATA[
 $('#example').DataTable({
 	autoFill: {
-		alwaysAsk: true,
-	},
+		alwaysAsk: true
+	}
 });
 ]]>
 </js>
@@ -16,8 +16,8 @@ $('#example').DataTable({
 <![CDATA[
 new DataTable('#example', {
 	autoFill: {
-		alwaysAsk: true,
-	},
+		alwaysAsk: true
+	}
 });
 ]]>
 </js-vanilla>

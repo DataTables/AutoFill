@@ -4,12 +4,12 @@
 <css lib="datatables autofill" />
 <js lib="jquery datatables autofill">
 <![CDATA[
-$('#example').dataTable({
+$('#example').DataTable({
 	scrollY: 400,
 	scrollX: true,
 	scrollCollapse: true,
 	paging: false,
-	autoFill: true,
+	autoFill: true
 });
 ]]>
 </js>
@@ -21,7 +21,7 @@ new DataTable('#example', {
 	scrollX: true,
 	scrollCollapse: true,
 	paging: false,
-	autoFill: true,
+	autoFill: true
 });
 ]]>
 </js-vanilla>

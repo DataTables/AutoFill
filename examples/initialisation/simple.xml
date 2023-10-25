@@ -5,9 +5,9 @@
 
 <js lib="jquery datatables autofill">
 <![CDATA[
-$('#example').DataTable( {
+$('#example').DataTable({
 	autoFill: true
-} );
+});
 ]]>
 </js>
 
@@ -15,7 +15,7 @@ $('#example').DataTable( {
 <![CDATA[
 new DataTable('#example', {
 	autoFill: true
-} );
+});
 ]]>
 </js-vanilla>
 

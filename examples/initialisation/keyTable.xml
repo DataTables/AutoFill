@@ -6,7 +6,7 @@
 <![CDATA[
 $('#example').DataTable({
 	keys: true,
-	autoFill: true,
+	autoFill: true
 });
 ]]>
 </js>
@@ -15,7 +15,7 @@ $('#example').DataTable({
 <![CDATA[
 new DataTable('#example', {
 	keys: true,
-	autoFill: true,
+	autoFill: true
 });
 ]]>
 </js-vanilla>

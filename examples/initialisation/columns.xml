@@ -6,20 +6,20 @@
 <![CDATA[
 $('#example').DataTable({
 	autoFill: {
-		columns: ':not(:first-child)',
+		columns: ':not(:first-child)'
 	},
 	columnDefs: [
 		{
 			orderable: false,
 			className: 'select-checkbox',
-			targets: 0,
-		},
+			targets: 0
+		}
 	],
 	order: [[1, 'asc']],
 	select: {
 		style: 'os',
-		selector: 'td:first-child',
-	},
+		selector: 'td:first-child'
+	}
 });
 ]]>
 </js>
@@ -28,20 +28,20 @@ $('#example').DataTable({
 <![CDATA[
 new DataTable('#example', {
 	autoFill: {
-		columns: ':not(:first-child)',
+		columns: ':not(:first-child)'
 	},
 	columnDefs: [
 		{
 			orderable: false,
 			className: 'select-checkbox',
-			targets: 0,
-		},
+			targets: 0
+		}
 	],
 	order: [[1, 'asc']],
 	select: {
 		style: 'os',
-		selector: 'td:first-child',
-	},
+		selector: 'td:first-child'
+	}
 });
 ]]>
 </js-vanilla>

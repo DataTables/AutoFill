@@ -857,7 +857,6 @@ $.extend( AutoFill.prototype, {
 	_shiftScroll: function ( e )
 	{
 		var that = this;
-		var dt = this.s.dt;
 		var scroll = this.s.scroll;
 		var runInterval = false;
 		var scrollSpeed = 5;

@@ -501,7 +501,11 @@ $.extend( AutoFill.prototype, {
 		editor
 			.bubble( nodes, false )
 			.multiSet( idValues )
-			.submit();
+			.submit(null, function () {
+				// If an error happens, Editor will show an alert, and then we need
+				// to finish the edit since we can't do anything else.
+				editor.close();
+			});
 	},
 
 

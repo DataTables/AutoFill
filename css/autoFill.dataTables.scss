@@ -99,8 +99,10 @@ div.dt-autofill-list {
 			}
 	
 			input[type=number] {
+				display: inline-block;
+				box-sizing: border-box;
 				padding: 6px;
-				width: 30px;
+				width: 70px;
 				margin: -2px 0;
 			}
 

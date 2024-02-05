@@ -7,8 +7,8 @@ $autofill-handle-background-focus: #ff8b33 !default;
 
 div.dt-autofill-handle {
 	position: absolute;
-	height: 8px;
-	width: 8px;
+	height: 10px;
+	width: 10px;
 	z-index: 10;
 
 	box-sizing: border-box;
@@ -99,8 +99,10 @@ div.dt-autofill-list {
 			}
 	
 			input[type=number] {
+				display: inline-block;
+				box-sizing: border-box;
 				padding: 6px;
-				width: 30px;
+				width: 70px;
 				margin: -2px 0;
 			}
 

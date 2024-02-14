@@ -47,7 +47,7 @@ declare module 'datatables.net' {
 			/**
 			 * Create a new AutoFill instance for the target DataTable
 			 */
-			new (dt: Api<any>, settings: boolean | ConfigAutoFill): void;
+			new (dt: Api<any>, settings: boolean | ConfigAutoFill): AutoFill;
 
 			/**
 			 * AutoFill version

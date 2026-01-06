@@ -14,8 +14,7 @@
  * For details please refer to: http://www.datatables.net
  */
 
-import DataTable from '../../../js/dataTable';
-import { Api, Context } from '../../../types/types';
+import DataTable, { Api, Context } from 'datatables.net';
 import {
 	Action,
 	Classes,
@@ -26,7 +25,6 @@ import {
 } from './interface';
 
 var _instance = 0;
-const Api = DataTable.Api;
 const dom = DataTable.dom;
 const util = DataTable.util;
 

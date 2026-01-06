@@ -1,8 +1,8 @@
 // Type definitions for DataTables AutoFill
 
 import DataTables, { Api } from 'datatables.net';
-import AutoFill from '../js/AutoFill';
-import { Defaults } from '../js/interface';
+import AutoFill from '../dist/AutoFill';
+import { Defaults } from '../dist/interface';
 
 export default DataTables;
 export * from 'datatables.net';

@@ -4,7 +4,7 @@ import {
 	CellIdxWithVisible,
 	ColumnSelector,
 	Dom
-} from '../../../types/types';
+} from 'datatables.net';
 
 export interface Classes {
 	btn: string;

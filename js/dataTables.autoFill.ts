@@ -1,9 +1,4 @@
-/*! AutoFill 3.0.0-dev
- * © SpryMedia Ltd - datatables.net/license
- */
-
-import DataTable from '../../../js/dataTable';
-import { Api, Context } from '../../../types/types';
+import DataTable, { Context } from 'datatables.net';
 import AutoFill from './AutoFill';
 import { Defaults } from './interface';
 

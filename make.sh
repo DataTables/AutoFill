@@ -59,6 +59,7 @@ fi
 mkdir $OUT_DIR/types
 
 cp dist/types.d.ts $OUT_DIR/types
+cp types/autoFill*.d.ts $OUT_DIR/types
 
 rm -r dist
 

@@ -1,13 +1,8 @@
 // Type definitions for DataTables AutoFill
-//
-// Project: https://datatables.net/extensions/autofill/, https://datatables.net
-// Definitions by:
-//   SpryMedia
-//   Andy Ma <https://github.com/andy-maca>
 
-/// <reference types="jquery" />
-
-import DataTables, {Api} from 'datatables.net';
+import DataTables, { Api } from 'datatables.net';
+import AutoFill from '../js/AutoFill';
+import { Defaults } from '../js/interface';
 
 export default DataTables;
 export * from 'datatables.net';
@@ -20,7 +15,7 @@ declare module 'datatables.net' {
 		/**
 		 * autoFill extension options
 		 */
-		autoFill?: boolean | ConfigAutoFill;
+		autoFill?: boolean | Partial<Defaults>;
 	}
 
 	interface ConfigLanguage {
@@ -33,7 +28,7 @@ declare module 'datatables.net' {
 	interface Api<T> {
 		/**
 		 * AutoFill methods container
-		 * 
+		 *
 		 * @returns Api for chaining with the additional autoFill methods
 		 */
 		autoFill: ApiAutoFill<T>;
@@ -43,73 +38,13 @@ declare module 'datatables.net' {
 		/**
 		 * AutoFill class
 		 */
-		AutoFill: {
-			/**
-			 * Create a new AutoFill instance for the target DataTable
-			 */
-			new (dt: Api<any>, settings: boolean | ConfigAutoFill): AutoFill;
-
-			/**
-			 * AutoFill version
-			 */
-			version: string;
-
-			/**
-			 * Default configuration values
-			 */
-			defaults: ConfigAutoFill;
-		}
+		AutoFill: AutoFill;
 	}
 }
-
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Options
  */
-
-interface ConfigAutoFill {
-	/**
-	 * Always ask the end user if an action should be taken or not
-	 */
-	alwaysAsk?: boolean;
-
-	/**
-	 * Select the columns that can be auto filled
-	 */
-	columns?: string | number[];
-
-	/**
-	 *
-	 * Attach an Editor instance for database updating
-	 */
-	editor?: any;
-
-	/**
-	 *
-	 * Initial enablement state of AutoFill
-	 */
-	enable?: boolean;
-
-	/**
-	 * Action that will cause the auto fill drag handle to appear in a cell
-	 */
-	focus?: 'click' | 'focus' | 'hover' | null;
-
-	/**
-	 * Enable / disable user ability to horizontally drag and fill
-	 */
-	horizontal?: boolean;
-
-	/**
-	 * Control automatic update of data when a fill drag is completed
-	 */
-	 update?: boolean;
-
-	/**
-	 * Enable / disable user ability to vertically drag and fill
-	 */
-	vertical?: boolean;
-}
 
 interface ConfigAutoFillLanguage {
 	/**
@@ -148,7 +83,6 @@ interface ConfigAutoFillLanguage {
 	info?: string;
 }
 
-
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * API
  */
@@ -160,14 +94,14 @@ interface ApiAutoFill<T> {
 interface ApiAutoFillMethods<T> extends Api<T> {
 	/**
 	 * Disable AutoFill. Please note that this disallows future interactions with the table (until re-enabled).
-	 * 
+	 *
 	 * @returns DataTables Api instance
 	 */
 	disable(): Api<T>;
 
 	/**
 	 * Enable end user and API modification of the focused cells in the DataTable. Differing levels of enablement are available via the optional parameter.
-	 * 
+	 *
 	 * @param flag can be true or false to signify whether to enable or disable
 	 * @returns DataTables Api instance
 	 */
@@ -175,7 +109,7 @@ interface ApiAutoFillMethods<T> extends Api<T> {
 
 	/**
 	 * This method will return a boolean value indicating if AutoFill is enabled or not on the selected table.
-	 * 
+	 *
 	 * @returns boolean signifying if autofill is enables
 	 */
 	enabled(): boolean;

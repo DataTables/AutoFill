@@ -2,6 +2,12 @@ import DataTable, { Context } from 'datatables.net';
 import AutoFill from './AutoFill';
 import { Defaults } from './interface';
 
+declare module 'datatables.net' {
+	interface Context {
+		autoFill: AutoFill;
+	}
+}
+
 if (!DataTable || !DataTable.versionCheck || !DataTable.versionCheck('3')) {
 	throw 'Warning: AutoFill requires DataTables 3 or greater';
 }

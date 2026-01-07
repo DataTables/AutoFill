@@ -422,9 +422,7 @@ export default class AutoFill {
 		else if (available.length > 1 || this.c.alwaysAsk) {
 			// Multiple actions available - ask the end user what they want to
 			// do
-			let list = this.dom.list
-				.children('div.dtaf-list-items')
-				.empty();
+			let list = this.dom.list.children('div.dtaf-list-items').empty();
 
 			// Add a cancel option
 			available.push('cancel');
@@ -623,6 +621,10 @@ export default class AutoFill {
 					);
 				}
 
+				if (typeof fieldName !== 'string') {
+					throw 'AutoFill with multiple edit fields is not supported';
+				}
+
 				if (!idValues[fieldName]) {
 					idValues[fieldName] = {};
 				}
@@ -709,11 +711,7 @@ export default class AutoFill {
 				.on(
 					'mouseleave' + namespace + 'touchend' + namespace,
 					function (e) {
-						if (
-							dom
-								.s(e.relatedTarget)
-								.classHas('dtaf-handle')
-						) {
+						if (dom.s(e.relatedTarget).classHas('dtaf-handle')) {
 							return;
 						}
 
@@ -942,6 +940,10 @@ export default class AutoFill {
 						let data = cell.data();
 						let cellIndex = cell.index();
 						let editField = dtColumns[cellIndex.column].editField;
+
+						if (typeof editField !== 'string') {
+							throw 'AutoFill with multiple edit fields is not supported';
+						}
 
 						if (editField !== undefined) {
 							data = DataTable.util.get(editField)(

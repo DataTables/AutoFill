@@ -6,10 +6,17 @@
 	--dtaf-handle_border: 1px solid #008CBA;
 	--dtaf-handle_background: #008CBA;
 
+	--dtaf-list_box-shadow: none;
+	--dtaf-list_background: #fff;
+	--dtaf-list_border: none;
+  	--dtaf-list_border-radius: 0;
+
 	--dtaf-outline_background-color: #008CBA;
+
+	--dtaf-background_background: rgba(10, 10, 10, 0.45);
 }
 
-div.dt-autofill-list {
+div.dtaf-list {
 	button {
 		margin: 0;
 	}

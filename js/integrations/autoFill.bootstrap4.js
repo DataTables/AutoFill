@@ -2,4 +2,4 @@
  * © SpryMedia Ltd - datatables.net/license
  */
 
-DataTable.AutoFill.classes.btn = 'btn btn-primary';
+DataTable.AutoFill.classes.btn = 'btn btn-secondary';

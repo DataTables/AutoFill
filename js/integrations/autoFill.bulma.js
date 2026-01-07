@@ -2,4 +2,4 @@
  * © SpryMedia Ltd - datatables.net/license
  */
 
-DataTable.AutoFill.classes.btn = 'button is-small';
+DataTable.AutoFill.classes.btn = 'button';

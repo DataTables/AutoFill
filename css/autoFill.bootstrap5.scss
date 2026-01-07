@@ -6,16 +6,32 @@
 	--dtaf-handle_border: 1px solid #0d6efd;
 	--dtaf-handle_background: #0d6efd;
 
+	--dtaf-list_box-shadow: var(--bs-box-shadow);
+	--dtaf-list_background: var(--bs-body-bg);
+	--dtaf-list_border: var(--bs-border-width) solid var(--bs-border-color-translucent);
+  	--dtaf-list_border-radius: var(--bs-border-radius-lg);
+	--dtaf-list_padding-top-closeable: 3.5em;
+
 	--dtaf-outline_background-color: #0d6efd;
+
+	--dtaf-background_background: rgba(0, 0, 0, 0.5);
+	--dtaf-background_z-index: 1050;
 }
 
-div.dt-autofill-list {
-	div.dt-autofill-question {
+div.dtaf-list {
+	div.dtaf-question {
 		input[type=number] {
 			padding: 6px;
 			width: 60px;
 			margin: -2px 0;
 		}
+	}
+
+	.btn-close {
+		position: absolute;
+		top: 18px;
+		right: 18px;
+		color: transparent;
 	}
 }
 

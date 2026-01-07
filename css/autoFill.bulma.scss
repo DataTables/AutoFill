@@ -7,7 +7,16 @@
 	--dtaf-handle_background: #00D1B2;
 	--dtaf-handle_z-index: 11;
 
+	--dtaf-list_box-shadow: var(--bulma-shadow);
+	--dtaf-list_background: var(--bulma-scheme-main);
+	--dtaf-list_border: none;
+  	--dtaf-list_border-radius: var(--bulma-radius-large);
+	--dtaf-list_padding-top-closeable: 3.5em;
+
 	--dtaf-outline_background-color: #00D1B2;
+
+	--dtaf-background_background: hsla(var(--bulma-scheme-h),var(--bulma-scheme-s),var(--bulma-scheme-invert-l),0.86);
+	--dtaf-background_z-index: 1050;
 	
 	&[data-theme="dark"] {
 		--dtaf-handle_border: 1px solid #00D1B2;
@@ -17,7 +26,7 @@
 	}
 }
 
-div.dt-autofill-list {
+div.dtaf-list {
 	button {
 		margin: 0;
 	}

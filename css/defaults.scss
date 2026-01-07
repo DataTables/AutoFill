@@ -19,6 +19,8 @@
 	--dtaf-list_box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
 	--dtaf-list_border: none;
 	--dtaf-list_width: 500px;
+	--dtaf-list_border-radius: 0.75em;
+	--dtaf-list_padding-top-closeable: 2.5em;
 
 	--dtaf-option_margin: 1em 0;
 	--dtaf-option_padding: 1em;
@@ -28,7 +30,11 @@
 	--dtaf-option_background: #f6f6f6;
 	--dtaf-option_background-hover: #ebebeb;
 
+	--dtaf-close_background: transparent;
+	--dtaf-close_border: none;
+
 	--dtaf-background_background: radial-gradient(ellipse farthest-corner at center, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 100%);
+	--dtaf-background_z-index: 103;
 }
 
 :root.dark {

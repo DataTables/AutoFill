@@ -156,6 +156,7 @@ export default class AutoFill {
 	/** Class names used by AutoFill for customisation */
 	static classes: Classes = {
 		btn: 'btn',
+		close: 'dtaf-list-close',
 		closeable: 'dtaf-list-closeable'
 	};
 
@@ -281,8 +282,8 @@ export default class AutoFill {
 			attachedTo: null,
 			container: dom.c('div').classAdd('dtaf-container'),
 			closeButton: dom
-				.c('div')
-				.classAdd('dtaf-list-close')
+				.c('button')
+				.classAdd(AutoFill.classes.close)
 				.html('&times;'),
 			dtScroll: null,
 			handle: dom.c('div').classAdd('dtaf-handle'),
@@ -434,12 +435,13 @@ export default class AutoFill {
 				list.append(
 					dom
 						.c('button')
+						.classAdd(AutoFill.classes.btn)
 						.html(actions[name].option(dt, cells))
 						.append(
 							dom
 								.c('span')
 								.classAdd('dtaf-button')
-								.html(dt.i18n('autoFill.button', '&gt;'))
+								.html(dt.i18n('autoFill.button', ''))
 						)
 						.on('click', function (e) {
 							if (e.target.nodeName.toLowerCase() !== 'button') {

@@ -8,6 +8,7 @@ import {
 
 export interface Classes {
 	btn: string;
+	close: string;
 	closeable: string;
 }
 

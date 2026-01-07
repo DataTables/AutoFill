@@ -5,6 +5,17 @@
 :root {
 	--dtaf-handle_border: 1px solid #888;
 	--dtaf-handle_background: #888;
+	--dtaf-handle_z-index: 11;
+
+	--dtaf-list_box-shadow: 1px 3px 3px 0 rgba(0,0,0,.2),1px 3px 15px 2px rgba(0,0,0,.2);
+	--dtaf-list_background: #fff;
+	--dtaf-list_border: none;
+  	--dtaf-list_border-radius: .28571429rem;
+	--dtaf-list_padding-top-closeable: 3.5em;
 
 	--dtaf-outline_background-color: #888;
+
+	--dtaf-background_background: rgba(0,0,0,.85);
+	--dtaf-background_z-index: 1000;
+	
 }

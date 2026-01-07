@@ -12,7 +12,7 @@ const util = DataTable.util;
 
 // Doesn't do anything - Not documented
 Api.register('autoFill()', function () {
-	return this;
+	return this.inst(this.context);
 });
 
 Api.register('autoFill().enabled()', function () {

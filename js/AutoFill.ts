@@ -303,7 +303,7 @@ export default class AutoFill {
 			}
 		};
 
-		/* Constructor logic */
+		// Go!
 		this._init();
 	}
 

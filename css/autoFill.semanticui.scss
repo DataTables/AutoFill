@@ -1,9 +1,10 @@
 
-$autofill-handle-border: 1px solid #888;
+@use 'defaults.scss';
+@use 'shared.scss';
 
-@use 'autoFill.dataTables.scss' with (
-  $autofill-define-button: false,
-  $autofill-outline: #888,
-  $autofill-handle-background: #888
-);
+:root {
+	--dtaf-handle_border: 1px solid #888;
+	--dtaf-handle_background: #888;
 
+	--dtaf-outline_background-color: #888;
+}

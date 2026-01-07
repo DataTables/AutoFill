@@ -1,6 +1,6 @@
 
-
-@use 'autoFill.dataTables.scss' with ($autofill-define-button: false);
+@use 'defaults.scss';
+@use 'shared.scss';
 
 div.dt-autofill-list {
 	button {

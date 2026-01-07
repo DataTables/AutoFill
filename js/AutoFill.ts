@@ -156,7 +156,7 @@ export default class AutoFill {
 	/** Class names used by AutoFill for customisation */
 	static classes: Classes = {
 		btn: 'btn',
-		closeable: 'dtaf-popover-closeable'
+		closeable: 'dtaf-list-closeable'
 	};
 
 	/** Defaults */
@@ -216,7 +216,7 @@ export default class AutoFill {
 		};
 
 		window.addEventListener('resize', function () {
-			let handle = dom.s('div.dt-autofill-handle');
+			let handle = dom.s('div.dtaf-handle');
 
 			if (handle.count() > 0 && that.dom.attachedTo) {
 				that._attach(that.dom.attachedTo);
@@ -279,29 +279,31 @@ export default class AutoFill {
 
 		this.dom = {
 			attachedTo: null,
-			background: dom.c('div').classAdd('dt-autofill-background'),
+			container: dom.c('div').classAdd('dtaf-container'),
 			closeButton: dom
 				.c('div')
-				.classAdd('dtaf-popover-close')
+				.classAdd('dtaf-list-close')
 				.html('&times;'),
 			dtScroll: null,
-			handle: dom.c('div').classAdd('dt-autofill-handle'),
+			handle: dom.c('div').classAdd('dtaf-handle'),
 			list: dom
 				.c('div')
-				.classAdd('dt-autofill-list')
+				.classAdd('dtaf-list')
 				.html(this.s.dt.i18n('autoFill.info', ''))
 				.attr('aria-modal', true)
 				.attr('role', 'dialog')
-				.append(dom.c('div').classAdd('dt-autofill-list-items')),
+				.append(dom.c('div').classAdd('dtaf-list-items')),
 			offsetParent: null,
 			start: null,
 			select: {
-				top: dom.c('div').classAdd('dt-autofill-select top'),
-				right: dom.c('div').classAdd('dt-autofill-select right'),
-				bottom: dom.c('div').classAdd('dt-autofill-select bottom'),
-				left: dom.c('div').classAdd('dt-autofill-select left')
+				top: dom.c('div').classAdd('dtaf-select top'),
+				right: dom.c('div').classAdd('dtaf-select right'),
+				bottom: dom.c('div').classAdd('dtaf-select bottom'),
+				left: dom.c('div').classAdd('dtaf-select left')
 			}
 		};
+
+		this.dom.list.appendTo(this.dom.container);
 
 		// Go!
 		this._init();
@@ -420,7 +422,7 @@ export default class AutoFill {
 			// Multiple actions available - ask the end user what they want to
 			// do
 			let list = this.dom.list
-				.children('div.dt-autofill-list-items')
+				.children('div.dtaf-list-items')
 				.empty();
 
 			// Add a cancel option
@@ -436,7 +438,7 @@ export default class AutoFill {
 						.append(
 							dom
 								.c('span')
-								.classAdd('dt-autofill-button')
+								.classAdd('dtaf-button')
 								.html(dt.i18n('autoFill.button', '&gt;'))
 						)
 						.on('click', function (e) {
@@ -451,18 +453,20 @@ export default class AutoFill {
 							);
 							that._update(result, cells);
 
-							that.dom.background.remove();
-							that.dom.list.remove();
+							that.dom.container.remove();
 						})
 				);
 			}
 
-			this.dom.background.appendTo('body');
-			this.dom.background.one('click', function () {
-				that.dom.background.remove();
-				that.dom.list.remove();
+			this.dom.container.appendTo('body');
+			this.dom.container.on('click', function (e) {
+				// Ignore clicks that aren't on the background
+				if (e.target !== that.dom.container.get(0)) {
+					return;
+				}
+
+				that.dom.container.remove();
 			});
-			this.dom.list.appendTo('body');
 
 			if (this.c.closeButton) {
 				this.dom.list
@@ -470,14 +474,9 @@ export default class AutoFill {
 					.classAdd(AutoFill.classes.closeable);
 
 				this.dom.closeButton.on('click', function () {
-					return that.dom.background.trigger('click');
+					return that.dom.container.trigger('click');
 				});
 			}
-
-			this.dom.list.css(
-				'margin-top',
-				(this.dom.list.height('outer') / 2) * -1 + 'px'
-			);
 		}
 	}
 
@@ -711,7 +710,7 @@ export default class AutoFill {
 						if (
 							dom
 								.s(e.relatedTarget)
-								.classHas('dt-autofill-handle')
+								.classHas('dtaf-handle')
 						) {
 							return;
 						}

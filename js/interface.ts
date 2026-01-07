@@ -45,7 +45,7 @@ export interface InternalDom {
 	attachedTo: HTMLElement | null;
 
 	/** Fill type chooser background */
-	background: Dom;
+	container: Dom;
 
 	/** Popover close button */
 	closeButton: Dom;

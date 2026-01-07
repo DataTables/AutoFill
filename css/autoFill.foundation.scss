@@ -1,11 +1,13 @@
 
-$autofill-handle-border: 1px solid #008CBA;
+@use 'defaults.scss';
+@use 'shared.scss';
 
-@use 'autoFill.dataTables.scss' with (
-  $autofill-define-button: false,
-  $autofill-outline: #008CBA,
-  $autofill-handle-background: #008CBA
-);
+:root {
+	--dtaf-handle_border: 1px solid #008CBA;
+	--dtaf-handle_background: #008CBA;
+
+	--dtaf-outline_background-color: #008CBA;
+}
 
 div.dt-autofill-list {
 	button {

@@ -1,18 +1,24 @@
 
-$autofill-handle-border: 1px solid #00D1B2;
+@use 'defaults.scss';
+@use 'shared.scss';
 
-@use 'autoFill.dataTables.scss' with (
-  $autofill-define-button: false,
-  $autofill-outline: #00D1B2,
-  $autofill-handle-background: #00D1B2
-);
+:root {
+	--dtaf-handle_border: 1px solid #00D1B2;
+	--dtaf-handle_background: #00D1B2;
+	--dtaf-handle_z-index: 11;
+
+	--dtaf-outline_background-color: #00D1B2;
+	
+	&[data-theme="dark"] {
+		--dtaf-handle_border: 1px solid #00D1B2;
+		--dtaf-handle_background: #00D1B2;
+
+		--dtaf-outline_background-color: #00D1B2;
+	}
+}
 
 div.dt-autofill-list {
 	button {
 		margin: 0;
 	}
-}
-
-div.dt-autofill-handle {
-	z-index: 11
 }

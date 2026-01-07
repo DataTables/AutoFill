@@ -1,0 +1,123 @@
+
+// Click to drag handle
+div.dtaf-handle {
+	position: absolute;
+	height: var(--dtaf-handle_height);
+	width: var(--dtaf-handle_width);
+	z-index: var(--dtaf-handle_z-index);
+
+	box-sizing: border-box;
+	background: var(--dtaf-handle_background);
+	border: var(--dtaf-handle_border);
+	cursor: pointer;
+}
+
+// KeyTable alt focus
+div.dtk-focus-alt {
+	div.dtaf-handle {
+		background: var(--dtaf-handle_background-focus);
+	}
+}
+
+// Selection outline elements
+div.dtaf-select {
+	position: absolute;
+	z-index: 1001;
+
+	background-color: var(--dtaf-outline_background-color);
+	background-image: var(--dtaf-outline_background-image);
+
+	&.top,
+	&.bottom {
+		height: 3px;
+		margin-top: -1px;
+	}
+
+	&.left,
+	&.right {
+		width: 3px;
+		margin-left: -1px;
+	}
+}
+
+// Popover container, provides the background
+div.dtaf-container {
+	display: flex;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: var(--dtaf-background_background);
+	z-index: 103;
+	justify-content: center;
+	align-items: center;
+}
+
+// Popover list of options
+div.dtaf-list {
+	position: relative;
+	width: var(--dtaf-list_width);
+	background: var(--dtaf-list_background);
+	border: var(--dtaf-list_border);
+	border-radius: 0.75em;
+	box-shadow: var(--dtaf-list_box-shadow);
+	z-index: 104;
+	box-sizing: border-box;
+	padding: 2em;
+	
+	&.dtaf-list-closeable {
+		padding-top: 2.5em;
+	}
+
+	div.dtaf-list-close {
+		position: absolute;
+		top: 6px;
+		right: 6px;
+		width: 22px;
+		height: 22px;
+		text-align: center;
+		border-radius: 3px;
+		cursor: pointer;
+		z-index: 12;
+	}
+
+	> div.dtaf-list-items {
+		> button {
+			display: block;
+			width: 100%;
+			margin: var(--dtaf-option_margin);
+			padding: var(--dtaf-option_padding);
+			border-radius: var(--dtaf-option_border-radius);
+			border: var(--dtaf-option_border);
+			background-color: var(--dtaf-option_background);
+			text-align: left;
+			cursor: pointer;
+			color: var(--dtaf-option_color);
+
+			&:hover {
+				background-color: var(--dtaf-option_background-hover);
+			}
+
+			&:first-child {
+				margin-top: 0;
+			}
+
+			&:last-child {
+				margin-bottom: 0;
+			}
+	
+			input[type=number] {
+				display: inline-block;
+				box-sizing: border-box;
+				padding: 6px;
+				width: 70px;
+				margin: -2px 0;
+			}
+
+			span {
+				float: right;
+			}
+		}
+	}
+}

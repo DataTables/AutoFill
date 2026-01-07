@@ -1,0 +1,62 @@
+
+:root {
+	--dtaf-handle_height: 10px;
+	--dtaf-handle_width: 10px;
+	--dtaf-handle_background: #3366ff;
+	--dtaf-handle_background-focus: #ff8b33;
+	--dtaf-handle_border: none;
+	--dtaf-handle_z-index: 10;
+
+	--dtaf-outline_background-color: #4989de;
+	--dtaf-outline_background-image: repeating-linear-gradient(45deg,
+		transparent,
+		transparent 5px,
+		rgba(255,255,255,.2) 5px,
+		rgba(255,255,255,.2) 10px
+	);
+
+	--dtaf-list_background: var(--dt-html_background);
+	--dtaf-list_box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+	--dtaf-list_border: none;
+	--dtaf-list_width: 500px;
+
+	--dtaf-option_margin: 1em 0;
+	--dtaf-option_padding: 1em;
+	--dtaf-option_border-radius: 0.5em;
+	--dtaf-option_color: inherit;
+	--dtaf-option_border: 1px solid rgba(0, 0, 0, 0.175);
+	--dtaf-option_background: #f6f6f6;
+	--dtaf-option_background-hover: #ebebeb;
+
+	--dtaf-background_background: radial-gradient(ellipse farthest-corner at center, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 100%);
+}
+
+:root.dark {
+	--dtaf-handle_background: rgb(110, 168, 254);
+
+	--dtaf-outline_background-color: #4989de;
+	--dtaf-outline_background-image: repeating-linear-gradient(45deg,
+		transparent,
+		transparent 5px,
+		rgba(0,0,0,.2) 5px,
+		rgba(0,0,0,.2) 10px
+	);
+
+	--dtaf-list_border: 1px solid rgba(255, 255, 255, 0.15);
+
+	--dtaf-option_color: inherit;
+	--dtaf-option_border: 1px solid rgba(255, 255, 255, 0.175);
+	--dtaf-option_background: rgb(47, 52, 56);
+	--dtaf-option_background-hover: rgb(64, 69, 73);
+}
+
+@media screen and (max-width: 767px) {
+	:root {
+		--dtaf-handle_height: 16px;
+		--dtaf-handle_width: 16px;
+	}
+
+	div.dtaf-list {
+		width: 90%;
+	}
+}

@@ -1,6 +1,6 @@
 import DataTable, { Context } from 'datatables.net';
 import AutoFill from './AutoFill';
-import { Defaults } from './interface';
+import { IDefaults } from './interface';
 
 declare module 'datatables.net' {
 	interface Context {
@@ -50,13 +50,13 @@ dom.s(document).on('preInit.dt.autofill', function (e, settings: Context) {
 		return;
 	}
 
-	let init = (settings.init as any).autoFill as boolean | Partial<Defaults>;
+	let init = (settings.init as any).autoFill as boolean | Partial<IDefaults>;
 	let defaults = (DataTable.defaults as any).autoFill as
 		| boolean
-		| Partial<Defaults>;
+		| Partial<IDefaults>;
 
 	if (init || defaults) {
-		let opts: Partial<Defaults> = {};
+		let opts: Partial<IDefaults> = {};
 
 		if (util.is.plainObject(defaults)) {
 			util.object.assign(opts, defaults);

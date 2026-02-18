@@ -941,12 +941,8 @@ export default class AutoFill {
 						let cellIndex = cell.index();
 						let editField = dtColumns[cellIndex.column].editField;
 
-						if (typeof editField !== 'string') {
-							throw 'AutoFill with multiple edit fields is not supported';
-						}
-
 						if (editField !== undefined) {
-							data = DataTable.util.get(editField)(
+							data = DataTable.util.get(editField as string)(
 								dt.row(cellIndex.row).data()
 							);
 						}

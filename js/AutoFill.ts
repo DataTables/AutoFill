@@ -671,7 +671,7 @@ export default class AutoFill {
 		var focus =
 			this.c.focus !== null
 				? this.c.focus
-				: dt.init().keys || dt.settings()[0].keytable
+				: dt.init().keys || (dt.settings()[0] as any).keytable
 				? 'focus'
 				: 'hover';
 

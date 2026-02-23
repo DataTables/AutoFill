@@ -3,7 +3,7 @@
 
 <title lib="AutoFill">Styling</title>
 
-<js lib="jquery" />
+<js lib="datatables" />
 <info><![CDATA[
 
 AutoFill, like all other DataTables extensions, can be styled by various styling frameworks (such as Bootstrap) allowing seamless integration of AutoFill into the look and feel of your site / app.

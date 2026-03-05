@@ -1,20 +1,8 @@
-/**
- * @summary     AutoFill
- * @description Add Excel like click and drag auto-fill options to DataTables
- * @version     3.0.0-dev
- * @author      SpryMedia Ltd (datatables.net)
- *
- * This source file is free software, available under the following license:
- *   MIT license - http://datatables.net/license/mit
- *
- * This source file is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
- * or FITNESS FOR A PARTICULAR PURPOSE. See the license files for details.
- *
- * For details please refer to: http://www.datatables.net
+/*! AutoFill for DataTables
+ * Copyright (c) SpryMedia Ltd - datatables.net/license
  */
 
-import DataTable, { Api, Context } from 'datatables.net';
+import DataTable, { Api, Context, Dom, util } from 'datatables.net';
 import {
 	Action,
 	Classes,
@@ -24,9 +12,11 @@ import {
 	Settings
 } from './interface';
 
+if (!DataTable || !DataTable.versionCheck || !DataTable.versionCheck('3')) {
+	throw 'Warning: AutoFill requires DataTables 3 or greater';
+}
+
 var _instance = 0;
-const dom = DataTable.dom;
-const util = DataTable.util;
 
 export default class AutoFill {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -34,10 +24,10 @@ export default class AutoFill {
 	 */
 
 	/**
-	 * AutoFill actions. The options here determine how AutoFill will fill the data
-	 * in the table when the user has selected a range of cells. Please see the
-	 * documentation on the DataTables site for full details on how to create plug-
-	 * ins.
+	 * AutoFill actions. The options here determine how AutoFill will fill the
+	 * data in the table when the user has selected a range of cells. Please see
+	 * the documentation on the DataTables site for full details on how to
+	 * create plug- ins.
 	 */
 	static actions: Record<string, Action> = {
 		increment: {
@@ -136,8 +126,8 @@ export default class AutoFill {
 		},
 
 		// Special type that does not make itself available, but is added
-		// automatically by AutoFill if a multi-choice list is shown. This allows
-		// sensible code reuse
+		// automatically by AutoFill if a multi-choice list is shown. This
+		// allows sensible code reuse
 		cancel: {
 			available: function () {
 				return false;
@@ -174,7 +164,7 @@ export default class AutoFill {
 	};
 
 	/** AutoFill version */
-	static version: '3.0.0-dev';
+	static version = '3.0.0-dev';
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 	 * Public methods (exposed via the DataTables API below)
@@ -217,7 +207,7 @@ export default class AutoFill {
 		};
 
 		window.addEventListener('resize', function () {
-			let handle = dom.s('div.dtaf-handle');
+			let handle = Dom.s('div.dtaf-handle');
 
 			if (handle.count() > 0 && that.dom.attachedTo) {
 				that._attach(that.dom.attachedTo);
@@ -280,27 +270,27 @@ export default class AutoFill {
 
 		this.dom = {
 			attachedTo: null,
-			container: dom.c('div').classAdd('dtaf-container'),
-			closeButton: dom
+			container: Dom.c('div').classAdd('dtaf-container'),
+			closeButton: Dom
 				.c('button')
 				.classAdd(AutoFill.classes.close)
 				.html('&times;'),
 			dtScroll: null,
-			handle: dom.c('div').classAdd('dtaf-handle'),
-			list: dom
+			handle: Dom.c('div').classAdd('dtaf-handle'),
+			list: Dom
 				.c('div')
 				.classAdd('dtaf-list')
 				.html(this.s.dt.i18n('autoFill.info', ''))
 				.attr('aria-modal', true)
 				.attr('role', 'dialog')
-				.append(dom.c('div').classAdd('dtaf-list-items')),
+				.append(Dom.c('div').classAdd('dtaf-list-items')),
 			offsetParent: null,
 			start: null,
 			select: {
-				top: dom.c('div').classAdd('dtaf-select top'),
-				right: dom.c('div').classAdd('dtaf-select right'),
-				bottom: dom.c('div').classAdd('dtaf-select bottom'),
-				left: dom.c('div').classAdd('dtaf-select left')
+				top: Dom.c('div').classAdd('dtaf-select top'),
+				right: Dom.c('div').classAdd('dtaf-select right'),
+				bottom: Dom.c('div').classAdd('dtaf-select bottom'),
+				left: Dom.c('div').classAdd('dtaf-select left')
 			}
 		};
 
@@ -322,7 +312,7 @@ export default class AutoFill {
 		let dt = this.s.dt;
 
 		// Need to account for scrolling as it has a different DOM structure
-		let dtScroll = dom
+		let dtScroll = Dom
 			.s(this.s.dt.table().container())
 			.find('div.dt-scroll-body');
 
@@ -431,12 +421,12 @@ export default class AutoFill {
 				let name = available[i];
 
 				list.append(
-					dom
+					Dom
 						.c('button')
 						.classAdd(AutoFill.classes.btn)
 						.html(actions[name].option(dt, cells))
 						.append(
-							dom
+							Dom
 								.c('span')
 								.classAdd('dtaf-button')
 								.html(dt.i18n('autoFill.button', ''))
@@ -449,7 +439,7 @@ export default class AutoFill {
 							let result = actions[name].execute(
 								dt,
 								cells,
-								dom.s(this).closest('button')
+								Dom.s(this).closest('button')
 							);
 							that._update(result, cells);
 
@@ -500,7 +490,7 @@ export default class AutoFill {
 		// Calculate boundary for start cell to this one
 		var dt = this.s.dt;
 		var start = this.s.start;
-		var startCell = dom.s(this.dom.start);
+		var startCell = Dom.s(this.dom.start);
 		var end = {
 			row: this.c.vertical
 				? dt
@@ -508,11 +498,11 @@ export default class AutoFill {
 						.nodes()
 						.indexOf(target.parentNode)
 				: start.row,
-			column: this.c.horizontal ? dom.s(target).index() : start.column
+			column: this.c.horizontal ? Dom.s(target).index() : start.column
 		};
 		var colIndx = dt.column.index('toData', end.column);
 		var endRow = dt.row(':eq(' + end.row + ')', { page: 'current' }); // Workaround for M581
-		var endCell = dom.s(dt.cell(endRow.index(), colIndx).node());
+		var endCell = Dom.s(dt.cell(endRow.index(), colIndx).node());
 
 		// Be sure that is a DataTables controlled cell
 		if (!dt.cell(endCell.get(0)).any()) {
@@ -685,7 +675,7 @@ export default class AutoFill {
 			});
 		}
 		else if (focus === 'click') {
-			dom.s(dt.table().body()).on(
+			Dom.s(dt.table().body()).on(
 				'click' + namespace,
 				'td, th',
 				function (e) {
@@ -693,14 +683,14 @@ export default class AutoFill {
 				}
 			);
 
-			dom.s(document.body).on('click' + namespace, function (e) {
-				if (!dom.s(e.target).closest(dt.table().body()).count()) {
+			Dom.s(document.body).on('click' + namespace, function (e) {
+				if (!Dom.s(e.target).closest(dt.table().body()).count()) {
 					that._detach();
 				}
 			});
 		}
 		else {
-			dom.s(dt.table().body())
+			Dom.s(dt.table().body())
 				.on(
 					'mouseenter' + namespace + ' touchstart' + namespace,
 					'td, th',
@@ -711,7 +701,7 @@ export default class AutoFill {
 				.on(
 					'mouseleave' + namespace + 'touchend' + namespace,
 					function (e) {
-						if (dom.s(e.relatedTarget).classHas('dtaf-handle')) {
+						if (Dom.s(e.relatedTarget).classHas('dtaf-handle')) {
 							return;
 						}
 
@@ -725,8 +715,8 @@ export default class AutoFill {
 		var dt = this.s.dt;
 
 		dt.off('.autoFill');
-		dom.s(dt.table().body()).off(this.s.namespace);
-		dom.s(document.body).off(this.s.namespace);
+		Dom.s(dt.table().body()).off(this.s.namespace);
+		Dom.s(document.body).off(this.s.namespace);
 	}
 
 	/**
@@ -738,21 +728,21 @@ export default class AutoFill {
 	 * @return Offset calculation
 	 */
 	private _getPosition(node: HTMLElement, targetHost?: HTMLElement | null) {
-		let targetParent = dom.s(this.s.dt.table().node().offsetParent),
+		let targetParent = Dom.s(this.s.dt.table().node().offsetParent),
 			currNode = node,
 			currOffsetParent,
 			top = 0,
 			left = 0;
 
 		if (targetHost) {
-			targetParent = dom.s(targetHost);
+			targetParent = Dom.s(targetHost);
 		}
 
 		do {
 			let positionTop = currNode.offsetTop;
 			let positionLeft = currNode.offsetLeft;
 
-			currOffsetParent = dom.s(currNode.offsetParent);
+			currOffsetParent = Dom.s(currNode.offsetParent);
 
 			top +=
 				positionTop +
@@ -789,17 +779,17 @@ export default class AutoFill {
 			row: dt
 				.rows({ page: 'current' })
 				.nodes()
-				.indexOf(dom.s(this.dom.start).parent().get(0)),
-			column: dom.s(this.dom.start).index()
+				.indexOf(Dom.s(this.dom.start).parent().get(0)),
+			column: Dom.s(this.dom.start).index()
 		};
 
-		dom.s(document.body)
+		Dom.s(document.body)
 			.on('mousemove.autoFill touchmove.autoFill', function (e) {
 				that._mousemove(e);
 				// If it is a touch event then when the touch ends we need to
 				// remove the handle
 				if (e.type === 'touchmove') {
-					dom.s(document.body).one('touchend.autoFill', function () {
+					Dom.s(document.body).one('touchend.autoFill', function () {
 						that._detach();
 					});
 				}
@@ -867,7 +857,7 @@ export default class AutoFill {
 	 * @private
 	 */
 	private _mouseup(e: MouseEvent) {
-		dom.s(document.body).off('.autoFill');
+		Dom.s(document.body).off('.autoFill');
 
 		let that = this;
 		let dt = this.s.dt;
@@ -897,7 +887,7 @@ export default class AutoFill {
 
 		// If Editor is active inside this cell (inline editing) we need to wait
 		// for Editor to submit and then we can loop back and trigger the fill.
-		if (dom.s(startDt.node()).find('div.DTE').count()) {
+		if (Dom.s(startDt.node()).find('div.DTE').count()) {
 			let editor = (dt as any).editor();
 
 			editor

@@ -1,5 +1,5 @@
-/*! Bulma integration for DataTables' AutoFill
- * © SpryMedia Ltd - datatables.net/license
+/*! AutoFill Bulma styling for DataTables
+ * Copyright (c) SpryMedia Ltd - datatables.net/license
  */
 
 DataTable.AutoFill.classes.btn = 'button';

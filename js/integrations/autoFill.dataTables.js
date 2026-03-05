@@ -1,3 +1,3 @@
-/*! DataTables styling wrapper for AutoFill
- * © SpryMedia Ltd - datatables.net/license
+/*! AutoFill default styling for DataTables
+ * Copyright (c) SpryMedia Ltd - datatables.net/license
  */

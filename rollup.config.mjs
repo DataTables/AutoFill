@@ -7,7 +7,8 @@ export default [
 			file: 'dist/dataTables.autoFill.js',
 			format: 'es'
 		},
-		plugins: []
+		plugins: [],
+		external: ['datatables.net']
 	},
 	{
 		// Create a single .d.ts file

@@ -1,5 +1,5 @@
-/*! Foundation integration for DataTables' AutoFill
- * © SpryMedia Ltd - datatables.net/license
+/*! AutoFill Foundation styling for DataTables
+ * Copyright (c) SpryMedia Ltd - datatables.net/license
  */
 
 DataTable.AutoFill.classes.btn = 'button';

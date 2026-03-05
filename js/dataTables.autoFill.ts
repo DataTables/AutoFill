@@ -1,20 +1,12 @@
-import DataTable, { Context } from 'datatables.net';
+import DataTable, { Api, Context, Dom, util } from 'datatables.net';
 import AutoFill from './AutoFill';
-import { IDefaults } from './interface';
+import { Defaults } from './interface';
 
 declare module 'datatables.net' {
 	interface Context {
 		autoFill: AutoFill;
 	}
 }
-
-if (!DataTable || !DataTable.versionCheck || !DataTable.versionCheck('3')) {
-	throw 'Warning: AutoFill requires DataTables 3 or greater';
-}
-
-const Api = DataTable.Api;
-const dom = DataTable.dom;
-const util = DataTable.util;
 
 // Doesn't do anything - Not documented
 Api.register('autoFill()', function () {
@@ -27,8 +19,8 @@ Api.register('autoFill().enabled()', function () {
 	return ctx.autoFill ? ctx.autoFill.enabled() : false;
 });
 
-Api.register('autoFill().enable()', function (flag) {
-	return this.iterator('table', function (ctx) {
+Api.register('autoFill().enable()', function (flag?: boolean) {
+	return this.iterator('table', function (ctx: Context) {
 		if (ctx.autoFill) {
 			ctx.autoFill.enable(flag);
 		}
@@ -36,7 +28,7 @@ Api.register('autoFill().enable()', function (flag) {
 });
 
 Api.register('autoFill().disable()', function () {
-	return this.iterator('table', function (ctx) {
+	return this.iterator('table', function (ctx: Context) {
 		if (ctx.autoFill) {
 			ctx.autoFill.disable();
 		}
@@ -45,18 +37,18 @@ Api.register('autoFill().disable()', function () {
 
 // Attach a listener to the document which listens for DataTables initialisation
 // events so we can automatically initialise
-dom.s(document).on('preInit.dt.autofill', function (e, settings: Context) {
+Dom.s(document).on('preInit.dt.autofill', function (e, settings: Context) {
 	if (e.namespace !== 'dt') {
 		return;
 	}
 
-	let init = (settings.init as any).autoFill as boolean | Partial<IDefaults>;
+	let init = (settings.init as any).autoFill as boolean | Partial<Defaults>;
 	let defaults = (DataTable.defaults as any).autoFill as
 		| boolean
-		| Partial<IDefaults>;
+		| Partial<Defaults>;
 
 	if (init || defaults) {
-		let opts: Partial<IDefaults> = {};
+		let opts: Partial<Defaults> = {};
 
 		if (util.is.plainObject(defaults)) {
 			util.object.assign(opts, defaults);

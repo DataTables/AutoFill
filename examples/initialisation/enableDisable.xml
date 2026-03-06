@@ -2,36 +2,7 @@
 <dt-example table-type="html" table-class="display nowrap" order="10">
 
 <css lib="datatables autofill buttons" />
-<js lib="jquery datatables autofill buttons">
-<![CDATA[
-$('#example').DataTable({
-	autoFill: {
-		enable: false
-	},
-	layout: {
-		topStart: {
-			buttons: [
-				{
-					text: 'Enable AutoFill',
-					action: function (e, dt) {
-						if (dt.autoFill().enabled()) {
-							this.autoFill().disable();
-							this.text('Enable AutoFill');
-						}
-						else {
-							this.autoFill().enable();
-							this.text('Disable AutoFill');
-						}
-					}
-				}
-			]
-		}
-	}
-});
-]]>
-</js>
-
-<js-vanilla>
+<js lib="datatables autofill buttons">
 <![CDATA[
 new DataTable('#example', {
 	autoFill: {
@@ -58,7 +29,7 @@ new DataTable('#example', {
 	}
 });
 ]]>
-</js-vanilla>
+</js>
 
 <title lib="AutoFill">Enable / disable API</title>
 

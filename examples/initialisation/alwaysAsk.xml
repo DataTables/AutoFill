@@ -2,17 +2,7 @@
 <dt-example table-type="html" table-class="display nowrap" order="5">
 
 <css lib="datatables autofill" />
-<js lib="jquery datatables autofill">
-<![CDATA[
-$('#example').DataTable({
-	autoFill: {
-		alwaysAsk: true
-	}
-});
-]]>
-</js>
-
-<js-vanilla>
+<js lib="datatables autofill">
 <![CDATA[
 new DataTable('#example', {
 	autoFill: {
@@ -20,7 +10,7 @@ new DataTable('#example', {
 	}
 });
 ]]>
-</js-vanilla>
+</js>
 
 <title lib="AutoFill">Always confirm action</title>
 

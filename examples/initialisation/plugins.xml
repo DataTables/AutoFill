@@ -2,39 +2,7 @@
 <dt-example table-type="html" table-class="display nowrap" order="9">
 
 <css lib="datatables autofill" />
-<js lib="jquery datatables autofill">
-<![CDATA[
-DataTable.AutoFill.actions.names = {
-	available: function (dt, cells) {
-		// Only available if a single column is being
-		// filled and it is the first column
-		return cells[0].length === 1 && cells[0][0].index.column === 0;
-	},
-
-	option: function (dt, cells) {
-		// Ask the user if they want to change the surname only
-		return 'Fill only surname - retain first name';
-	},
-
-	execute: function (dt, cells, node) {
-		// Modify the name and set the new values
-		var surname = cells[0][0].data.split(' ')[1];
-
-		for (var i = 0, ien = cells.length; i < ien; i++) {
-			var name = cells[i][0].data.split(' ');
-
-			cells[i][0].set = name[0] + ' ' + surname;
-		}
-	}
-};
-
-$('#example').DataTable({
-	autoFill: true
-});
-]]>
-</js>
-
-<js-vanilla>
+<js lib="datatables autofill">
 <![CDATA[
 DataTable.AutoFill.actions.names = {
 	available: function (dt, cells) {
@@ -64,7 +32,7 @@ new DataTable('#example', {
 	autoFill: true
 });
 ]]>
-</js-vanilla>
+</js>
 
 <title lib="AutoFill">Fill plug-ins</title>
 

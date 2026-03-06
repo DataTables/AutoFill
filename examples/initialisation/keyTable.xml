@@ -2,23 +2,14 @@
 <dt-example table-type="html" order="3">
 
 <css lib="datatables autofill keytable" />
-<js lib="jquery datatables autofill keytable">
-<![CDATA[
-$('#example').DataTable({
-	keys: true,
-	autoFill: true
-});
-]]>
-</js>
-
-<js-vanilla>
+<js lib="datatables autofill keytable">
 <![CDATA[
 new DataTable('#example', {
 	keys: true,
 	autoFill: true
 });
 ]]>
-</js-vanilla>
+</js>
 
 <title lib="AutoFill">KeyTable integration</title>
 

@@ -2,29 +2,7 @@
 <dt-example table-type="html-index" order="6">
 
 <css lib="datatables autofill select" />
-<js lib="jquery datatables autofill select">
-<![CDATA[
-$('#example').DataTable({
-	autoFill: {
-		columns: ':not(:first-child)'
-	},
-	columnDefs: [
-		{
-			orderable: false,
-			className: 'select-checkbox',
-			targets: 0
-		}
-	],
-	order: [[1, 'asc']],
-	select: {
-		style: 'os',
-		selector: 'td:first-child'
-	}
-});
-]]>
-</js>
-
-<js-vanilla>
+<js lib="datatables autofill select">
 <![CDATA[
 new DataTable('#example', {
 	autoFill: {
@@ -44,7 +22,7 @@ new DataTable('#example', {
 	}
 });
 ]]>
-</js-vanilla>
+</js>
 
 <title lib="AutoFill">Column selector</title>
 

@@ -10,7 +10,7 @@
 		<description>
 			Disable AutoFill. Please note that this disallows future interactions with the table (until re-enabled).
 		</description>
-		<returns type="DataTables.Api">DataTables API instance</returns>
+		<returns type="DataTable.Api">DataTables API instance</returns>
 	</type>
 
 	<description>

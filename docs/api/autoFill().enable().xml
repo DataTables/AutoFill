@@ -16,7 +16,7 @@
 			* `true` - Enable AutoFill
 			* `false` - Disable AutoFill
 		</parameter>
-		<returns type="DataTables.Api">DataTables API instance</returns>
+		<returns type="DataTable.Api">DataTables API instance</returns>
 	</type>
 
 	<description>

@@ -164,7 +164,7 @@ export default class AutoFill {
 	};
 
 	/** AutoFill version */
-	static version = '3.0.0-dev';
+	static version = '3.0.0-beta.1';
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 	 * Public methods (exposed via the DataTables API below)

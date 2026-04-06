@@ -13,7 +13,8 @@
 		"strictFunctionTypes": true,
 		"skipLibCheck": true,
 		"outDir": "dist",
-        "types": []
+        "types": [],
+        "noImplicitThis": false
     },
     "files": [
         "js/dataTables.autoFill.ts"

@@ -176,6 +176,7 @@ export default class AutoFill {
 
 	public enable(flag: boolean = true) {
 		let that = this;
+		let namespace = this.s.namespace;
 
 		if (flag === false) {
 			return this.disable();
@@ -206,7 +207,7 @@ export default class AutoFill {
 			}
 		};
 
-		window.addEventListener('resize', function () {
+		Dom.w.on('resize' + namespace, function () {
 			let handle = Dom.s('div.dtaf-handle');
 
 			if (handle.count() > 0 && that.dom.attachedTo) {
@@ -214,7 +215,7 @@ export default class AutoFill {
 			}
 		});
 
-		window.addEventListener('orientationchange', function () {
+		Dom.w.on('orientationchange' + namespace, function () {
 			setTimeout(function () {
 				orientationReset();
 				setTimeout(orientationReset, 150);
@@ -271,14 +272,12 @@ export default class AutoFill {
 		this.dom = {
 			attachedTo: null,
 			container: Dom.c('div').classAdd('dtaf-container'),
-			closeButton: Dom
-				.c('button')
+			closeButton: Dom.c('button')
 				.classAdd(AutoFill.classes.close)
 				.html('&times;'),
 			dtScroll: null,
 			handle: Dom.c('div').classAdd('dtaf-handle'),
-			list: Dom
-				.c('div')
+			list: Dom.c('div')
 				.classAdd('dtaf-list')
 				.html(this.s.dt.i18n('autoFill.info', ''))
 				.attr('aria-modal', true)
@@ -308,13 +307,12 @@ export default class AutoFill {
 	 * Initialise the RowReorder instance
 	 */
 	private _init() {
-		let that = this;
 		let dt = this.s.dt;
 
 		// Need to account for scrolling as it has a different DOM structure
-		let dtScroll = Dom
-			.s(this.s.dt.table().container())
-			.find('div.dt-scroll-body');
+		let dtScroll = Dom.s(this.s.dt.table().container()).find(
+			'div.dt-scroll-body'
+		);
 
 		// Make the instance accessible to the API
 		dt.settings()[0].autoFill = this;
@@ -332,8 +330,9 @@ export default class AutoFill {
 			this.enable();
 		}
 
-		dt.on('destroy.autoFill', function () {
-			that._focusListenerRemove();
+		dt.on('destroy.autoFill', () => {
+			this._focusListenerRemove();
+			this.dom.handle.off();
 		});
 	}
 
@@ -421,13 +420,11 @@ export default class AutoFill {
 				let name = available[i];
 
 				list.append(
-					Dom
-						.c('button')
+					Dom.c('button')
 						.classAdd(AutoFill.classes.btn)
 						.html(actions[name].option(dt, cells))
 						.append(
-							Dom
-								.c('span')
+							Dom.c('span')
 								.classAdd('dtaf-button')
 								.html(dt.i18n('autoFill.button', ''))
 						)
@@ -711,12 +708,17 @@ export default class AutoFill {
 		}
 	}
 
+	/**
+	 * Clean up the event listeners
+	 */
 	private _focusListenerRemove() {
-		var dt = this.s.dt;
+		let namespace = this.s.namespace;
+		let dt = this.s.dt;
 
 		dt.off('.autoFill');
-		Dom.s(dt.table().body()).off(this.s.namespace);
-		Dom.s(document.body).off(this.s.namespace);
+		Dom.s(dt.table().body()).off(namespace);
+		Dom.s(document.body).off(namespace);
+		Dom.w.off(namespace);
 	}
 
 	/**

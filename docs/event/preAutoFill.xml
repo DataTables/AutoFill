@@ -7,7 +7,7 @@
 	<type type="function">
 		<signature>function( e, datatable, cells )</signature>
 		<parameter type="object" name="e">
-			jQuery event object
+			Event object
 		</parameter>
 		<parameter type="DataTable.Api" name="datatable">
 			DataTables API instance for the table the AutoFill was completed on

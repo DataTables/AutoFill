@@ -6,7 +6,7 @@
 
 	<type type="DataTable.ColumnSelector">
 		<description>
-			The columns that be auto filled. This accepts all of the options of `dt-type DataTable.ColumnSelector` such as class name selector, jQuery pseudo selects and column index selectors.
+			The columns that be auto filled. This accepts all of the options of `dt-type DataTable.ColumnSelector` such as CSS selectors and column index selectors.
 		</description>
 	</type>
 

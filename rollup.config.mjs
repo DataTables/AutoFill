@@ -12,7 +12,7 @@ export default [
 	},
 	{
 		// Create a single .d.ts file
-		input: './types/types.d.ts',
+		input: './dist/interface.d.ts',
 		output: [{ file: 'dist/types.d.ts', format: 'es' }],
 		plugins: [dts()]
 	}

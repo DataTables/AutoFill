@@ -5,8 +5,8 @@
 import DataTable, { Api, Context, Dom, util } from 'datatables.net';
 import {
 	Action,
+	AutoFillDefaults,
 	Classes,
-	Defaults,
 	InternalDom,
 	SelectedCells,
 	Settings
@@ -151,7 +151,7 @@ export default class AutoFill {
 	};
 
 	/** Defaults */
-	static defaults: Defaults = {
+	static defaults: AutoFillDefaults = {
 		alwaysAsk: false,
 		closeButton: true,
 		focus: null,
@@ -236,7 +236,7 @@ export default class AutoFill {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 	 * Properties
 	 */
-	private c: Defaults;
+	private c: AutoFillDefaults;
 
 	private dom: InternalDom;
 
@@ -245,7 +245,7 @@ export default class AutoFill {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 	 * Constructor
 	 */
-	constructor(dt: Api | Context, opts?: Partial<Defaults>) {
+	constructor(dt: Api | Context, opts?: Partial<AutoFillDefaults>) {
 		this.c = util.object.assignDeep({}, AutoFill.defaults, opts);
 
 		this.s = {

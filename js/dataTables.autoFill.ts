@@ -37,7 +37,7 @@ Api.register('autoFill().disable()', function () {
 
 // Attach a listener to the document which listens for DataTables initialisation
 // events so we can automatically initialise
-Dom.s(document).on('preInit.dt.autofill', function (e, settings: Context) {
+Dom.on('preInit.dt.autofill', function (e, settings: Context) {
 	if (e.namespace !== 'dt') {
 		return;
 	}

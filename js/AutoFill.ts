@@ -370,16 +370,35 @@ export default class AutoFill {
 			handleDim.width = handle.width('outer');
 		}
 
-		// Might need to go through multiple offset parents
-		let offset = this._getPosition(node, this.dom.offsetParent);
-
 		this.dom.attachedTo = node;
-		handle
-			.css({
-				top: offset.top + node.offsetHeight - handleDim.height + 'px',
-				left: offset.left + node.offsetWidth - handleDim.width + 'px'
-			})
-			.appendTo(this.dom.offsetParent);
+
+		if (Dom.s(node).css('position') === 'sticky') {
+			// FixedColumns will set the fixed cells to `sticky`, so we insert
+			// the drag handle into them directly since they are already an
+			// offset parent.
+			handle
+				.css({
+					top: node.offsetHeight - handleDim.height + 'px',
+					left: node.offsetWidth - handleDim.width + 'px'
+				})
+				.appendTo(node);
+		}
+		else {
+			// Might need to go through multiple offset parents
+			let offset = this._getPosition(node, this.dom.offsetParent);
+
+			handle
+				.css({
+					top:
+						offset.top +
+						node.offsetHeight -
+						handleDim.height +
+						'px',
+					left:
+						offset.left + node.offsetWidth - handleDim.width + 'px'
+				})
+				.appendTo(this.dom.offsetParent);
+		}
 	}
 
 	/**
